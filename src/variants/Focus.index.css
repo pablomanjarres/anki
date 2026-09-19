@@ -1,0 +1,26 @@
+.focus-index { --r-bg:#181317; --r-rail:#120e11; --r-panel:#241b21; --r-card:#2b2128; --r-card-border:#72565c; --r-line:#4b3940; --r-text:#f6eee6; --r-muted:#c7b8b9; --r-accent:#efc9a8; --r-accent-hover:#ffe0bf; --r-on-accent:#291820; --r-secondary:#e9a99b; --r-status:#a8c49a; --r-soft:#3a2932; --r-hover:#392a32; --r-current:#422c35; --r-progress-bg:#503e47; --r-grade:#2c2128; --r-grade-hover:#49343d; --r-cover:#713f42; --r-cover-border:#a5716f; --r-cover-text:#fff0dd; --r-cover-shadow:#0e090c; --r-input:#1a1216; --r-radius:10px; --r-radius-sm:5px; font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif; }
+.focus-index .focus-brand-mark { background:transparent; border:1px solid var(--r-accent); color:var(--r-accent); }
+.focus-index .focus-brand-period { color:var(--r-secondary); }
+.focus-index .focus-top h1,.focus-index .focus-queue-heading h2,.focus-index .focus-section-heading h2,.focus-index .focus-book-info h2,.focus-index .focus-book-side h3,.focus-index .focus-page-update h2 { font-family:"Iowan Old Style",Georgia,serif; font-weight:500; letter-spacing:-.04em; }
+.focus-index .focus-top h1 { font-size:43px; }
+.focus-index .focus-top-detail,.focus-index .focus-card-topline,.focus-index .focus-panel-head,.focus-index .focus-book-header { text-transform:uppercase; letter-spacing:.12em; font-size:11px; }
+.focus-index .focus-queue-heading h2 { font-size:27px; }
+.focus-index .focus-next-card { border-left:5px solid var(--r-secondary); }
+.focus-index .focus-next-question,.focus-index .focus-review-stage h1 { font-family:"Iowan Old Style",Georgia,serif; font-weight:500; line-height:1.18; }
+.focus-index .focus-next-question { font-size:clamp(30px,2.6vw,42px); }
+.focus-index .focus-round-next { border-radius:50%; }
+.focus-index .focus-start-button { font-weight:650; }
+.focus-index .focus-today-panel { background:linear-gradient(155deg,#32232b,var(--r-panel) 65%); }
+.focus-index .focus-today-stat strong { font-family:"Iowan Old Style",Georgia,serif; font-size:31px; }
+.focus-index .focus-course-list { border-radius:0; border-left:0; border-right:0; }
+.focus-index .focus-course-row { padding-left:8px; padding-right:8px; }
+.focus-index .focus-course-icon { background:transparent; border:1px solid currentColor; border-radius:50%; }
+.focus-index .focus-review-stage { box-shadow:inset 0 0 0 8px #ffffff04; }
+.focus-index .focus-answer p { font-family:"Iowan Old Style",Georgia,serif; font-size:22px; }
+.focus-index .focus-card-type { text-transform:uppercase; letter-spacing:.1em; }
+.focus-index .focus-grade strong { color:var(--r-text); }
+.focus-index .focus-grade.is-selected { box-shadow:inset 0 -3px var(--r-accent); }
+.focus-index .focus-book-cover { transform:rotate(-3deg); }
+.focus-index .focus-book-page strong { font-family:"Iowan Old Style",Georgia,serif; color:var(--r-accent); }
+.focus-index .focus-book-info h2 { font-size:36px; }
+@media(max-width:700px){.focus-index .focus-top h1{font-size:36px}.focus-index .focus-queue-heading h2{font-size:23px}.focus-index .focus-next-question{font-size:32px}.focus-index .focus-review-stage h1{font-size:35px}.focus-index .focus-book-cover{transform:none}.focus-index .focus-book-info h2{font-size:23px}}
