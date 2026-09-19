@@ -10,7 +10,9 @@
     "preview": "vite preview --host 0.0.0.0",
     "start": "tsx server/http/index.ts",
     "mcp": "tsx server/mcp/index.ts",
-    "test:server": "node --import tsx --test server/**/*.test.ts"
+    "test:server": "node --import tsx --test server/**/*.test.ts",
+    "test:ui": "node --import tsx --test src/*.test.ts",
+    "test": "npm run test:server && npm run test:ui"
   },
   "dependencies": {
     "@hono/node-server": "2.1.1",
