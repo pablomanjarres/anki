@@ -1,15 +1,15 @@
 # Anki Cortex implementation
 
 - [x] Approve phone-first Pocket design.
-- [ ] Persist decks, cards, reading progress, review history, and generation runs in SQLite.
-- [ ] Enforce source references, eligible dates, book checkpoints, duplicate prevention, and the 30-card daily limit.
-- [ ] Build the real mobile PWA with review, five grades, undo, decks, search, books, and statistics.
-- [ ] Add iPhone card movement and swipe-up reveal with accessible controls.
-- [ ] Expose narrow MCP tools and a private ChatGPT tunnel.
-- [ ] Set up 7:00 a.m. America/Bogota ChatGPT generation task with run records and failure alerting.
-- [ ] Install the service for Tailscale phone access, preserving study data across updates.
-- [ ] Test real Cortex passages, native phone @Anki, and an unattended scheduled run.
-- [ ] Commit, push PR, and complete one official review pass.
+- [x] Persist decks, cards, reading progress, review history, and generation runs in SQLite.
+- [x] Enforce source references, eligible dates, book checkpoints, duplicate prevention, and the 30-card daily limit.
+- [x] Build the real mobile PWA with review, five grades, undo, decks, search, books, and statistics.
+- [x] Add iPhone card movement and swipe-up reveal with accessible controls.
+- [x] Expose narrow MCP tools and a private ChatGPT tunnel.
+- [x] Set up 7:00 a.m. America/Bogota ChatGPT generation task with run records and failure alerting.
+- [x] Install the service for Tailscale phone access, preserving study data across updates.
+- [ ] Verify a native ChatGPT phone-app @Anki call and a 7:00 a.m. unattended scheduled run.
+- [ ] Push the final commits and complete one official review pass.
 
 ## Rulings
 
@@ -19,4 +19,9 @@
 
 ## Review
 
-Pending implementation and live verification.
+The first `codex review --base origin/main` pass found seven issues. Passage rotation,
+cloze round-tripping, abbreviated and twin source dates, persisted rejection details,
+and first-install PWA caching were fixed. A separate review-history migration keeps
+deleted cards from resetting the daily review count. The 41 server tests and production
+build pass. A ChatGPT task “Run now” execution saved five cited Cortex cards on
+2026-09-19; the unattended 7:00 a.m. run is still pending.
