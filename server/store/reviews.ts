@@ -32,18 +32,24 @@ export function reviewMethods(db: DatabaseSync) {
       const day = localDay(at);
       const reviewedDistinct = Number((db.prepare('SELECT count(DISTINCT card_id) AS n FROM reviews WHERE local_day=?').get(day) as Row).n);
       const remaining = Math.max(0, 30 - reviewedDistinct);
-      const eligible = `AND (eligible_on IS NULL OR eligible_on <= ?) AND id NOT IN
-        (SELECT card_id FROM reviews WHERE local_day=?)`;
-      const due = db.prepare(`SELECT * FROM cards WHERE review_count>0 AND due_at<=? ${eligible} ORDER BY due_at,id`).all(at.toISOString(), day, day) as Row[];
-      const chosenDue = due.slice(0, remaining).map(cardFromRow);
+      const eligible = 'AND (eligible_on IS NULL OR eligible_on <= ?)';
+      const reviewedToday = new Set((db.prepare('SELECT DISTINCT card_id FROM reviews WHERE local_day=?').all(day) as Row[]).map(row => String(row.card_id)));
+      const due = db.prepare(`SELECT * FROM cards WHERE review_count>0 AND due_at<=? ${eligible} ORDER BY due_at,id`).all(at.toISOString(), day) as Row[];
+      const chosenDue: StudyCard[] = [];
+      const backlog: StudyCard[] = [];
+      let distinctSlots = remaining;
+      for (const row of due) {
+        if (reviewedToday.has(String(row.id))) chosenDue.push(cardFromRow(row));
+        else if (distinctSlots > 0) { chosenDue.push(cardFromRow(row)); distinctSlots--; }
+        else backlog.push(cardFromRow(row));
+      }
       const newReviewed = Number((db.prepare(`SELECT count(DISTINCT r.card_id) AS n FROM reviews r
         WHERE r.local_day=? AND r.previous_review_count=0`).get(day) as Row).n);
-      const newAllowance = Math.max(0, Math.min(5 - newReviewed, remaining - chosenDue.length));
-      const fresh = db.prepare(`SELECT * FROM cards WHERE review_count=0 ${eligible} ORDER BY created_at,id LIMIT ?`).all(day, day, newAllowance) as Row[];
+      const newAllowance = Math.max(0, Math.min(5 - newReviewed, distinctSlots));
+      const fresh = db.prepare(`SELECT * FROM cards WHERE review_count=0 ${eligible} ORDER BY created_at,id LIMIT ?`).all(day, newAllowance) as Row[];
       return {
         cards: [...chosenDue, ...fresh.map(cardFromRow)], dueCount: due.length,
-        backlogCount: Math.max(0, due.length - chosenDue.length), newCount: fresh.length,
-        backlog: due.slice(chosenDue.length).map(cardFromRow),
+        backlogCount: backlog.length, newCount: fresh.length, backlog,
         reviewedDistinct, remaining, cap: 30,
       };
     },
@@ -53,9 +59,10 @@ export function reviewMethods(db: DatabaseSync) {
       const prior = db.prepare('SELECT * FROM cards WHERE id=?').get(cardId) as Row | undefined;
       if (!prior) throw new Error('Unknown card');
       if (prior.eligible_on && String(prior.eligible_on) > day) throw new Error('Card is not eligible yet');
-      if (db.prepare('SELECT id FROM reviews WHERE card_id=? AND local_day=?').get(cardId, day)) throw new Error('Card already reviewed today');
+      const reviewedToday = Boolean(db.prepare('SELECT id FROM reviews WHERE card_id=? AND local_day=?').get(cardId, day));
+      if (reviewedToday && String(prior.due_at) > at.toISOString()) throw new Error('Card is not due yet');
       const reviewed = Number((db.prepare('SELECT count(DISTINCT card_id) AS n FROM reviews WHERE local_day=?').get(day) as Row).n);
-      if (reviewed >= 30) throw new Error('Daily review limit reached');
+      if (!reviewedToday && reviewed >= 30) throw new Error('Daily review limit reached');
       const next = scheduler.next(toFsrs(String(prior.fsrs_json)), at, fsrsRating[rating]).card;
       if (rating === 'ez') {
         const easyMs = next.due.getTime() - at.getTime();

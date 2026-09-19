@@ -38,6 +38,9 @@ export function bookMethods(db: DatabaseSync) {
       const row = db.prepare('SELECT * FROM books WHERE id=?').get(id) as Row | undefined;
       return row ? bookFromRow(row) : null;
     },
+    deleteBook(id: string): boolean {
+      return db.prepare('DELETE FROM books WHERE id=?').run(id).changes > 0;
+    },
     listBooks(): Book[] {
       return (db.prepare('SELECT * FROM books ORDER BY updated_at DESC').all() as Row[]).map(bookFromRow);
     },
