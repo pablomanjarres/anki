@@ -1,0 +1,30 @@
+.focus-atmosphere { --r-bg:#100e1b; --r-rail:#0d0c16; --r-panel:#201b30; --r-card:#2a2440; --r-card-border:#564a77; --r-line:#49405f; --r-text:#f7f3ff; --r-muted:#c2bad2; --r-accent:#d3c2ff; --r-accent-hover:#e8dcff; --r-on-accent:#241938; --r-secondary:#ffb9a4; --r-status:#a8e0c8; --r-soft:#3a3251; --r-hover:#39304e; --r-current:#372e4c; --r-progress-bg:#4d4564; --r-grade:#29233c; --r-grade-hover:#433759; --r-cover:#6b465b; --r-cover-border:#b58ca7; --r-cover-text:#fff1ef; --r-cover-shadow:#0b0811; --r-input:#191426; --r-radius:21px; --r-radius-sm:11px; font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif; background:radial-gradient(ellipse 70% 35% at 67% 0%,#36284d 0%,transparent 75%),var(--r-bg); }
+.focus-atmosphere .focus-nav { box-shadow:8px 0 40px #05050b33; }
+.focus-atmosphere .focus-brand-mark { box-shadow:0 0 28px #d3c2ff40; }
+.focus-atmosphere .focus-brand { font-weight:720; }
+.focus-atmosphere .focus-nav-link.is-current { box-shadow:inset 3px 0 var(--r-accent); }
+.focus-atmosphere .focus-top h1 { font-size:42px; font-weight:670; letter-spacing:-.06em; }
+.focus-atmosphere .focus-top-detail { color:var(--r-secondary); }
+.focus-atmosphere .focus-queue-heading h2 { font-size:25px; font-weight:560; }
+.focus-atmosphere .focus-next-card { background:linear-gradient(135deg,#372c50,var(--r-card) 68%); box-shadow:0 25px 55px #07061066,inset 0 1px #ffffff1c; }
+.focus-atmosphere .focus-next-question { font-weight:570; }
+.focus-atmosphere .focus-round-next { border-radius:50%; box-shadow:0 7px 25px #d3c2ff44; }
+.focus-atmosphere .focus-start-button { box-shadow:0 9px 27px #d3c2ff33; font-weight:700; }
+.focus-atmosphere .focus-today-panel { background:linear-gradient(165deg,#2b2441,var(--r-panel)); box-shadow:inset 0 1px #ffffff14; }
+.focus-atmosphere .focus-today-stat strong { color:var(--r-accent); }
+.focus-atmosphere .focus-course-list { background:var(--r-panel); box-shadow:0 12px 28px #07061042; }
+.focus-atmosphere .focus-course-row { background:transparent; }
+.focus-atmosphere .focus-course-icon { border-radius:11px; }
+.focus-atmosphere .focus-review-stage { background:linear-gradient(150deg,#332a49,var(--r-card) 74%); box-shadow:0 28px 65px #07061066,inset 0 1px #ffffff20; }
+.focus-atmosphere .focus-review-stage h1 { font-weight:570; }
+.focus-atmosphere .focus-answer { border-color:#66597e; }
+.focus-atmosphere .focus-grade { box-shadow:inset 0 1px #ffffff12; }
+.focus-atmosphere .focus-grade-again strong { color:#ffb0b3; }
+.focus-atmosphere .focus-grade-hard strong { color:#ffd0ad; }
+.focus-atmosphere .focus-grade-mid strong { color:#f0e3b5; }
+.focus-atmosphere .focus-grade-easy strong,.focus-atmosphere .focus-grade-ez strong { color:#bbecdc; }
+.focus-atmosphere .focus-book-cover { transform:rotate(-4deg); }
+.focus-atmosphere .focus-book-feature,.focus-atmosphere .focus-book-side,.focus-atmosphere .focus-page-update { box-shadow:0 14px 35px #07061044,inset 0 1px #ffffff14; }
+.focus-atmosphere .focus-book-page strong { color:var(--r-accent); }
+@media(max-width:700px){.focus-atmosphere .focus-top h1{font-size:34px}.focus-atmosphere .focus-next-card{min-height:295px}.focus-atmosphere .focus-nav-link.is-current{box-shadow:inset 0 3px var(--r-accent)}.focus-atmosphere .focus-queue-heading h2{font-size:20px}.focus-atmosphere .focus-book-cover{transform:none}}
+@media(prefers-reduced-motion:reduce){.focus-atmosphere *{animation:none!important;transition:none!important}}
