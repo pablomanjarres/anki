@@ -19,6 +19,8 @@ test('generation accepts exact evidence, cites its page, and rejects unsupported
   ]);
   assert.equal(result.created, 1);
   assert.equal(result.rejected, 2);
+  assert.equal(store.getGenerationRun('daily:2026-09-19')?.result?.rejected, 2);
+  assert.equal(store.getGenerationRun('daily:2026-09-19')?.result?.rejectionReasons?.length, 2);
   assert.equal(store.listCards()[0]?.source.page, 4);
   assert.equal(store.listCards()[0]?.source.excerpt, good.evidence);
   assert.equal(submitGroundedCards(store, context, 'daily:2026-09-19', [good]).created, 1);
