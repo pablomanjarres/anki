@@ -75,3 +75,27 @@ test('syllabus weeks add dated timeline topics but not card source passages', as
   ]);
   assert.equal(fetched.length, 1);
 });
+
+test('EPUB locations obey checkpoint and unsupported sources yield zero candidates', async () => {
+  const data = snapshot();
+  data.materials = [];
+  const result = await getGenerationContext({ asOf: '2026-09-19', snapshot: data, bookSources: [
+    { cortexBookId: 'b32', ankiBookId: 'anki-b32', checkpoint: { location: 120 }, passages: [
+      { id: 'l119', location: 119, section: 'Chapter 2', text: 'An EPUB passage located before the saved position is available for study.' },
+      { id: 'l121', location: 121, section: 'Chapter 2', text: 'This EPUB passage is beyond the saved reading location.' },
+    ] },
+  ] });
+  assert.deepEqual(result.passages.map((p) => p.id), ['book:anki-b32:l119']);
+  assert.equal(result.passages[0].sourceId, 'anki-b32');
+  assert.equal(result.passages[0].cortexBookId, 'b32');
+  assert.equal((await getGenerationContext({ asOf: '2026-09-19', snapshot: data })).passages.length, 0);
+});
+
+test('syllabus date ranges in tables use the week start', async () => {
+  const data = snapshot();
+  data.materials = [{ id: 'syllabus', courseId: 'softeng', kind: 'text', name: 'Syllabus', tags: ['syllabus'],
+    text: '| Semana | Fechas | Tema |\n|---|---|---|\n| 9 | 07/09/26 - 13/09/26 | Arquitectura C4 |\n| 14 | 12/10/26 - 18/10/26 | Patrones |' }];
+  const result = await getGenerationContext({ asOf: '2026-09-19', snapshot: data });
+  assert.deepEqual(result.timeline.map((entry) => entry.date), ['2026-09-07', '2026-10-12']);
+  assert.equal(result.passages.length, 0);
+});
