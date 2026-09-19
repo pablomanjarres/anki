@@ -100,10 +100,12 @@ test('MCP review keeps answers concealed until reveal; manual cards, grade and u
 
 test('MCP book checkpoints reject unread highlights', async t => {
   const { store, call } = await fixture(t);
-  store.upsertBook({ id: 'book-1', title: 'Study book', totalPages: 100 });
+  store.upsertBook({ id: 'book-1', title: 'Study book', totalPages: 100, filePath: '/private/book.pdf' });
   assert.equal((await call('set_reading_progress', { bookId: 'book-1', page: 12 })).value.currentPage, 12);
   assert.equal((await call('add_highlight', { bookId: 'book-1', page: 13, text: 'Unread passage' })).isError, true);
   const highlight = await call('add_highlight', { bookId: 'book-1', page: 12, text: 'A page I have read' });
   assert.equal(highlight.value.page, 12);
-  assert.equal((await call('get_reading_progress', { bookId: 'book-1' })).value.highlights.length, 1);
+  const progress = await call('get_reading_progress', { bookId: 'book-1' });
+  assert.equal(progress.value.highlights.length, 1);
+  assert.equal(JSON.stringify(progress.value).includes('/private/book.pdf'), false);
 });
