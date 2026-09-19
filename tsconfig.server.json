@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["ES2022", "DOM"],
+    "noEmit": true
+  },
+  "include": ["server", "vite.config.ts"],
+  "exclude": ["server/**/*.test.ts"]
+}
