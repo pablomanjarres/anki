@@ -24,6 +24,8 @@ export async function saveBookFile(dataDir: string, bookId: string, fileName: st
     await writeFile(`${storedPath}.json.upload`, JSON.stringify(passages), { mode: 0o600 });
     await rename(tempPath, storedPath);
     await rename(`${storedPath}.json.upload`, `${storedPath}.json`);
+    const other = ext === '.pdf' ? '.epub' : '.pdf';
+    await Promise.all([rm(path.join(dir, `${id}${other}`), { force: true }), rm(path.join(dir, `${id}${other}.json`), { force: true })]);
     return { fileName, storedPath, format: ext.slice(1), passages: passages.length };
   } catch (error) {
     await Promise.allSettled([rm(tempPath, { force: true }), rm(`${storedPath}.json.upload`, { force: true })]);
