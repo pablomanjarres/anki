@@ -17,7 +17,11 @@ function verifyProposal(proposal: ProposedCard, passage: SourcePassage): string 
   if (quote.length < 15 || !normalized(passage.text).includes(quote)) return 'Evidence must quote the cited passage';
   if (normalized(proposal.answer).length < 2 || !quote.includes(normalized(proposal.answer))) return 'Answer must appear in the evidence';
   if (normalized(proposal.question).length < 12) return 'Question is too short';
-  if (proposal.type === 'cloze' && !proposal.clozeText?.includes('{{c1::')) return 'Cloze card needs {{c1::...}} text';
+  if (proposal.type === 'cloze') {
+    const deletion = proposal.clozeText?.match(/\{\{c1::([^}:]+)(?:::[^}]+)?\}\}/);
+    if (!deletion) return 'Cloze card needs {{c1::...}} text';
+    if (normalized(deletion[1]) !== normalized(proposal.answer)) return 'Cloze deletion must match the answer';
+  }
   return null;
 }
 
@@ -55,6 +59,5 @@ export function submitGroundedCards(store: StudyStore, context: GenerationContex
       },
     });
   });
-  const result = store.submitGeneratedCards({ runKey, date: context.asOf, cards });
-  return { ...result, rejected: result.rejected + rejected.length, rejectionReasons: rejected };
+  return store.submitGeneratedCards({ runKey, date: context.asOf, cards, rejections: rejected });
 }
