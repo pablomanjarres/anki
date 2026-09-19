@@ -12,5 +12,5 @@ app.use('/*', serveStatic({ root: './dist' }));
 app.get('*', serveStatic({ path: './dist/index.html' }));
 
 serve({ fetch: app.fetch, port, hostname: '127.0.0.1' }, info => {
-  console.log(`Anki Cortex listening on http://127.0.0.1:${info.port}`);
+  console.log(`Anki listening on http://127.0.0.1:${info.port}`);
 });

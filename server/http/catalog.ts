@@ -4,7 +4,7 @@ import type { StudyStore } from '../store/index.ts';
 import { bookView, cardView, deckView } from './format.ts';
 
 export function registerCatalog(app: Hono, store: StudyStore) {
-  app.get('/api/health', c => c.json({ ok: true, service: 'anki-cortex', time: new Date().toISOString() }));
+  app.get('/api/health', c => c.json({ ok: true, service: 'anki', time: new Date().toISOString() }));
   app.get('/api/dashboard', async c => {
     const queue = store.getDailyQueue();
     const decks = store.listDecks();
