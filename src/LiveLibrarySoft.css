@@ -82,7 +82,7 @@
 
 @media (max-width: 700px) {
   .live-app .live-library-scene,
-  .live-app .live-stats-scene { display: block; min-height: 288px; margin: 0 -17px; padding: 27px 24px 68px; }
+  .live-app .live-stats-scene { display: block; min-height: 340px; margin: 0 -17px; padding: 27px 24px 68px; }
   .live-app .live-library-intro,
   .live-app .live-stats-intro { max-width: 270px; }
   .live-app .live-library-intro h1,
