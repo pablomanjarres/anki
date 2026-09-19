@@ -23,7 +23,7 @@ const tabs = [
 
 function Today({ go }: { go: (section: Section) => void }) {
   const { data, error, loading, reload } = useResource(api.dashboard);
-  if (!data) return <Status loading={loading} error={error} retry={reload} />;
+  if (!data || error) return <Status loading={loading} error={error} retry={reload} />;
   return <div className="pocket-home live-today">
     <div className="pocket-heading"><span>{data.date}</span><h1>Ready for a quick round?</h1><p>{data.reviewedToday ? 'Pick up where you left off.' : 'Your next card is waiting.'}</p></div>
     <NextCard data={data} go={go} />
