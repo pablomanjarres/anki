@@ -1,0 +1,20 @@
+html, body, #root { margin: 0; min-height: 100%; }
+body { background: #121815; }
+button { -webkit-tap-highlight-color: transparent; }
+.preview-toolbar { position: relative; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 10px 24px; background: #f0eee9; color: #1d2420; font: 13px 'Avenir Next', Avenir, sans-serif; }
+.preview-toolbar-title { display: grid; gap: 1px; flex: none; }
+.preview-toolbar-title strong { font-size: 14px; }
+.preview-toolbar-title span { color: #606961; font-size: 11px; }
+.preview-toolbar-options { display: flex; gap: 8px; }
+.preview-toolbar-options button { cursor: pointer; min-width: 135px; padding: 7px 11px; border: 1px solid #c7ccc7; border-radius: 3px; background: transparent; text-align: left; color: #2f3b32; display: grid; }
+.preview-toolbar-options button.is-selected { background: #26352b; color: white; border-color: #26352b; }
+.preview-toolbar-options button small { font-size: 10px; font-weight: 400; opacity: .73; }
+.preview-toolbar-options button:focus-visible { outline: 2px solid #40694b; outline-offset: 2px; }
+@media (max-width: 700px) {
+  .preview-toolbar { display: block; padding: 9px 11px; }
+  .preview-toolbar-title { display: none; }
+  .preview-toolbar-options { gap: 5px; }
+  .preview-toolbar-options button { min-width: 0; flex: 1; padding: 7px 5px; text-align: center; display: block; white-space: nowrap; }
+  .preview-toolbar-options button strong { font-size: 11px; }
+  .preview-toolbar-options button small { display: none; }
+}
