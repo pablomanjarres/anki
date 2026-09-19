@@ -71,3 +71,23 @@ test('generation keeps concise facts with conjunctions, decimals, and precise ou
   assert.equal(result.rejected, 0);
   store.close();
 });
+
+test('an all-rejected proposal batch stays retryable while an empty batch records zero', () => {
+  const store = openStudyStore(':memory:', () => new Date('2026-09-19T13:00:00Z'));
+  const evidence = 'El modelo C4 permite crear mapas del código.';
+  const context: GenerationContext = { asOf: '2026-09-19', timeline: [], books: [], skipped: [], passages: [{
+    id: 'slide-1', sourceId: 'material-1', sourceType: 'course', courseId: 'softeng',
+    title: 'Architecture lecture', section: 'Slide 1', page: 1, eligibleOn: '2026-09-18', text: evidence,
+  }] };
+  const valid = { sourcePassageId: 'slide-1', type: 'basic' as const,
+    question: '¿Qué permite crear el modelo C4?', answer: 'mapas del código', evidence };
+  const rejected = submitGroundedCards(store, context, 'daily:2026-09-19', [{ ...valid, answer: 'todos los diagramas' }]);
+  assert.equal(rejected.created, 0);
+  assert.equal(rejected.rejected, 1);
+  assert.equal(store.getGenerationRun('daily:2026-09-19')?.status, 'failed');
+  assert.equal(submitGroundedCards(store, context, 'daily:2026-09-19', [valid]).created, 1);
+  assert.equal(store.getGenerationRun('daily:2026-09-19')?.status, 'success');
+  assert.equal(submitGroundedCards(store, context, 'daily:empty', []).created, 0);
+  assert.equal(store.getGenerationRun('daily:empty')?.status, 'zero');
+  store.close();
+});
