@@ -26,7 +26,7 @@ function Today({ go }: { go: (section: Section) => void }) {
   if (!data || error) return <Status loading={loading} error={error} retry={reload} />;
   const readyCourses = data.courses.filter(course => course.dueCount > 0);
   return <div className="pocket-home live-today">
-    <div className="pocket-heading"><span>{data.date}</span><h1>Ready for a quick round?</h1><p>{data.reviewedToday ? 'Pick up where you left off.' : 'Your next card is waiting.'}</p></div>
+    <div className="pocket-heading"><span>{data.date}</span><h1>{data.nextCard ? 'Ready for a quick round?' : data.reviewedToday >= data.dailyLimit ? "Today's round is complete." : 'All caught up for now.'}</h1><p>{data.nextCard ? data.reviewedToday ? 'Pick up where you left off.' : 'Your next card is waiting.' : 'New cards appear when you have eligible material.'}</p></div>
     <NextCard data={data} go={go} />
     <div className="pocket-side"><section className="pocket-progress" aria-label="Daily progress">
       <div><strong>{data.reviewedToday} <span>of {data.dailyLimit}</span></strong><span>cards today</span></div>
@@ -38,7 +38,7 @@ function Today({ go }: { go: (section: Section) => void }) {
     <section className="pocket-queue"><div className="pocket-section-head"><h2>Coming up</h2><span>{data.dueCount + data.newCount} ready</span></div>
       {readyCourses.length ? <div className="pocket-course-list">{readyCourses.map(course => <button className="pocket-course" type="button" key={course.id} onClick={() => go('review')}>
         <span className="pocket-course-dot" /><span className="pocket-course-copy"><strong>{course.name}</strong><small>{course.dueCount} cards ready</small></span><span className="pocket-due">{course.dueCount}</span><ChevronRight size={18} />
-      </button>)}</div> : <div className="live-empty">No course cards ready. New cards appear when eligible material is available.</div>}
+      </button>)}</div> : <div className="live-empty">No cards ready. New cards appear when eligible material is available.</div>}
       {data.backlogCount > 0 && <p className="live-backlog">{data.backlogCount} overdue cards remain in your backlog.</p>}
     </section>
   </div>;
