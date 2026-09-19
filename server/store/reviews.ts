@@ -88,6 +88,7 @@ export function reviewMethods(db: DatabaseSync) {
     undoLastGrade(at = new Date(), reviewId?: number): StudyCard | null {
       const row = db.prepare('SELECT * FROM reviews ORDER BY id DESC LIMIT 1').get() as Row | undefined;
       if (!row || row.local_day !== localDay(at) || (reviewId != null && Number(row.id) !== reviewId)) return null;
+      if (!db.prepare('SELECT id FROM cards WHERE id=?').get(String(row.card_id))) return null;
       db.exec('BEGIN IMMEDIATE');
       try {
         db.prepare('UPDATE cards SET fsrs_json=?,due_at=?,review_count=?,updated_at=? WHERE id=?').run(

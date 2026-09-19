@@ -28,7 +28,7 @@ export function openDatabase(path: string) {
     );
     CREATE INDEX IF NOT EXISTS cards_due ON cards(due_at);
     CREATE TABLE IF NOT EXISTS reviews (
-      id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE,
+      id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL,
       rating TEXT NOT NULL, reviewed_at TEXT NOT NULL, local_day TEXT NOT NULL,
       previous_fsrs_json TEXT NOT NULL, previous_due_at TEXT NOT NULL,
       previous_review_count INTEGER NOT NULL
@@ -39,6 +39,28 @@ export function openDatabase(path: string) {
       result_json TEXT, error TEXT, created_at TEXT NOT NULL
     );
   `);
+  // Old installations cascaded review history when a card or deck was deleted.
+  // Keep historical card IDs so deletion never resets the 30-card daily count.
+  const reviewForeignKeys = db.prepare('PRAGMA foreign_key_list(reviews)').all();
+  if (reviewForeignKeys.length) {
+    db.exec('PRAGMA foreign_keys = OFF; BEGIN IMMEDIATE;');
+    try {
+      db.exec(`
+        CREATE TABLE reviews_preserved (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL,
+          rating TEXT NOT NULL, reviewed_at TEXT NOT NULL, local_day TEXT NOT NULL,
+          previous_fsrs_json TEXT NOT NULL, previous_due_at TEXT NOT NULL,
+          previous_review_count INTEGER NOT NULL
+        );
+        INSERT INTO reviews_preserved SELECT * FROM reviews;
+        DROP TABLE reviews;
+        ALTER TABLE reviews_preserved RENAME TO reviews;
+        CREATE INDEX reviews_day ON reviews(local_day, card_id);
+        COMMIT;
+      `);
+    } catch (error) { db.exec('ROLLBACK'); throw error; }
+    finally { db.exec('PRAGMA foreign_keys = ON;'); }
+  }
   for (const [table, column, definition] of [
     ['books', 'author', 'TEXT'], ['books', 'cortex_book_id', 'TEXT'],
     ['books', 'current_location', 'INTEGER'], ['books', 'file_name', 'TEXT'],
