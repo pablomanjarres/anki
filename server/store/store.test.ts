@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { DatabaseSync } from 'node:sqlite';
 import { openStudyStore } from './index.ts';
 
 const openFixed = () => openStudyStore(':memory:', () => new Date('2026-09-19T12:00:00Z'));
@@ -176,4 +177,39 @@ test('same-day relearning remains available after thirty distinct reviews', () =
   store.gradeCard(repeatId, 'mid', new Date(repeatDue));
   assert.equal(store.getDailyQueue(new Date(repeatDue)).reviewedDistinct, 30);
   store.close();
+});
+
+test('deleting a reviewed card preserves history and its daily slot', () => {
+  const { store, deck } = withDeck();
+  const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Preserve?', back: 'Yes', source: source() });
+  store.gradeCard(card.id, 'mid', at('2026-09-19'));
+  assert.equal(store.deleteDeck(deck.id), true);
+  assert.equal(store.getReviewHistory(card.id).length, 1);
+  assert.equal(store.getDailyQueue(at('2026-09-19')).reviewedDistinct, 1);
+  assert.equal(store.getReviewStats(at('2026-09-19')).total, 1);
+  store.close();
+});
+
+test('legacy review table migrates without dropping saved events', () => {
+  const path = `/tmp/anki-review-migration-${crypto.randomUUID()}.sqlite`;
+  const initial = openStudyStore(path);
+  const deck = initial.createDeck({ name: 'Legacy', kind: 'course' });
+  const card = initial.createCard({ deckId: deck.id, type: 'basic', front: 'Legacy?', back: 'Yes', source: source() });
+  initial.close();
+  const legacy = new DatabaseSync(path);
+  legacy.exec(`DROP TABLE reviews;
+    CREATE TABLE reviews (id INTEGER PRIMARY KEY AUTOINCREMENT,
+      card_id TEXT NOT NULL REFERENCES cards(id) ON DELETE CASCADE,
+      rating TEXT NOT NULL, reviewed_at TEXT NOT NULL, local_day TEXT NOT NULL,
+      previous_fsrs_json TEXT NOT NULL, previous_due_at TEXT NOT NULL,
+      previous_review_count INTEGER NOT NULL);`);
+  legacy.prepare(`INSERT INTO reviews (card_id,rating,reviewed_at,local_day,previous_fsrs_json,previous_due_at,previous_review_count)
+    VALUES (?,?,?,?,?,?,?)`).run(card.id,'mid','2026-09-19T13:00:00Z','2026-09-19','{}','2026-09-19T12:00:00Z',0);
+  legacy.close();
+  const store = openStudyStore(path);
+  assert.equal(store.getReviewHistory(card.id).length, 1);
+  store.close();
+  const db = new DatabaseSync(path);
+  assert.equal(db.prepare('PRAGMA foreign_key_list(reviews)').all().length, 0);
+  db.close();
 });
