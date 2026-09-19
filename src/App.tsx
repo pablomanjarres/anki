@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Focus } from './variants/Focus';
 import { Pocket } from './variants/Pocket';
+import { LiveApp } from './LiveApp';
 import { Marginalia } from './variants/Marginalia';
 import { Timeline } from './variants/Timeline';
 import type { PreviewScreen } from './types';
@@ -49,6 +50,8 @@ export function App() {
     setState(locationState());
     window.scrollTo(0, 0);
   }
+
+  if (!new URLSearchParams(window.location.search).has('design')) return <LiveApp />;
 
   const options = ['g', 'h'].includes(state.design) ? referenceOptions : ['d', 'e', 'f'].includes(state.design) ? refreshOptions : originalOptions;
 
