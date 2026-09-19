@@ -20,6 +20,8 @@ function cardQualityError(proposal: ProposedCard): string | null {
   }
   if (/^(?:enumera|menciona|lista|list|name some)\b/.test(question) ||
       /^qué\s+(?:problemas|ventajas|beneficios|características|pasos)\s+comunes\b/.test(question) ||
+      /^qué\s+permite\s+(?:crear|hacer|lograr)\b/.test(question) ||
+      /^what\s+does\s+.+\s+(?:allow|enable)\b/.test(question) ||
       /^what\s+are\s+(?:the\s+)?(?:common\s+)?(?:problems|benefits|advantages|features|steps)\b/.test(question)) {
     return 'Question must ask for one specific fact, not a list';
   }
