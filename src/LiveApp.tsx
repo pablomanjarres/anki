@@ -7,6 +7,7 @@ import { LiveReview } from './LiveReview';
 import { LiveCards } from './LiveCards';
 import { LiveBooks } from './LiveBooks';
 import { LiveStats } from './LiveStats';
+import { clozeDisplay } from './cloze';
 import './variants/Pocket.css';
 import './variants/Pocket.mobile.css';
 import './Live.css';
@@ -47,7 +48,7 @@ function Today({ go }: { go: (section: Section) => void }) {
 function NextCard({ data, go }: { data: Dashboard; go: (section: Section) => void }) {
   const card = data.nextCard;
   return <section className="pocket-next"><div className="pocket-next-top"><span>{card ? 'Up next' : 'All caught up'}</span><span className="pocket-step">{data.reviewedToday} / {data.dailyLimit}</span></div>
-    {card ? <><Source card={card} /><h2>{card.question}</h2><button className="pocket-primary" type="button" onClick={() => go('review')}>Start reviewing <ChevronRight size={20} /></button></>
+    {card ? <><Source card={card} /><h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question}</h2><button className="pocket-primary" type="button" onClick={() => go('review')}>Start reviewing <ChevronRight size={20} /></button></>
       : <><h2>{data.reviewedToday >= data.dailyLimit ? 'You reached your daily limit.' : 'Nothing due right now.'}</h2><p className="live-next-note">{data.backlogCount ? `${data.backlogCount} overdue cards are still in your backlog.` : 'Come back for the next round.'}</p><button className="pocket-primary" type="button" onClick={() => go('cards')}>Browse cards <ChevronRight size={20} /></button></>}
   </section>;
 }
@@ -56,10 +57,11 @@ export function LiveApp() {
   const [section, setSection] = useState<Section>('today');
   const [refresh, setRefresh] = useState(0);
   function go(next: Section) { setSection(next); if (next === 'today') setRefresh(value => value + 1); window.scrollTo({ top: 0, behavior: 'instant' }); }
-  return <div className="pocket-app pocket-dark live-app"><div className="pocket-shell"><header className="pocket-header">
+  return <div className={`pocket-app pocket-dark live-app ${section === 'review' ? 'is-reviewing' : ''}`}><div className="pocket-shell"><header className="pocket-header">
     <button className="pocket-brand" type="button" onClick={() => go('today')} aria-label="Anki home"><span className="pocket-logo"><Layers3 size={20} /></span><strong>anki</strong></button>
     <nav className="pocket-nav live-nav" aria-label="Main navigation">{tabs.map(({ id, label, icon: Icon }) => <button key={id} type="button" onClick={() => go(id)} className={section === id ? 'active' : ''} aria-current={section === id ? 'page' : undefined}><Icon size={19} strokeWidth={1.9} /><span>{label}</span></button>)}</nav>
-    <button className="live-header-add" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={21} /></button>
+    {section === 'review' ? <button className="live-header-done" type="button" onClick={() => go('today')}>Done</button>
+      : <button className="live-header-add" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={21} /></button>}
   </header><main key={section === 'today' ? refresh : section}>
     {section === 'today' && <Today go={go} />}
     {section === 'review' && <LiveReview />}
