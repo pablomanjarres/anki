@@ -1,4 +1,4 @@
-# Anki Cortex implementation
+# Anki implementation
 
 - [x] Approve phone-first Pocket design.
 - [x] Persist decks, cards, reading progress, review history, and generation runs in SQLite.
