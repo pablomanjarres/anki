@@ -1,6 +1,6 @@
 # ChatGPT connection and daily task
 
-Create a dedicated private Secure MCP Tunnel named **Anki** in the OpenAI Platform. Run `npm run mcp` from this repository through the tunnel client, using the existing runtime key mechanism and a separate Anki tunnel ID. Add the tunnel as an **Anki** app in ChatGPT. Keep the tunnel client supervised; a local MCP process alone is not reachable from ChatGPT.
+Create a dedicated private Secure MCP Tunnel named **Anki** in the OpenAI Platform. Connect it to the personal ChatGPT workspace, then run `python3 ops/install_tunnel.py tunnel_...` with its ID. This uses the existing Cortex tunnel client's runtime key and supervises a separate Anki MCP process. Add the tunnel as an **Anki** app in ChatGPT. A local MCP process alone is not reachable from ChatGPT.
 
 Create a ChatGPT scheduled task for **7:00 a.m., America/Bogota** with this prompt:
 
