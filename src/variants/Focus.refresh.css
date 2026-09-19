@@ -1,0 +1,68 @@
+.focus-redesign { --f-bg: var(--r-bg); --f-rail: var(--r-rail); --f-panel: var(--r-panel); --f-card: var(--r-card); --f-line: var(--r-line); --f-text: var(--r-text); --f-muted: var(--r-muted); --f-blue: var(--r-accent); --f-cream: var(--r-secondary); color-scheme: dark; }
+.focus-redesign button, .focus-redesign input { touch-action: manipulation; }
+.focus-redesign button:focus-visible, .focus-redesign input:focus-visible { outline: 3px solid var(--r-accent); outline-offset: 3px; }
+.focus-redesign .focus-nav { background: var(--r-rail); border-color: var(--r-line); }
+.focus-redesign .focus-brand-mark { background: var(--r-accent); color: var(--r-on-accent); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-brand-period, .focus-redesign .focus-nav-link.is-current svg { color: var(--r-accent); }
+.focus-redesign .focus-nav-link { color: var(--r-muted); border-radius: var(--r-radius-sm); min-height: 48px; }
+.focus-redesign .focus-nav-link:hover { background: var(--r-hover); color: var(--r-text); }
+.focus-redesign .focus-nav-link.is-current { background: var(--r-current); color: var(--r-text); }
+.focus-redesign .focus-nav-foot, .focus-redesign .focus-top-detail { color: var(--r-muted); }
+.focus-redesign .focus-avatar { background: var(--r-soft); color: var(--r-text); }
+.focus-redesign .focus-status-line { color: var(--r-accent); }
+.focus-redesign .focus-status-dot, .focus-redesign .focus-sync-dot { background: var(--r-status); }
+.focus-redesign .focus-streak { color: var(--r-secondary); }
+.focus-redesign .focus-next-card { background: var(--r-card); border-color: var(--r-card-border); border-radius: var(--r-radius); }
+.focus-redesign .focus-card-topline, .focus-redesign .focus-card-bottom { color: var(--r-muted); }
+.focus-redesign .focus-card-topline span:first-child { color: var(--r-accent); }
+.focus-redesign .focus-round-next, .focus-redesign .focus-start-button { background: var(--r-accent); color: var(--r-on-accent); border-radius: var(--r-radius-sm); min-height: 48px; }
+.focus-redesign .focus-round-next { width: 48px; }
+.focus-redesign .focus-start-button:hover, .focus-redesign .focus-round-next:hover { background: var(--r-accent-hover); }
+.focus-redesign .focus-today-panel, .focus-redesign .focus-book-feature, .focus-redesign .focus-book-side, .focus-redesign .focus-page-update { background: var(--r-panel); border-color: var(--r-line); border-radius: var(--r-radius); }
+.focus-redesign .focus-panel-head span:last-child { color: var(--r-accent); }
+.focus-redesign .focus-progress-track, .focus-redesign .focus-review-progress { background: var(--r-progress-bg); }
+.focus-redesign .focus-progress-track > span, .focus-redesign .focus-review-progress > span { background: var(--r-accent); }
+.focus-redesign .focus-panel-caption, .focus-redesign .focus-panel-note, .focus-redesign .focus-section-heading > span { color: var(--r-muted); }
+.focus-redesign .focus-panel-divider, .focus-redesign .focus-book-stat { border-color: var(--r-line); }
+.focus-redesign .focus-panel-divider { background: var(--r-line); }
+.focus-redesign .focus-today-stat em, .focus-redesign .focus-today-stat small { color: var(--r-muted); }
+.focus-redesign .focus-panel-note svg { color: var(--r-secondary); }
+.focus-redesign .focus-course-list { border-color: var(--r-line); border-radius: var(--r-radius); }
+.focus-redesign .focus-course-row { background: var(--r-panel); border-color: var(--r-line); color: var(--r-text); }
+.focus-redesign .focus-course-row:hover { background: var(--r-hover); }
+.focus-redesign .focus-course-copy small, .focus-redesign .focus-chevron { color: var(--r-muted); }
+.focus-redesign .focus-course-due { color: var(--r-accent); }
+.focus-redesign .focus-review-head, .focus-redesign .focus-quiet-button, .focus-redesign .focus-undo { color: var(--r-muted); }
+.focus-redesign .focus-back, .focus-redesign .focus-quiet-button, .focus-redesign .focus-undo { min-height: 44px; }
+.focus-redesign .focus-back { color: var(--r-text); }
+.focus-redesign .focus-review-stage { background: var(--r-card); border-color: var(--r-card-border); border-radius: var(--r-radius); }
+.focus-redesign .focus-review-context, .focus-redesign .focus-review-source { color: var(--r-muted); }
+.focus-redesign .focus-card-type { color: var(--r-accent); border-color: var(--r-line); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-answer { border-color: var(--r-line); }
+.focus-redesign .focus-answer > span { color: var(--r-accent); }
+.focus-redesign .focus-answer p { color: var(--r-text); }
+.focus-redesign .focus-reveal { background: var(--r-accent); color: var(--r-on-accent); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-grade-title { color: var(--r-text); }
+.focus-redesign .focus-grade-grid { gap: 8px; }
+.focus-redesign .focus-grade { background: var(--r-grade); border-color: var(--r-line); color: var(--r-text); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-grade:hover:not(:disabled), .focus-redesign .focus-grade.is-selected { background: var(--r-grade-hover); border-color: var(--r-accent); }
+.focus-redesign .focus-grade span, .focus-redesign .focus-grade-hint { color: var(--r-muted); }
+.focus-redesign .focus-grade svg { color: var(--r-accent); }
+.focus-redesign .focus-book-header, .focus-redesign .focus-book-page span { color: var(--r-text); }
+.focus-redesign .focus-book-tag { color: var(--r-status); }
+.focus-redesign .focus-book-cover { background: var(--r-cover); border-color: var(--r-cover-border); color: var(--r-cover-text); box-shadow: 10px 12px 0 var(--r-cover-shadow); }
+.focus-redesign .focus-cover-rule { background: var(--r-secondary); }
+.focus-redesign .focus-book-overline { color: var(--r-accent); }
+.focus-redesign .focus-book-info > p:not(.focus-book-overline), .focus-redesign .focus-book-stat span, .focus-redesign .focus-page-update p, .focus-redesign .focus-page-update label, .focus-redesign .focus-book-page small { color: var(--r-muted); }
+.focus-redesign .focus-book-side button { min-height: 48px; background: var(--r-soft); border-color: var(--r-line); color: var(--r-text); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-book-side button:hover { background: var(--r-hover); }
+.focus-redesign .focus-page-update input { min-height: 44px; background: var(--r-input); border-color: var(--r-line); color: var(--r-text); border-radius: var(--r-radius-sm); }
+.focus-redesign .focus-page-update form button { min-height: 44px; background: var(--r-accent); color: var(--r-on-accent); border-radius: var(--r-radius-sm); }
+@media (max-width: 700px) {
+  .focus-redesign .focus-nav { background: var(--r-rail); border-color: var(--r-line); }
+  .focus-redesign .focus-main { padding-bottom: calc(115px + env(safe-area-inset-bottom)); }
+  .focus-redesign .focus-card-topline, .focus-redesign .focus-review-source { font-size: 12px; }
+  .focus-redesign .focus-panel-caption, .focus-redesign .focus-page-update p { font-size: 13px; }
+  .focus-redesign .focus-book-info > p:not(.focus-book-overline) { font-size: 12px; }
+  .focus-redesign .focus-book-cover { box-shadow: 5px 7px 0 var(--r-cover-shadow); }
+}
