@@ -10,7 +10,7 @@ function manualCard(body: Record<string, unknown>): CardInput {
   const title = required(body.sourceTitle, 'Source title');
   return {
     deckId, type, front, back: required(body.answer, 'Answer'),
-    clozeText: type === 'cloze' ? front : undefined,
+    clozeText: type === 'cloze' ? required(body.clozeText, 'Cloze sentence') : undefined,
     source: { type: 'manual', id: `manual:${deckId}:${title}`, title,
       section: required(body.sourceLocator, 'Page or section'), excerpt: optional(body.sourceExcerpt) },
   };
@@ -54,7 +54,10 @@ export function registerCards(app: Hono, store: StudyStore) {
     const front = body.question === undefined ? old.front : required(body.question, 'Question');
     const card = store.updateCard(id, { deckId: body.deckId === undefined ? old.deckId : required(body.deckId, 'Deck'),
       type, front, back: body.answer === undefined ? old.back : required(body.answer, 'Answer'),
-      clozeText: type === 'cloze' ? front : undefined, source });
+      clozeText: type === 'cloze'
+        ? body.clozeText === undefined && old.type === 'cloze'
+          ? old.clozeText : required(body.clozeText, 'Cloze sentence')
+        : undefined, source });
     return c.json(cardView(card, store));
   });
   app.delete('/api/cards/:id', c => {

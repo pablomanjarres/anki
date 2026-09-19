@@ -112,7 +112,10 @@ export function cardMethods(db: DatabaseSync, clock: () => Date) {
       const next: CardInput = {
         deckId: patch.deckId ?? prior.deckId, type: patch.type ?? prior.type,
         front: patch.front ?? prior.front, back: patch.back ?? prior.back,
-        clozeText: patch.clozeText ?? prior.clozeText, source: patch.source ?? prior.source,
+        clozeText: (patch.type ?? prior.type) === 'cloze'
+          ? patch.clozeText === undefined ? prior.clozeText : patch.clozeText
+          : undefined,
+        source: patch.source ?? prior.source,
         tags: patch.tags ?? prior.tags,
       };
       if (!db.prepare('SELECT id FROM decks WHERE id=?').get(next.deckId)) throw new Error('Unknown deck');
@@ -137,7 +140,8 @@ export function cardMethods(db: DatabaseSync, clock: () => Date) {
       if (prior?.result) return prior.result;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date)) throw new Error('Invalid generation date');
       if (input.date > localDay(at)) throw new Error('Future generation date');
-      const result: SubmissionResult = { created: 0, duplicates: 0, rejected: 0, paused: false, cardIds: [] };
+      const result: SubmissionResult = { created: 0, duplicates: 0, rejected: input.rejections?.length ?? 0,
+        paused: false, cardIds: [], rejectionReasons: input.rejections ?? [] };
       db.exec('BEGIN IMMEDIATE');
       try {
         for (const card of input.cards) {

@@ -6,7 +6,7 @@ export function cardView(card: StudyCard, store: StudyStore) {
   return {
     id: card.id, deckId: card.deckId,
     deckName: store.listDecks().find(deck => deck.id === card.deckId)?.name ?? 'Deck',
-    type: card.type, question: card.front, answer: card.back,
+    type: card.type, question: card.front, answer: card.back, clozeText: card.clozeText,
     sourceTitle: source.title, sourceLocator: locator, sourceExcerpt: source.excerpt,
     dueAt: card.dueAt, isNew: card.reviewCount === 0,
   };
