@@ -77,8 +77,13 @@ export function LiveCards() {
     finally { setBusy(false); }
   }
 
-  return <div className="live-library"><div className="pocket-heading"><span>Your collection</span><h1>Cards and decks.</h1><p>Keep each idea connected to its source.</p></div>
-    <div className="live-library-actions"><label className="live-search"><Search size={18} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="Search cards" aria-label="Search cards" /></label>
+  return <div className="live-library">
+    <section className="live-library-scene" aria-labelledby="library-title">
+      <div className="live-library-intro"><span>Your collection</span><h1 id="library-title">Ideas worth keeping.</h1><p>One clear question per card, grounded in what you studied.</p></div>
+      <div className="live-library-tally" aria-label={`${cards.length} cards in view`}><strong>{cards.length}</strong><span>cards<br />in view</span></div>
+      <svg className="live-library-wave" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 C180 5 310 68 510 51 S870 8 1200 37 V80 H0Z" /></svg>
+    </section>
+    <div className="live-library-actions"><label className="live-search"><Search size={18} /><input value={query} onChange={event => setQuery(event.target.value)} placeholder="Search a question or answer" aria-label="Search cards" /></label>
       <select aria-label="Filter by deck" value={deckFilter} onChange={event => setDeckFilter(event.target.value)}><option value="">All decks</option>{decks.map(deck => <option key={deck.id} value={deck.id}>{deck.name}</option>)}</select>
       <button type="button" className="live-action" onClick={startCreate}><Plus size={18} /> New card</button></div>
     {error && <div className="live-inline-error" role="alert">{error}</div>}
@@ -91,7 +96,7 @@ export function LiveCards() {
       <div className="live-form-row"><label>Source title<input required value={draft.sourceTitle} onChange={event => change('sourceTitle', event.target.value)} /></label><label>Page or section<input required value={draft.sourceLocator} onChange={event => change('sourceLocator', event.target.value)} /></label></div>
       <label>Source passage (optional)<textarea value={draft.sourceExcerpt} onChange={event => change('sourceExcerpt', event.target.value)} rows={2} /></label><button className="live-action" type="submit" disabled={busy || !decks.length}>Save card</button></form>}
     {!draft && <><Status loading={loading} error={cards.length ? '' : error} retry={() => void Promise.all([loadCards(), loadDecks()])} />
-      <div className="live-card-list">{cards.map(card => <article className="live-card-row" key={card.id}><Source card={card} /><h2>{card.question}</h2><p>{card.answer}</p><div className="live-row-actions"><button type="button" onClick={() => startEdit(card)}><Pencil size={16} /> Edit</button><button type="button" disabled={busy} onClick={() => void removeCard(card)}><Trash2 size={16} /> Delete</button></div></article>)}</div>
+      <div className="live-card-list">{cards.map(card => <article className="live-card-row" key={card.id}><div className="live-card-row-top"><Source card={card} /><span className="live-card-kind">{card.type === 'cloze' ? 'Cloze' : 'Basic'}</span></div><h2>{card.question}</h2><span className="live-answer-label">Answer</span><p>{card.answer}</p><div className="live-row-actions"><button type="button" onClick={() => startEdit(card)}><Pencil size={16} /> Edit</button><button type="button" disabled={busy} onClick={() => void removeCard(card)}><Trash2 size={16} /> Delete</button></div></article>)}</div>
       {!loading && !error && !cards.length && <div className="live-empty">No cards found. Create one, or change your search.</div>}
     </>}
     <section className="live-decks"><div className="pocket-section-head"><h2>Decks</h2><span>{decks.length}</span></div><form onSubmit={event => void addDeck(event)}><input aria-label="New deck name" placeholder="New deck name" value={newDeck} onChange={event => setNewDeck(event.target.value)} /><button type="submit" disabled={busy}>Add deck</button></form>
