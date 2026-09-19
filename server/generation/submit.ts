@@ -1,5 +1,5 @@
 import type { GenerationContext, SourcePassage } from '../cortex/index.ts';
-import type { CardInput, StudyStore } from '../store/index.ts';
+import type { CardInput, StudyStore, SubmissionResult } from '../store/index.ts';
 
 export type ProposedCard = {
   sourcePassageId: string;
@@ -54,6 +54,8 @@ function deckFor(store: StudyStore, passage: SourcePassage, context: GenerationC
 
 export function submitGroundedCards(store: StudyStore, context: GenerationContext, runKey: string, proposals: ProposedCard[]) {
   if (!runKey.trim()) throw new Error('Run key required');
+  const prior = store.getGenerationRun(runKey);
+  if (prior?.status !== 'failed' && prior?.result) return prior.result;
   const candidates = new Map(context.passages.map(passage => [passage.id, passage]));
   const cards: CardInput[] = [];
   const rejected: Array<{ index: number; reason: string }> = [];
@@ -75,5 +77,16 @@ export function submitGroundedCards(store: StudyStore, context: GenerationContex
       },
     });
   });
+  if (proposals.length > 0 && cards.length === 0) {
+    const result: SubmissionResult = {
+      created: 0, duplicates: 0, rejected: rejected.length, paused: false,
+      cardIds: [], rejectionReasons: rejected,
+    };
+    store.recordGenerationRun({
+      runKey, date: context.asOf, status: 'failed',
+      error: `All ${rejected.length} proposed cards were rejected; revise and retry`,
+    });
+    return result;
+  }
   return store.submitGeneratedCards({ runKey, date: context.asOf, cards, rejections: rejected });
 }
