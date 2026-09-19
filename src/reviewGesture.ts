@@ -1,5 +1,9 @@
 import type { Rating } from './api';
 
+export function canStartRatingGesture(revealed: boolean, targetIsScrollableAnswer: boolean, inFlight: boolean): boolean {
+  return revealed && !targetIsScrollableAnswer && !inFlight;
+}
+
 export function swipeRating(dx: number, dy: number): Rating | null {
   const horizontal = Math.abs(dx);
   const vertical = Math.abs(dy);

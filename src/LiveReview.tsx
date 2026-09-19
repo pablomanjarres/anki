@@ -3,7 +3,7 @@ import { RotateCcw } from 'lucide-react';
 import { api, type Card, type Queue, type Rating } from './api';
 import { Source, Status } from './LiveShared';
 import { clozeDisplay } from './cloze';
-import { swipeRating } from './reviewGesture';
+import { canStartRatingGesture, swipeRating } from './reviewGesture';
 
 const grades: { id: Rating; label: string; direction: string }[] = [
   { id: 'again', label: 'Again', direction: '←' },
@@ -47,7 +47,8 @@ export function LiveReview() {
     setDrag({ x: 0, y: 0 });
   }
   function onPointerDown(event: PointerEvent<HTMLElement>) {
-    if (!revealed || inFlight.current) return;
+    const inAnswer = event.target instanceof Element && Boolean(event.target.closest('.pocket-answer'));
+    if (!canStartRatingGesture(revealed, inAnswer, inFlight.current)) return;
     pointerStart.current = { x: event.clientX, y: event.clientY };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
