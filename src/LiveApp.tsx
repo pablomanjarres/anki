@@ -24,6 +24,7 @@ const tabs = [
 function Today({ go }: { go: (section: Section) => void }) {
   const { data, error, loading, reload } = useResource(api.dashboard);
   if (!data || error) return <Status loading={loading} error={error} retry={reload} />;
+  const readyCourses = data.courses.filter(course => course.dueCount > 0);
   return <div className="pocket-home live-today">
     <div className="pocket-heading"><span>{data.date}</span><h1>Ready for a quick round?</h1><p>{data.reviewedToday ? 'Pick up where you left off.' : 'Your next card is waiting.'}</p></div>
     <NextCard data={data} go={go} />
@@ -34,10 +35,10 @@ function Today({ go }: { go: (section: Section) => void }) {
     </section>{data.books[0] && <button className="pocket-reading" type="button" onClick={() => go('books')}>
       <span className="pocket-book-glyph"><BookOpen size={23} /></span><span className="pocket-reading-copy"><small>Continue reading</small><strong>{data.books[0].title}</strong><span>{data.books[0].currentPage ? `Page ${data.books[0].currentPage}` : 'Add your reading checkpoint'}</span></span><ChevronRight size={20} />
     </button>}</div>
-    <section className="pocket-queue"><div className="pocket-section-head"><h2>Coming up</h2><span>{data.dueCount} due</span></div>
-      {data.courses.length ? <div className="pocket-course-list">{data.courses.map(course => <button className="pocket-course" type="button" key={course.id} onClick={() => go('review')}>
-        <span className="pocket-course-dot" /><span className="pocket-course-copy"><strong>{course.name}</strong><small>{course.dueCount} cards due</small></span><span className="pocket-due">{course.dueCount}</span><ChevronRight size={18} />
-      </button>)}</div> : <div className="live-empty">No course cards due. New cards appear when eligible material is available.</div>}
+    <section className="pocket-queue"><div className="pocket-section-head"><h2>Coming up</h2><span>{data.dueCount + data.newCount} ready</span></div>
+      {readyCourses.length ? <div className="pocket-course-list">{readyCourses.map(course => <button className="pocket-course" type="button" key={course.id} onClick={() => go('review')}>
+        <span className="pocket-course-dot" /><span className="pocket-course-copy"><strong>{course.name}</strong><small>{course.dueCount} cards ready</small></span><span className="pocket-due">{course.dueCount}</span><ChevronRight size={18} />
+      </button>)}</div> : <div className="live-empty">No course cards ready. New cards appear when eligible material is available.</div>}
       {data.backlogCount > 0 && <p className="live-backlog">{data.backlogCount} overdue cards remain in your backlog.</p>}
     </section>
   </div>;
