@@ -2,10 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { openStudyStore } from './index.ts';
 
+const openFixed = () => openStudyStore(':memory:', () => new Date('2026-09-19T12:00:00Z'));
+
 const at = (day: string, hour = '13:00:00') => new Date(`${day}T${hour}Z`);
 const source = (eligibleOn = '2026-09-18') => ({ type: 'course' as const, id: 'calc', title: 'Cálculo III', section: 'Semana 6, p. 4', excerpt: 'El gradiente indica la dirección de máximo crecimiento.', eligibleOn });
 function withDeck() {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Cálculo III', kind: 'course', cortexId: 'calc' });
   return { store, deck };
 }
@@ -57,7 +59,7 @@ test('five ratings schedule, EZ extends Easy, and undo restores the previous sta
     assert.equal(reviewed.rating, rating);
     assert.ok(new Date(reviewed.card.dueAt).getTime() > at('2026-09-19').getTime());
     if (rating === 'ez') {
-      const easyStore = openStudyStore();
+      const easyStore = openFixed();
       const easyDeck = easyStore.createDeck({ name: 'D', kind: 'course' });
       const easyCard = easyStore.createCard({ deckId: easyDeck.id, type: 'basic', front: 'Q', back: 'A', source: source() });
       const easy = easyStore.gradeCard(easyCard.id, 'easy', at('2026-09-19'));
@@ -129,5 +131,14 @@ test('generation cannot claim a future run date or an impossible course date', (
   const card = { deckId: deck.id, type: 'basic' as const, front: 'Q?', back: 'A', source: source('2026-09-19') };
   assert.throws(() => store.submitGeneratedCards({ runKey: 'future', date: '2026-09-20', cards: [card] }, at('2026-09-19')), /Future generation date/);
   assert.throws(() => store.createCard({ ...card, source: source('2026-99-99') }), /Invalid course date/);
+  store.close();
+});
+
+test('a supplied clock gives new cards a deterministic initial due time', () => {
+  const fixed = at('2026-09-19', '12:00:00');
+  const store = openStudyStore(':memory:', () => fixed);
+  const deck = store.createDeck({ name: 'Course', kind: 'course' });
+  const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Clock?', back: 'Fixed.', source: source() });
+  assert.equal(card.dueAt, fixed.toISOString());
   store.close();
 });

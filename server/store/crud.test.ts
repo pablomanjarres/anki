@@ -2,10 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { openStudyStore } from './index.ts';
 
+const openFixed = () => openStudyStore(':memory:', () => new Date('2026-09-19T12:00:00Z'));
+
 const courseSource = { type: 'course' as const, id: 'c', title: 'Course', section: 'Week 1', excerpt: 'Fact one.', eligibleOn: '2026-09-01' };
 
 test('manual cards need a source locator but no scheduled course date', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Personal', kind: 'custom' });
   const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Question', back: 'Answer', source: { type: 'manual', id: 'notes', title: 'My notes', section: 'p. 2' } });
   assert.equal(card.source.section, 'p. 2');
@@ -15,7 +17,7 @@ test('manual cards need a source locator but no scheduled course date', () => {
 });
 
 test('editing retains card scheduling and deleting a deck removes its cards', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Old name', kind: 'course' });
   const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Old question', back: 'Answer', source: courseSource });
   const graded = store.gradeCard(card.id, 'mid', new Date('2026-09-19T13:00:00Z'));
@@ -28,7 +30,7 @@ test('editing retains card scheduling and deleting a deck removes its cards', ()
 });
 
 test('daily generation stops at five and retries are idempotent', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Course', kind: 'course' });
   const cards = Array.from({ length: 32 }, (_, i) => ({ deckId: deck.id, type: 'basic' as const, front: `Q${i}`, back: `A${i}`, source: courseSource }));
   const batch = { runKey: 'daily-1', date: '2026-09-19', cards };
@@ -43,7 +45,7 @@ test('daily generation stops at five and retries are idempotent', () => {
 
 
 test('unreviewed pool blocks generation beyond thirty cards', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Course', kind: 'course' });
   for (let i = 0; i < 29; i++) store.createCard({ deckId: deck.id, type: 'basic', front: `Existing ${i}`, back: 'A', source: courseSource });
   const result = store.submitGeneratedCards({ runKey: 'pool', date: '2026-09-19', cards: [30, 31].map(i => ({ deckId: deck.id, type: 'basic' as const, front: `Generated ${i}`, back: 'A', source: courseSource })) });
@@ -53,7 +55,7 @@ test('unreviewed pool blocks generation beyond thirty cards', () => {
 });
 
 test('book location checkpoints reject unread EPUB locations', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   const deck = store.createDeck({ name: 'Book', kind: 'book' });
   store.upsertBook({ id: 'b', cortexBookId: 'cortex-b', title: 'Book', author: 'A', fileName: 'book.epub', fileType: 'epub' });
   store.setReadingLocation('b', 530);
@@ -65,7 +67,7 @@ test('book location checkpoints reject unread EPUB locations', () => {
 });
 
 test('EPUB highlight can cite a reached location without a PDF page', () => {
-  const store = openStudyStore();
+  const store = openFixed();
   store.upsertBook({ id: 'epub', title: 'Book', fileType: 'epub' });
   store.setReadingLocation('epub', 530);
   const highlight = store.addHighlight({ bookId: 'epub', location: 529, text: 'Read words' });
