@@ -7,6 +7,10 @@ import type { DesignProps, PreviewScreen } from '../types';
 import { previewData as data } from '../data';
 import './Focus.css';
 import './Focus.mobile.css';
+import './Focus.refresh.css';
+import './Focus.noir.css';
+import './Focus.index.css';
+import './Focus.atmosphere.css';
 
 const sections: { id: PreviewScreen; label: string; icon: typeof Layers3 }[] = [
   { id: 'home', label: 'Today', icon: Layers3 },
@@ -21,7 +25,7 @@ function FocusNav({ screen, onScreenChange }: DesignProps) {
       <button key={id} type="button" aria-current={screen === id ? 'page' : undefined} className={`focus-nav-link ${screen === id ? 'is-current' : ''}`} onClick={() => onScreenChange(id)}>
         <Icon size={18} strokeWidth={1.8} /><span>{label}</span>
       </button>)}</div>
-    <div className="focus-nav-foot"><span className="focus-sync-dot" />Cortex connected</div>
+    <div className="focus-nav-foot"><span className="focus-sync-dot" />Cortex source preview</div>
   </nav>;
 }
 
@@ -105,12 +109,12 @@ function FocusBooks({ onScreenChange }: Pick<DesignProps, 'onScreenChange'>) {
       </section>
       <aside className="focus-book-side"><h3>Reading notes</h3><div className="focus-book-stat"><strong>{data.book.highlights}</strong><span>highlights saved</span></div><div className="focus-book-stat"><strong>{data.book.newCards}</strong><span>new cards from this book</span></div><button type="button" onClick={() => onScreenChange('review')}>Review book cards <ArrowRight size={17} /></button></aside>
     </div>
-    <section className="focus-page-update"><div><h2>Update your place</h2><p>Cards will cover only pages you’ve finished.</p></div><form onSubmit={event => { event.preventDefault(); const input = event.currentTarget.elements.namedItem('page') as HTMLInputElement; setPage(Math.max(1, Number(input.value) || page)); }}><label htmlFor="focus-page-input">Current page</label><input id="focus-page-input" name="page" type="number" min="1" defaultValue={page} /><button type="submit">Save page</button></form></section>
+    <section className="focus-page-update"><div><h2>Update your place</h2><p>Cards will cover only pages you’ve finished.</p></div><form onSubmit={event => { event.preventDefault(); const input = event.currentTarget.elements.namedItem('page') as HTMLInputElement; setPage(Math.max(1, Number(input.value) || page)); }}><label htmlFor="focus-page-input">Current page</label><input id="focus-page-input" name="page" type="number" inputMode="numeric" min="1" defaultValue={page} /><button type="submit">Save page</button></form></section>
   </main>;
 }
 
-export function Focus(props: DesignProps) {
-  return <div className="focus-app"><FocusNav {...props} />{props.screen === 'home' ? <FocusHome onScreenChange={props.onScreenChange} /> : props.screen === 'review' ? <FocusReview onScreenChange={props.onScreenChange} /> : <FocusBooks onScreenChange={props.onScreenChange} />}</div>;
+export function Focus(props: DesignProps & { theme?: 'noir' | 'index' | 'atmosphere' }) {
+  return <div className={`focus-app ${props.theme ? `focus-redesign focus-${props.theme}` : ''}`}><FocusNav {...props} />{props.screen === 'home' ? <FocusHome onScreenChange={props.onScreenChange} /> : props.screen === 'review' ? <FocusReview onScreenChange={props.onScreenChange} /> : <FocusBooks onScreenChange={props.onScreenChange} />}</div>;
 }
 
 export default Focus;

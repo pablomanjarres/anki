@@ -5,11 +5,16 @@ import { Timeline } from './variants/Timeline';
 import type { PreviewScreen } from './types';
 import './global.css';
 
-type Design = 'a' | 'b' | 'c';
-const options: { id: Design; title: string; subtitle: string }[] = [
+type Design = 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
+const originalOptions: { id: Design; title: string; subtitle: string }[] = [
   { id: 'a', title: 'A · Marginalia', subtitle: 'Reading-inspired' },
   { id: 'b', title: 'B · Focus', subtitle: 'Review-first' },
   { id: 'c', title: 'C · Course Map', subtitle: 'Timeline-led' },
+];
+const refreshOptions: { id: Design; title: string; subtitle: string }[] = [
+  { id: 'd', title: 'D · Noir', subtitle: 'Monochrome + citron' },
+  { id: 'e', title: 'E · Index', subtitle: 'Scholarly + oxblood' },
+  { id: 'f', title: 'F · Atmosphere', subtitle: 'Soft + violet' },
 ];
 
 function locationState() {
@@ -17,7 +22,7 @@ function locationState() {
   const rawDesign = params.get('design');
   const rawScreen = params.get('screen');
   return {
-    design: rawDesign === 'b' || rawDesign === 'c' ? rawDesign : 'a' as Design,
+    design: ['a', 'b', 'c', 'd', 'e', 'f'].includes(rawDesign ?? '') ? rawDesign as Design : 'a' as Design,
     screen: rawScreen === 'review' || rawScreen === 'books' ? rawScreen : 'home' as PreviewScreen,
     capture: params.get('capture') === '1',
   };
@@ -40,6 +45,8 @@ export function App() {
     window.scrollTo(0, 0);
   }
 
+  const options = ['d', 'e', 'f'].includes(state.design) ? refreshOptions : originalOptions;
+
   return <>
     {!state.capture && <div className="preview-toolbar">
       <div className="preview-toolbar-title"><strong>Anki design previews</strong><span>Example content · Choose a direction</span></div>
@@ -53,5 +60,8 @@ export function App() {
     {state.design === 'a' && <Marginalia screen={state.screen} onScreenChange={screen => navigate('a', screen)} />}
     {state.design === 'b' && <Focus screen={state.screen} onScreenChange={screen => navigate('b', screen)} />}
     {state.design === 'c' && <Timeline screen={state.screen} onScreenChange={screen => navigate('c', screen)} />}
+    {state.design === 'd' && <Focus theme="noir" screen={state.screen} onScreenChange={screen => navigate('d', screen)} />}
+    {state.design === 'e' && <Focus theme="index" screen={state.screen} onScreenChange={screen => navigate('e', screen)} />}
+    {state.design === 'f' && <Focus theme="atmosphere" screen={state.screen} onScreenChange={screen => navigate('f', screen)} />}
   </>;
 }
