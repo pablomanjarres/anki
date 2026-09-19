@@ -99,3 +99,28 @@ test('syllabus date ranges in tables use the week start', async () => {
   assert.deepEqual(result.timeline.map((entry) => entry.date), ['2026-09-07', '2026-10-12']);
   assert.equal(result.passages.length, 0);
 });
+
+test('abbreviated dates and original metadata keep an AI text twin eligible', async () => {
+  const data = snapshot();
+  data.materials = [
+    { id: 'original', courseId: 'softeng', kind: 'file', name: 'Lecture 3', tags: [],
+      description: 'Class on 16 oct', file: { mediaId: 'pdf', name: 'Lecture 3.pdf', mime: 'application/pdf' } },
+    { id: 'twin', courseId: 'softeng', kind: 'text', name: 'Lecture 3 (AI).md', tags: [],
+      text: `## Slide 5\n\n${sentence}` },
+  ];
+  const result = await getGenerationContext({ asOf: '2026-10-16', snapshot: data });
+  assert.deepEqual(result.timeline.map(entry => [entry.sourceId, entry.date]), [['twin', '2026-10-16']]);
+  assert.equal(result.passages[0]?.sourceId, 'twin');
+});
+
+test('daily passage windows rotate through every course section', async () => {
+  const data = snapshot();
+  data.materials = [{ id: 'long', courseId: 'softeng', kind: 'text', name: 'Long lecture',
+    tags: ['semana-1'], text: Array.from({ length: 12 }, (_, i) => `## Slide ${i + 1}\n\n${sentence}`).join('\n\n') }];
+  const first = await getGenerationContext({ asOf: '2026-09-19', snapshot: data, maxPassages: 3 });
+  const second = await getGenerationContext({ asOf: '2026-09-20', snapshot: data, maxPassages: 3 });
+  const all = await getGenerationContext({ asOf: '2026-09-19', snapshot: data, maxPassages: 30 });
+  assert.equal(all.passages.length, 12);
+  assert.equal(new Set([...first.passages, ...second.passages].map(p => p.id)).size, 6);
+  assert.ok(all.passages.some(p => p.section === 'Slide 12'));
+});
