@@ -152,7 +152,10 @@ export function cardMethods(db: DatabaseSync, clock: () => Date) {
             result.cardIds.push(created.id);
           } catch { result.rejected++; }
         }
-        db.prepare('INSERT INTO generation_runs (run_key,date,status,result_json,created_at) VALUES (?,?,?,?,?)').run(
+        db.prepare(`INSERT INTO generation_runs (run_key,date,status,result_json,created_at) VALUES (?,?,?,?,?)
+          ON CONFLICT(run_key) DO UPDATE SET date=excluded.date,status=excluded.status,
+          result_json=excluded.result_json,error=NULL,created_at=excluded.created_at
+          WHERE generation_runs.status='failed'`).run(
           input.runKey, input.date, result.created ? 'success' : 'zero', JSON.stringify(result), clock().toISOString(),
         );
         db.exec('COMMIT');
