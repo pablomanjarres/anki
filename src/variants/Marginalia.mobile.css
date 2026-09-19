@@ -1,0 +1,39 @@
+@media (max-width: 1120px) {
+  .marginalia-app { grid-template-columns: 210px minmax(0, 1fr); }
+  .marginalia-right { display: none; }
+}
+@media (max-width: 700px) {
+  .marginalia-app { display: block; min-height: 100svh; }
+  .marginalia-sidebar, .marginalia-right { display: none; }
+  .marginalia-main { padding: 33px 22px 110px; }
+  .marginalia-heading h1, .marginalia-review-header h1 { font-size: 43px; margin-top: 19px; }
+  .marginalia-heading p { font-size: 14px; }
+  .marginalia-progress { margin-top: 38px; }
+  .marginalia-progress-top span { font-size: 16px; }
+  .marginalia-progress-top strong { font-size: 32px; }
+  .marginalia-progress-top em { font-size: 16px; }
+  .marginalia-start { margin: 35px 0 43px; min-height: 164px; padding: 24px; }
+  .marginalia-start h2 { font-size: 25px; }
+  .marginalia-start > button { width: 43px; height: 43px; }
+  .marginalia-course { gap: 11px; }
+  .marginalia-course-index { display: none; }
+  .marginalia-course strong { font-size: 13px; }
+  .marginalia-course small { font-size: 11px; }
+  .marginalia-course-due { font-size: 11px; }
+  .marginalia-mobile-nav { display: block; position: fixed; z-index: 10; left: 0; right: 0; bottom: 0; background: #17201a; border-top: 1px solid var(--m-line); padding: 7px 12px max(8px, env(safe-area-inset-bottom)); }
+  .marginalia-mobile-nav .marginalia-nav { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .marginalia-mobile-nav .marginalia-nav button { min-height: 52px; display: grid; justify-items: center; align-content: center; gap: 2px; padding: 5px; font-size: 10px; }
+  .marginalia-mobile-nav .marginalia-nav button.is-active::after { display: none; }
+  .marginalia-card-head { padding: 18px; font-size: 11px; }
+  .marginalia-card-body { padding: 32px 24px; }
+  .marginalia-card-body h2 { font-size: 30px; }
+  .marginalia-flashcard { min-height: 390px; }
+  .marginalia-flashcard footer { padding: 17px 18px; }
+  .marginalia-grading > div { gap: 4px; }
+  .marginalia-grading button { min-height: 59px; font-size: 12px; }
+  .marginalia-book { display: block; margin-top: 35px; padding: 22px; }
+  .marginalia-book-cover { min-height: 210px; width: 140px; padding: 16px; margin: 0 auto 28px; }
+  .marginalia-book-cover strong { font-size: 19px; }
+  .marginalia-book-info h2 { font-size: 28px; }
+  .marginalia-page-rule { margin-top: 22px; }
+}
