@@ -70,7 +70,7 @@ export async function getGenerationContext(options: GenerationOptions): Promise<
     if (!m) continue;
     const content = await readCortexText(m, baseUrl, fetchImpl);
     if (!content) { skipped.push({ sourceId: m.id, reason: 'No extractable source text' }); continue; }
-    course.push(...coursePassages(m, entry.title, entry.date, content).slice(0, 4));
+    course.push(...coursePassages(m, entry.title, entry.date, content));
   }
   const dated = new Set(metadataTimeline.map((entry) => entry.sourceId));
   for (const m of snapshot.materials) {
@@ -80,11 +80,21 @@ export async function getGenerationContext(options: GenerationOptions): Promise<
   }
   const book = bookPassages(snapshot, bookSources);
   skipped.push(...book.skipped);
-  const passages: SourcePassage[] = [];
+  const allPassages: SourcePassage[] = [];
   let courseIndex = 0; let bookIndex = 0;
-  while (passages.length < maxPassages && (courseIndex < course.length || bookIndex < book.passages.length)) {
-    if (courseIndex < course.length) passages.push(course[courseIndex++]);
-    if (passages.length < maxPassages && bookIndex < book.passages.length) passages.push(book.passages[bookIndex++]);
+  while (courseIndex < course.length || bookIndex < book.passages.length) {
+    if (courseIndex < course.length) allPassages.push(course[courseIndex++]);
+    if (bookIndex < book.passages.length) allPassages.push(book.passages[bookIndex++]);
   }
+  // Rotate by study day so a bounded daily prompt reaches the whole eligible pool.
+  // The starting point does not depend on maxPassages: submission can re-read a
+  // larger window and still validate IDs returned by get_generation_context.
+  const dayNumber = Math.floor(Date.parse(`${asOf}T00:00:00Z`) / 86_400_000);
+  const gcd = (a: number, b: number): number => b ? gcd(b, a % b) : a;
+  let stride = Math.min(24, Math.ceil(allPassages.length / 2));
+  while (allPassages.length > 1 && gcd(stride, allPassages.length) !== 1) stride++;
+  const offset = allPassages.length > maxPassages ? (dayNumber * stride) % allPassages.length : 0;
+  const passages = Array.from({ length: Math.min(maxPassages, allPassages.length) },
+    (_, index) => allPassages[(offset + index) % allPassages.length]!);
   return { asOf, timeline, passages, books: snapshot.books, skipped };
 }
