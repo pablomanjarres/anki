@@ -48,6 +48,7 @@ test('thirty distinct reviewed cards cap the day while due backlog stays counted
   assert.equal(capped.reviewedDistinct, 30);
   assert.equal(capped.backlogCount, 4);
   assert.equal(capped.remaining, 0);
+  assert.throws(() => store.gradeCard(capped.backlog[0]!.id, 'mid', at('2026-09-19')), /Daily review limit/);
   store.close();
 });
 
@@ -140,5 +141,39 @@ test('a supplied clock gives new cards a deterministic initial due time', () => 
   const deck = store.createDeck({ name: 'Course', kind: 'course' });
   const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Clock?', back: 'Fixed.', source: source() });
   assert.equal(card.dueAt, fixed.toISOString());
+  store.close();
+});
+
+test('Again returns when due the same day and does not use another distinct card slot', () => {
+  const { store, deck } = withDeck();
+  const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Again?', back: 'Yes', source: source() });
+  const fresh = store.createCard({ deckId: deck.id, type: 'basic', front: 'Fresh?', back: 'Yes', source: source() });
+  const first = store.gradeCard(card.id, 'again', at('2026-09-19'));
+  const due = new Date(first.card.dueAt).getTime();
+  assert.ok(!store.getDailyQueue(new Date(due - 1)).cards.some(item => item.id === card.id));
+  assert.throws(() => store.gradeCard(card.id, 'mid', new Date(due - 1)), /not due/);
+  const queue = store.getDailyQueue(new Date(due));
+  assert.equal(queue.cards[0]?.id, card.id);
+  assert.equal(queue.cards[1]?.id, fresh.id);
+  assert.equal(queue.reviewedDistinct, 1);
+  store.gradeCard(card.id, 'mid', new Date(due));
+  assert.equal(store.getDailyQueue(new Date(due)).reviewedDistinct, 1);
+  store.close();
+});
+
+test('same-day relearning remains available after thirty distinct reviews', () => {
+  const { store, deck } = withDeck();
+  let repeatId = '';
+  let repeatDue = 0;
+  for (let i = 0; i < 30; i++) {
+    const card = store.createCard({ deckId: deck.id, type: 'basic', front: `Cap ${i}`, back: 'A', source: source() });
+    const grade = store.gradeCard(card.id, 'again', at('2026-09-19'));
+    if (i === 0) { repeatId = card.id; repeatDue = new Date(grade.card.dueAt).getTime(); }
+  }
+  const queue = store.getDailyQueue(new Date(repeatDue));
+  assert.equal(queue.remaining, 0);
+  assert.ok(queue.cards.some(card => card.id === repeatId));
+  store.gradeCard(repeatId, 'mid', new Date(repeatDue));
+  assert.equal(store.getDailyQueue(new Date(repeatDue)).reviewedDistinct, 30);
   store.close();
 });

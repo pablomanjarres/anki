@@ -76,3 +76,18 @@ test('EPUB highlight can cite a reached location without a PDF page', () => {
   assert.throws(() => store.addHighlight({ bookId: 'epub', location: 531, text: 'Unread words' }), /read/);
   store.close();
 });
+
+test('deleting a book removes highlights but preserves sourced study history', () => {
+  const store = openFixed();
+  const deck = store.createDeck({ name: 'Book', kind: 'book' });
+  store.upsertBook({ id: 'b', title: 'Book', currentPage: 12 });
+  store.addHighlight({ bookId: 'b', page: 12, text: 'Mark' });
+  const card = store.createCard({ deckId: deck.id, type: 'basic', front: 'Q', back: 'A', source: { type: 'book', id: 'b', title: 'Book', page: 12, excerpt: 'Passage' } });
+  store.gradeCard(card.id, 'mid', new Date('2026-09-19T13:00:00Z'));
+  assert.equal(store.deleteBook('b'), true);
+  assert.equal(store.getBook('b'), null);
+  assert.equal(store.listHighlights('b').length, 0);
+  assert.equal(store.getCard(card.id)?.source.title, 'Book');
+  assert.equal(store.getReviewHistory(card.id).length, 1);
+  store.close();
+});
