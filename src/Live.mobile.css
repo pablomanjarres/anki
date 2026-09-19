@@ -22,7 +22,7 @@
   .live-app .live-review .pocket-flashcard,.live-app .live-review .pocket-flashcard.is-revealed{flex:1;min-height:0;padding:22px;border-radius:25px}
   .live-app .live-review .pocket-flashcard .live-source{margin-top:0}
   .live-app .live-review .pocket-flashcard h2{font-size:clamp(25px,7vw,32px);line-height:1.16;margin:25px 0 22px}
-  .live-review .pocket-answer{max-height:50%;overflow-y:auto;touch-action:pan-y}
+  .live-review .pocket-answer{max-height:none;overflow:visible;touch-action:auto}
   .live-review .pocket-answer p{font-size:18px}
   .live-review .pocket-review-controls{flex:none}
   .live-review .pocket-grades{gap:5px}

@@ -3,7 +3,7 @@ import { RotateCcw } from 'lucide-react';
 import { api, type Card, type Queue, type Rating } from './api';
 import { Source, Status } from './LiveShared';
 import { clozeDisplay } from './cloze';
-import { canStartRatingGesture, swipeRating } from './reviewGesture';
+import { keyboardRating, swipeRating } from './reviewGesture';
 
 const grades: { id: Rating; label: string; direction: string }[] = [
   { id: 'again', label: 'Again', direction: '←' },
@@ -12,10 +12,6 @@ const grades: { id: Rating; label: string; direction: string }[] = [
   { id: 'easy', label: 'Easy', direction: '→' },
   { id: 'ez', label: 'EZ', direction: '↑' },
 ];
-const keyboardRatings: Record<string, Rating> = {
-  ArrowLeft: 'again', ArrowDown: 'hard', ArrowRight: 'easy', ArrowUp: 'ez',
-  '1': 'again', '2': 'hard', '3': 'mid', '4': 'easy', '5': 'ez',
-};
 const motionOff = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function LiveReview() {
@@ -29,12 +25,15 @@ export function LiveReview() {
   const [entering, setEntering] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lastReview, setLastReview] = useState<{ id: string; rating: string } | null>(null);
-  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const pointerStart = useRef<{ x: number; y: number; allowVertical: boolean } | null>(null);
+  const scrollRegion = useRef<HTMLDivElement>(null);
   const inFlight = useRef(false);
 
   async function load() {
     setLoading(true);
     setError('');
+    setRevealed(false);
+    resetDrag();
     try { setQueue(await api.queue()); }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Could not load cards.'); }
     finally { setLoading(false); }
@@ -47,9 +46,9 @@ export function LiveReview() {
     setDrag({ x: 0, y: 0 });
   }
   function onPointerDown(event: PointerEvent<HTMLElement>) {
-    const inAnswer = event.target instanceof Element && Boolean(event.target.closest('.pocket-answer'));
-    if (!canStartRatingGesture(revealed, inAnswer, inFlight.current)) return;
-    pointerStart.current = { x: event.clientX, y: event.clientY };
+    if (!revealed || inFlight.current) return;
+    const inScrollableContent = event.target instanceof Element && Boolean(event.target.closest('.live-card-scroll'));
+    pointerStart.current = { x: event.clientX, y: event.clientY, allowVertical: !inScrollableContent };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
   function onPointerMove(event: PointerEvent<HTMLElement>) {
@@ -57,12 +56,13 @@ export function LiveReview() {
     const x = event.clientX - pointerStart.current.x;
     const y = event.clientY - pointerStart.current.y;
     if (Math.hypot(x, y) < 5) return;
+    if (!pointerStart.current.allowVertical && Math.abs(y) > Math.abs(x)) return;
     setDragging(true);
-    if (!motionOff()) setDrag({ x: Math.max(-125, Math.min(125, x)), y: Math.max(-125, Math.min(125, y)) });
+    if (!motionOff()) setDrag({ x: Math.max(-125, Math.min(125, x)), y: pointerStart.current.allowVertical ? Math.max(-125, Math.min(125, y)) : 0 });
   }
   function onPointerUp(event: PointerEvent<HTMLElement>, card: Card) {
     if (!pointerStart.current) return;
-    const rating = swipeRating(event.clientX - pointerStart.current.x, event.clientY - pointerStart.current.y);
+    const rating = swipeRating(event.clientX - pointerStart.current.x, event.clientY - pointerStart.current.y, pointerStart.current.allowVertical);
     resetDrag();
     if (rating) void grade(card, rating);
   }
@@ -70,9 +70,10 @@ export function LiveReview() {
     if (!revealed && (event.key === ' ' || event.key === 'Enter')) {
       event.preventDefault();
       setRevealed(true);
+      window.requestAnimationFrame(() => scrollRegion.current?.focus());
       return;
     }
-    const rating = revealed ? keyboardRatings[event.key] : undefined;
+    const rating = revealed ? keyboardRating(event.key) : null;
     if (rating) { event.preventDefault(); void grade(card, rating); }
   }
 
@@ -122,10 +123,12 @@ export function LiveReview() {
         style={{ '--drag-x': `${drag.x}px`, '--drag-y': `${drag.y}px` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
         onClick={() => { if (!revealed && !busy) setRevealed(true); }} onKeyDown={event => onCardKey(event, card)}
-        tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={revealed ? 'Answer revealed. Swipe left for Again, down for Hard, right for Easy, or up for EZ. Press 3 for Mid.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Tap or press Enter to reveal the answer.`}>
-        <Source card={card} />
-        <h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, revealed) : card.question}</h2>
-        {revealed ? <div className="pocket-answer"><span>Answer</span><p>{card.answer}</p></div> : <p className="live-reveal-prompt">Tap to reveal</p>}
+        tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={revealed ? 'Answer revealed. Scroll the question and answer. Swipe left or right on the card, or use the swipe handle for all directions. Press 1 through 5 to rate.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Tap or press Enter to reveal the answer.`}>
+        <div className="live-card-scroll" ref={scrollRegion} role="region" aria-label="Question and answer" tabIndex={revealed ? 0 : -1}><Source card={card} />
+          <h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, revealed) : card.question}</h2>
+          {revealed ? <div className="pocket-answer"><span>Answer</span><p>{card.answer}</p></div> : <p className="live-reveal-prompt">Tap to reveal</p>}
+        </div>
+        {revealed && <div className="live-swipe-pad" aria-hidden="true">Swipe here in any direction</div>}
       </section><div className="pocket-review-controls">{!revealed ? <button className="pocket-primary" type="button" onClick={() => setRevealed(true)}>Show answer</button>
         : <><p className="live-rating-hint">Swipe a direction or tap a rating</p><div className="pocket-grades" aria-label="Rate this card">{grades.map(item => <button key={item.id} type="button" disabled={busy} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
       </div></div>
