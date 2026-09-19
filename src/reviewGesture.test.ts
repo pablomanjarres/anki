@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { swipeRating } from './reviewGesture';
+import { canStartRatingGesture, swipeRating } from './reviewGesture';
 
 test('four deliberate directions map to their review ratings', () => {
   assert.equal(swipeRating(-90, 2), 'again');
@@ -15,4 +15,9 @@ test('short and diagonal movement never submits a rating', () => {
   assert.equal(swipeRating(0, -70), null);
   assert.equal(swipeRating(95, 80), null);
   assert.equal(swipeRating(-80, -95), null);
+});
+
+test('scrolling inside a revealed answer cannot start a rating swipe', () => {
+  assert.equal(canStartRatingGesture(true, true, false), false);
+  assert.equal(canStartRatingGesture(true, false, false), true);
 });
