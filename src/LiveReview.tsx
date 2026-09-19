@@ -112,10 +112,11 @@ export function LiveReview() {
   }
 
   const card = queue?.cards[0];
-  return <div className="pocket-review live-review">
+  return <div className="pocket-review live-review soft-live-review">
     <div className="live-review-top"><div><h1>Review</h1><span>{queue ? `${queue.reviewedToday} / ${queue.dailyLimit} today` : 'Your cards'}</span></div>
       {lastReview && <div className="live-review-undo"><span role="status">Rated {lastReview.rating}</span><button type="button" onClick={() => void undo()} disabled={busy}><RotateCcw size={16} /> Undo</button></div>}
     </div>
+    {queue && <div className="soft-live-review-progress" aria-label={`${queue.reviewedToday} of ${queue.dailyLimit} cards reviewed today`}><span style={{ width: `${Math.min(100, queue.reviewedToday / Math.max(1, queue.dailyLimit) * 100)}%` }} /></div>}
     {!queue && <Status loading={loading} error={error} retry={() => void load()} />}
     {queue && <>
       {error && <div className="live-inline-error" role="alert">{error}</div>}

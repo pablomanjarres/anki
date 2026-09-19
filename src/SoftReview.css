@@ -1,0 +1,68 @@
+.soft-live.is-reviewing { background: radial-gradient(ellipse at 85% 26%, #f2a585 0, #f4ca9f 38%, transparent 68%), radial-gradient(ellipse at 6% 77%, #ebc6c2 0, transparent 60%), linear-gradient(150deg, #f8efdc 0, #f3d1ac 50%, #e8c1cb 100%); }
+.soft-live.is-reviewing .soft-live-shell { min-height: 100dvh; }
+.soft-live.is-reviewing .soft-live-header { max-width: 720px; width: 100%; margin: auto; background: transparent; }
+.soft-live.is-reviewing .soft-live-nav { display: none; }
+.soft-live-review { max-width: 680px; margin: 0 auto; color: var(--ink); }
+.soft-live-review .live-review-top { margin: 9px 0 12px; }
+.soft-live-review .live-review-top h1 { font-size: 24px; font-weight: 750; }
+.soft-live-review .live-review-top span { color: #6e576d; }
+.soft-live-review .live-review-undo button { background: #fffdfbc9; border-radius: 25px; color: var(--ink); }
+.soft-live-review-progress { height: 4px; overflow: hidden; border-radius: 5px; background: #ffffffa6; }
+.soft-live-review-progress span { display: block; height: 100%; border-radius: inherit; background: #69486c; }
+.soft-live-review .pocket-review-layout { position: relative; gap: 15px; padding: 19px 8px 3px; }
+.soft-live-review .pocket-flashcard { position: relative; z-index: 1; min-height: clamp(360px, 52vh, 570px); padding: 25px; border: 0; border-radius: 31px 43px 28px 48px / 38px 29px 43px 34px; background: #fffdfb; color: var(--ink); box-shadow: 7px 9px 0 #fff1e7de, 0 17px 35px #96677942; transform: translate3d(var(--drag-x, 0px), var(--drag-y, 0px), 0) rotate(-1.5deg); }
+.soft-live-review .pocket-flashcard:focus-visible { outline-color: #69486c; }
+.soft-live-review .pocket-flashcard.is-leaving-again { transform: translate3d(-105vw, 0, 0) rotate(-10deg); }
+.soft-live-review .pocket-flashcard.is-leaving-hard { transform: translate3d(0, 85vh, 0) rotate(4deg); }
+.soft-live-review .pocket-flashcard.is-leaving-mid { transform: scale(.91) rotate(-1.5deg); }
+.soft-live-review .pocket-flashcard.is-leaving-easy { transform: translate3d(105vw, 0, 0) rotate(9deg); }
+.soft-live-review .pocket-flashcard.is-leaving-ez { transform: translate3d(0, -85vh, 0) rotate(-4deg); }
+.soft-live-review .live-card-scroll { padding: 0 1px; }
+.soft-live-review .live-source { margin-top: 0; color: var(--ink); }
+.soft-live-review .live-source .pocket-source-mark { width: 39px; height: 39px; border-radius: 45% 55% 38% 62%; background: #e8d7f2; }
+.soft-live-review .live-source strong { font-size: 13px; }
+.soft-live-review .live-source small { color: #8a7b8d; opacity: 1; }
+.soft-live-review .pocket-flashcard h2 { margin: 42px 0 22px; font-size: clamp(29px, 4vw, 40px); font-weight: 690; line-height: 1.19; letter-spacing: -.06em; }
+.soft-live-review .live-reveal-prompt { color: #988b9e; font-weight: 650; }
+.soft-live-review .pocket-answer { margin-top: auto; padding: 20px; border-radius: 31px 51px 35px 47px / 31px 40px 37px 29px; background: #eee3f8; }
+.soft-live-review .pocket-answer span { color: #756580; font-size: 12px; }
+.soft-live-review .pocket-answer p { color: var(--ink); font-size: clamp(20px, 2.5vw, 25px); letter-spacing: -.035em; }
+.soft-live-review .live-swipe-pad { color: #8b7d8e; border-color: #ede6e5; font-weight: 650; }
+.soft-live-review .pocket-review-controls { background: transparent; }
+.soft-live-review .pocket-review-controls > .pocket-primary { min-height: 57px; border-radius: 32px 22px 33px 23px; background: #513958; color: #fff; box-shadow: 0 9px 21px #93647d3b; }
+.soft-live-review .pocket-review-controls > .pocket-primary:hover { background: #3e2b44; }
+.soft-live-review .live-rating-hint { color: #5b405f; font-size: 13px; font-weight: 800; }
+.soft-live-review .pocket-grades { max-width: 440px; }
+.soft-live-review .pocket-grades button { width: 100%; min-height: 0; aspect-ratio: 1; display: grid; place-content: center; gap: 2px; padding: 2px; border: 1px solid #ffffffb5; border-radius: 50%; background: #ffffffbf; color: var(--ink); box-shadow: 0 4px 10px #bb818d26; }
+.soft-live-review .pocket-grades button:nth-child(1) { background: #f4c4b7; }
+.soft-live-review .pocket-grades button:nth-child(2) { background: #f5dbba; }
+.soft-live-review .pocket-grades button:nth-child(3) { background: #e4d4ee; }
+.soft-live-review .pocket-grades button:nth-child(4) { background: #d9e6d4; }
+.soft-live-review .pocket-grades button:nth-child(5) { background: #d9e4ef; }
+.soft-live-review .pocket-grades button strong { font-size: 11px; }
+.soft-live-review .pocket-grades button span { color: #6b5c70; font-size: 17px; }
+.soft-live-review .live-done { margin-top: 25px; border: 0; background: #fffdfbc7; border-radius: 31px 51px 35px 47px / 31px 40px 37px 29px; }
+.soft-live-review .live-inline-error { margin: 10px 0; }
+@media (max-width: 700px) {
+  .soft-live.is-reviewing .soft-live-shell { height: 100dvh; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  .soft-live.is-reviewing .soft-live-main { flex: 1; min-height: 0; display: flex; overflow: hidden; }
+  .soft-live-review { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 16px calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .soft-live-review .live-review-top { flex: none; min-height: 47px; margin: 3px 0 8px; }
+  .soft-live-review .live-review-top h1 { font-size: 21px; }
+  .soft-live-review .pocket-review-layout { flex: 1; min-height: 0; gap: 13px; padding: 12px 5px 0; }
+  .soft-live .soft-live-review .pocket-flashcard, .soft-live .soft-live-review .pocket-flashcard.is-revealed { flex: 1; min-height: 0; padding: 23px; border-radius: 31px 43px 28px 48px / 38px 29px 43px 34px; }
+  .soft-live-review .pocket-flashcard h2 { margin: 30px 0 20px; font-size: clamp(25px, 7vw, 33px); }
+  .soft-live-review .pocket-answer p { font-size: 20px; }
+  .soft-live-review .pocket-review-controls { flex: none; }
+  .soft-live-review .pocket-grades { gap: 5px; }
+  .soft-live-review .pocket-grades button { min-height: 0; }
+  .soft-live-review .pocket-grades button strong { font-size: 10px; }
+}
+@media (max-width: 360px) {
+  .soft-live-review { padding-left: 12px; padding-right: 12px; }
+  .soft-live-review .pocket-flashcard h2 { margin-top: 22px; font-size: 25px; }
+  .soft-live-review .pocket-answer { padding: 14px; }
+  .soft-live-review .pocket-answer p { font-size: 18px; }
+  .soft-live-review .pocket-grades button strong { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) { .soft-live-review .pocket-flashcard { transform: none !important; } }
