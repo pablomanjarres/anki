@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { canStartRatingGesture, swipeRating } from './reviewGesture';
+import { keyboardRating, swipeRating } from './reviewGesture';
 
 test('four deliberate directions map to their review ratings', () => {
   assert.equal(swipeRating(-90, 2), 'again');
@@ -17,7 +17,15 @@ test('short and diagonal movement never submits a rating', () => {
   assert.equal(swipeRating(-80, -95), null);
 });
 
-test('scrolling inside a revealed answer cannot start a rating swipe', () => {
-  assert.equal(canStartRatingGesture(true, true, false), false);
-  assert.equal(canStartRatingGesture(true, false, false), true);
+test('scrolling content can only submit horizontal swipes', () => {
+  assert.equal(swipeRating(0, 95, false), null);
+  assert.equal(swipeRating(0, -95, false), null);
+  assert.equal(swipeRating(-95, 0, false), 'again');
+  assert.equal(swipeRating(95, 0, false), 'easy');
+});
+
+test('number keys rate cards but arrow keys stay available for scrolling', () => {
+  assert.deepEqual(['1', '2', '3', '4', '5'].map(keyboardRating), ['again', 'hard', 'mid', 'easy', 'ez']);
+  assert.equal(keyboardRating('ArrowUp'), null);
+  assert.equal(keyboardRating('ArrowDown'), null);
 });
