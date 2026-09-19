@@ -12,11 +12,27 @@ export type ProposedCard = {
 
 const normalized = (value: string) => value.replace(/\s+/g, ' ').trim().toLocaleLowerCase();
 
+function cardQualityError(proposal: ProposedCard): string | null {
+  const answer = proposal.answer.trim();
+  const question = normalized(proposal.question).replace(/^¿\s*/, '');
+  if (answer.length > 60 || answer.split(/\s+/).length > 8 || /[,;\n]|\s(?:y|o|and|or)\s/i.test(answer)) {
+    return 'Answer must be one short fact, not a list or multi-part phrase';
+  }
+  if (/^(?:enumera|menciona|lista|list|name some)\b/.test(question) ||
+      /^qué\s+(?:problemas|ventajas|beneficios|características|pasos)\s+comunes\b/.test(question) ||
+      /^what\s+are\s+(?:the\s+)?(?:common\s+)?(?:problems|benefits|advantages|features|steps)\b/.test(question)) {
+    return 'Question must ask for one specific fact, not a list';
+  }
+  return null;
+}
+
 function verifyProposal(proposal: ProposedCard, passage: SourcePassage): string | null {
   const quote = normalized(proposal.evidence);
   if (quote.length < 15 || !normalized(passage.text).includes(quote)) return 'Evidence must quote the cited passage';
   if (normalized(proposal.answer).length < 2 || !quote.includes(normalized(proposal.answer))) return 'Answer must appear in the evidence';
   if (normalized(proposal.question).length < 12) return 'Question is too short';
+  const qualityError = cardQualityError(proposal);
+  if (qualityError) return qualityError;
   if (proposal.type === 'cloze') {
     const deletion = proposal.clozeText?.match(/\{\{c1::([^}:]+)(?:::[^}]+)?\}\}/);
     if (!deletion) return 'Cloze card needs {{c1::...}} text';
