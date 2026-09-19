@@ -50,3 +50,23 @@ test('HTTP book upload extracts EPUB and saves a bounded checkpoint', async () =
     assert.equal((await progress.json() as { location: string }).location, '1');
   } finally { store.close(); await rm(dir, { recursive: true, force: true }); }
 });
+
+test('cloze expression survives an edit to its source metadata', async () => {
+  const store = openStudyStore();
+  const app = createApp(store, os.tmpdir());
+  try {
+    const deck = await (await app.request('/api/decks', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Cloze deck' }) })).json() as { id: string };
+    const created = await app.request('/api/cards', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ deckId: deck.id, type: 'cloze', question: 'What model is this?', answer: '4+1',
+        clozeText: 'The {{c1::4+1}} model represents architecture views.', sourceTitle: 'Lecture', sourceLocator: 'Slide 4' }) });
+    assert.equal(created.status, 201);
+    const card = await created.json() as { id: string; clozeText: string };
+    assert.equal(card.clozeText, 'The {{c1::4+1}} model represents architecture views.');
+    const edited = await app.request(`/api/cards/${card.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourceLocator: 'Slide 5' }) });
+    assert.equal((await edited.json() as { clozeText: string }).clozeText, card.clozeText);
+    const queue = await (await app.request('/api/queue')).json() as { cards: Array<{ clozeText: string }> };
+    assert.equal(queue.cards[0]?.clozeText, card.clozeText);
+  } finally { store.close(); }
+});
