@@ -15,13 +15,11 @@ const normalized = (value: string) => value.replace(/\s+/g, ' ').trim().toLocale
 function cardQualityError(proposal: ProposedCard): string | null {
   const answer = proposal.answer.trim();
   const question = normalized(proposal.question).replace(/^¿\s*/, '');
-  if (answer.length > 60 || answer.split(/\s+/).length > 8 || /[,;\n]|\s(?:y|o|and|or)\s/i.test(answer)) {
-    return 'Answer must be one short fact, not a list or multi-part phrase';
+  if (answer.length > 60 || answer.split(/\s+/).length > 6) {
+    return 'Answer must be one short fact, at most six words';
   }
   if (/^(?:enumera|menciona|lista|list|name some)\b/.test(question) ||
       /^qué\s+(?:problemas|ventajas|beneficios|características|pasos)\s+comunes\b/.test(question) ||
-      /^qué\s+permite\s+(?:crear|hacer|lograr)\b/.test(question) ||
-      /^what\s+does\s+.+\s+(?:allow|enable)\b/.test(question) ||
       /^what\s+are\s+(?:the\s+)?(?:common\s+)?(?:problems|benefits|advantages|features|steps)\b/.test(question)) {
     return 'Question must ask for one specific fact, not a list';
   }
