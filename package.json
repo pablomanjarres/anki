@@ -1,0 +1,36 @@
+{
+  "name": "anki",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "dev:api": "tsx watch server/http/index.ts",
+    "build": "tsc --noEmit && tsc -p tsconfig.server.json --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "start": "tsx server/http/index.ts",
+    "mcp": "tsx server/mcp/index.ts",
+    "test:server": "node --import tsx --test server/**/*.test.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.1",
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "cheerio": "1.2.0",
+    "fast-xml-parser": "5.11.1",
+    "hono": "4.13.8",
+    "jszip": "3.10.2",
+    "lucide-react": "1.47.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "ts-fsrs": "5.4.2",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  }
+}

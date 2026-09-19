@@ -1,0 +1,31 @@
+.focus-noir { --r-bg:#0b0d0a; --r-rail:#090b08; --r-panel:#151a14; --r-card:#1b2118; --r-card-border:#5b6a42; --r-line:#394234; --r-text:#f5f6eb; --r-muted:#b6c0af; --r-accent:#d5f577; --r-accent-hover:#e7ffa0; --r-on-accent:#17200d; --r-secondary:#e7d6a0; --r-status:#acd883; --r-soft:#273021; --r-hover:#232c20; --r-current:#2a3422; --r-progress-bg:#394533; --r-grade:#1a2017; --r-grade-hover:#2c3822; --r-cover:#2e3927; --r-cover-border:#7d9360; --r-cover-text:#f1f4dd; --r-cover-shadow:#070907; --r-input:#10150e; --r-radius:3px; --r-radius-sm:2px; font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif; }
+.focus-noir .focus-brand { font-weight:760; letter-spacing:-.08em; }
+.focus-noir .focus-brand-mark { transform:rotate(-6deg); }
+.focus-noir .focus-nav-link.is-current { border-left:3px solid var(--r-accent); }
+.focus-noir .focus-top h1 { font-size:43px; font-weight:720; letter-spacing:-.065em; }
+.focus-noir .focus-top-detail,.focus-noir .focus-status-line,.focus-noir .focus-card-topline,.focus-noir .focus-panel-head,.focus-noir .focus-book-header { font-family:Menlo,Consolas,monospace; letter-spacing:.035em; }
+.focus-noir .focus-status-line { text-transform:uppercase; font-size:11px; }
+.focus-noir .focus-queue-heading h2 { font-weight:500; }
+.focus-noir .focus-next-card { position:relative; border-top-width:4px; }
+.focus-noir .focus-next-question { font-weight:580; letter-spacing:-.055em; }
+.focus-noir .focus-round-next { border:1px solid var(--r-accent); }
+.focus-noir .focus-start-button { font-weight:740; text-transform:uppercase; letter-spacing:.045em; }
+.focus-noir .focus-today-panel { border-top:4px solid var(--r-accent); }
+.focus-noir .focus-today-stat strong { font-weight:720; }
+.focus-noir .focus-course-list { border-left:0; border-right:0; }
+.focus-noir .focus-course-row { padding-left:7px; padding-right:7px; }
+.focus-noir .focus-course-icon { border-radius:0; }
+.focus-noir .focus-review-stage { border-top-width:4px; }
+.focus-noir .focus-review-stage h1 { font-weight:550; }
+.focus-noir .focus-card-type { text-transform:uppercase; font-family:Menlo,Consolas,monospace; letter-spacing:.08em; }
+.focus-noir .focus-answer { border-top-width:2px; }
+.focus-noir .focus-grade { border-top-width:3px; }
+.focus-noir .focus-grade-again { border-top-color:#e7a3a0; }
+.focus-noir .focus-grade-hard { border-top-color:#eac496; }
+.focus-noir .focus-grade-mid { border-top-color:#e0e4ae; }
+.focus-noir .focus-grade-easy { border-top-color:#a9dbc4; }
+.focus-noir .focus-grade-ez { border-top-color:var(--r-accent); }
+.focus-noir .focus-grade strong { color:var(--r-text); }
+.focus-noir .focus-book-cover { transform:rotate(-2deg); }
+.focus-noir .focus-book-page strong { color:var(--r-accent); }
+@media(max-width:700px){.focus-noir .focus-top h1{font-size:34px}.focus-noir .focus-next-card{min-height:290px}.focus-noir .focus-nav-link.is-current{border-left:0;border-top:3px solid var(--r-accent)}.focus-noir .focus-queue-heading h2{font-size:20px}.focus-noir .focus-book-cover{transform:none}}
