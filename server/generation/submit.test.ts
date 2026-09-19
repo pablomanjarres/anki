@@ -51,3 +51,23 @@ test('generation rejects broad multi-part answers and prompts that ask for a lis
   assert.equal(store.listCards()[0]?.back, 'incomprensibles');
   store.close();
 });
+
+test('generation keeps concise facts with conjunctions, decimals, and precise outcome questions', () => {
+  const store = openStudyStore(':memory:', () => new Date('2026-09-19T13:00:00Z'));
+  const passages = [
+    { id: 'number', text: 'La cifra aproximada es 3,14.' },
+    { id: 'center', text: 'El centro se llama Investigación y Desarrollo.' },
+    { id: 'worktree', text: 'Git worktree permite crear ramas aisladas sin clonar.' },
+  ].map(item => ({ ...item, sourceId: 'material-1', sourceType: 'course' as const,
+    courseId: 'softeng', title: 'Software tools', section: 'Slide 1', page: 1, eligibleOn: '2026-09-18' }));
+  const context: GenerationContext = { asOf: '2026-09-19', timeline: [], books: [], skipped: [], passages };
+  const proposals = [
+    { sourcePassageId: 'number', question: '¿Cuál es la cifra aproximada?', answer: '3,14', evidence: passages[0]!.text },
+    { sourcePassageId: 'center', question: '¿Cómo se llama el centro?', answer: 'Investigación y Desarrollo', evidence: passages[1]!.text },
+    { sourcePassageId: 'worktree', question: '¿Qué permite crear ramas aisladas sin clonar?', answer: 'Git worktree', evidence: passages[2]!.text },
+  ].map(item => ({ ...item, type: 'basic' as const }));
+  const result = submitGroundedCards(store, context, 'daily:2026-09-19', proposals);
+  assert.equal(result.created, 3);
+  assert.equal(result.rejected, 0);
+  store.close();
+});
