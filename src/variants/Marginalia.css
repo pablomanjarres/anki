@@ -1,0 +1,110 @@
+.marginalia-app {
+  --m-bg: #121815;
+  --m-panel: #1d2520;
+  --m-panel-2: #252d26;
+  --m-text: #eee9dd;
+  --m-muted: #a8b0a5;
+  --m-line: #3a463c;
+  --m-accent: #d5ad78;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 246px minmax(520px, 1fr) 280px;
+  background: var(--m-bg);
+  color: var(--m-text);
+  font-family: 'Avenir Next', Avenir, sans-serif;
+}
+.marginalia-app * { box-sizing: border-box; }
+.marginalia-app button, .marginalia-app input { font: inherit; }
+.marginalia-app button { cursor: pointer; }
+.marginalia-app button:focus-visible, .marginalia-app input:focus-visible { outline: 2px solid var(--m-accent); outline-offset: 3px; }
+.marginalia-sidebar { border-right: 1px solid var(--m-line); padding: 36px 20px 28px 30px; display: flex; flex-direction: column; }
+.marginalia-brand { font-family: Georgia, serif; font-size: 27px; letter-spacing: -.08em; white-space: nowrap; }
+.marginalia-brand span { color: var(--m-accent); padding: 0 3px; }
+.marginalia-brand em { font-family: 'Avenir Next', sans-serif; font-size: 12px; font-style: normal; letter-spacing: .04em; color: var(--m-muted); }
+.marginalia-nav { margin-top: 80px; display: grid; gap: 9px; }
+.marginalia-nav button { display: flex; align-items: center; gap: 15px; padding: 13px 15px; border: 0; border-radius: 4px; text-align: left; background: transparent; color: var(--m-muted); font-size: 14px; }
+.marginalia-nav button:hover, .marginalia-nav button.is-active { color: var(--m-text); background: var(--m-panel-2); }
+.marginalia-nav button.is-active::after { content: ''; width: 4px; height: 4px; margin-left: auto; background: var(--m-accent); border-radius: 50%; }
+.marginalia-sidebar-note { margin-top: auto; border-top: 1px solid var(--m-line); padding: 25px 10px 0 4px; }
+.marginalia-sidebar-note p { font: 23px/1.28 Georgia, serif; max-width: 160px; margin: 16px 0 25px; }
+.marginalia-sidebar-note > span:last-child { color: var(--m-accent); font-size: 13px; }
+.marginalia-main { width: min(100%, 850px); margin: 0 auto; padding: 62px clamp(35px, 5.2vw, 88px) 100px; }
+.marginalia-date, .marginalia-kicker { font-size: 13px; color: var(--m-accent); letter-spacing: .02em; }
+.marginalia-heading h1, .marginalia-review-header h1 { font: normal clamp(43px, 4vw, 62px)/1.05 Georgia, serif; letter-spacing: -.055em; margin: 20px 0 15px; }
+.marginalia-heading p { color: var(--m-muted); font-size: 15px; line-height: 1.6; margin: 0; }
+.marginalia-progress { margin-top: 52px; }
+.marginalia-progress-top, .marginalia-progress-bottom { display: flex; justify-content: space-between; align-items: baseline; }
+.marginalia-progress-top span { font: 18px Georgia, serif; }
+.marginalia-progress-top strong { font: 37px Georgia, serif; letter-spacing: -.05em; }
+.marginalia-progress-top em { font-size: 19px; color: var(--m-muted); font-style: normal; }
+.marginalia-progress-track { height: 3px; background: var(--m-line); overflow: hidden; margin: 14px 0; }
+.marginalia-progress-track span { display: block; height: 100%; background: var(--m-accent); }
+.marginalia-progress-bottom { font-size: 12px; color: var(--m-muted); }
+.marginalia-start { margin: 48px 0 56px; background: var(--m-panel); border: 1px solid var(--m-line); display: flex; align-items: flex-end; justify-content: space-between; padding: 32px; min-height: 190px; }
+.marginalia-start h2 { margin: 18px 0 8px; font: normal 30px/1.13 Georgia, serif; letter-spacing: -.03em; }
+.marginalia-start p { margin: 0; color: var(--m-muted); font-size: 12px; }
+.marginalia-start p span { margin: 0 5px; color: var(--m-accent); }
+.marginalia-start > button { width: 52px; height: 52px; flex: none; border: 0; border-radius: 50%; background: var(--m-accent); color: var(--m-bg); display: grid; place-items: center; }
+.marginalia-start > button:hover, .marginalia-reveal:hover, .marginalia-book-action:hover { filter: brightness(1.12); }
+.marginalia-section-title { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 13px; }
+.marginalia-section-title h2 { font: normal 23px Georgia, serif; margin: 0; }
+.marginalia-section-title span { color: var(--m-muted); font-size: 12px; }
+.marginalia-course { border-top: 1px solid var(--m-line); padding: 18px 0; display: flex; gap: 16px; align-items: center; }
+.marginalia-course:last-child { border-bottom: 1px solid var(--m-line); }
+.marginalia-course-index { color: #737d73; font: 12px Georgia, serif; }
+.marginalia-course-mark { display: block; width: 7px; height: 33px; border-radius: 2px; }
+.marginalia-course div { display: grid; gap: 3px; min-width: 0; }
+.marginalia-course strong { font-size: 14px; font-weight: 500; }
+.marginalia-course small { font-size: 12px; color: var(--m-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.marginalia-course-due { margin-left: auto; flex: none; color: var(--m-accent); font-size: 12px; }
+.marginalia-right { border-left: 1px solid var(--m-line); padding: 56px 27px 30px; display: flex; flex-direction: column; }
+.marginalia-right-top { display: grid; justify-items: start; border-bottom: 1px solid var(--m-line); padding-bottom: 38px; }
+.marginalia-right-top span { font-size: 12px; color: var(--m-muted); }
+.marginalia-right-top strong { font: normal 98px/.95 Georgia, serif; letter-spacing: -.09em; margin: 7px 0 10px; }
+.marginalia-right-book { padding-top: 42px; display: grid; justify-items: start; }
+.marginalia-right-book svg { color: var(--m-accent); margin-bottom: 22px; }
+.marginalia-right-book h3 { font: normal 25px/1.2 Georgia, serif; margin: 13px 0 6px; }
+.marginalia-right-book p { font-size: 12px; color: var(--m-muted); }
+.marginalia-right-book button { margin-top: 20px; padding: 0 0 5px; display: flex; gap: 10px; align-items: center; border: 0; border-bottom: 1px solid var(--m-accent); background: none; color: var(--m-accent); font-size: 13px; }
+.marginalia-right-bottom { margin-top: auto; color: #778178; font: italic 16px/1.4 Georgia, serif; max-width: 170px; }
+.marginalia-review-header > div:first-of-type { display: flex; justify-content: space-between; align-items: baseline; }
+.marginalia-review-header h1 { margin-bottom: 21px; }
+.marginalia-review-header > div:first-of-type span { color: var(--m-muted); font-size: 13px; }
+.marginalia-review-header .marginalia-progress-track { margin: 0 0 36px; }
+.marginalia-flashcard { min-height: 430px; background: var(--m-panel); border: 1px solid var(--m-line); display: flex; flex-direction: column; }
+.marginalia-card-head { padding: 23px 29px; border-bottom: 1px solid var(--m-line); display: flex; justify-content: space-between; gap: 12px; color: var(--m-muted); font-size: 12px; }
+.marginalia-card-body { flex: 1; padding: 47px 42px; }
+.marginalia-card-body h2 { font: normal clamp(29px, 3vw, 42px)/1.22 Georgia, serif; letter-spacing: -.045em; max-width: 600px; margin: 19px 0 0; }
+.marginalia-answer { border-top: 1px solid var(--m-line); margin-top: 35px; padding-top: 25px; }
+.marginalia-answer p { font: 19px/1.45 Georgia, serif; margin: 13px 0 0; }
+.marginalia-flashcard footer { padding: 19px 29px; border-top: 1px solid var(--m-line); display: flex; justify-content: space-between; align-items: center; color: var(--m-muted); font-size: 11px; }
+.marginalia-flashcard footer svg { color: var(--m-accent); }
+.marginalia-reveal, .marginalia-book-action { display: flex; align-items: center; justify-content: center; gap: 12px; border: 0; background: var(--m-accent); color: var(--m-bg); font-weight: 600; padding: 16px 24px; margin-top: 23px; width: 100%; }
+.marginalia-grading { margin-top: 25px; }
+.marginalia-grading > p:first-child { color: var(--m-muted); font-size: 13px; margin: 0 0 15px; }
+.marginalia-grading > div { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.marginalia-grading button { min-height: 65px; border: 1px solid var(--m-line); background: var(--m-panel); color: var(--m-text); display: grid; place-items: center; gap: 0; }
+.marginalia-grading button:hover, .marginalia-grading button.is-rated { border-color: var(--m-accent); color: var(--m-accent); }
+.marginalia-grading button small { color: var(--m-muted); }
+.marginalia-rated { display: flex; align-items: center; gap: 6px; color: var(--m-accent); font-size: 12px; }
+.marginalia-reset { display: flex; align-items: center; gap: 7px; margin-top: 20px; border: 0; padding: 5px 0; background: none; color: var(--m-muted); font-size: 12px; }
+.marginalia-book { margin-top: 48px; background: var(--m-panel); border: 1px solid var(--m-line); padding: 30px; display: flex; gap: 38px; }
+.marginalia-book-cover { min-height: 300px; width: 205px; flex: none; background: #733e38; border-left: 8px solid #472925; box-shadow: 8px 7px 0 #101713; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; color: #f0d4af; }
+.marginalia-book-cover > span { font-size: 10px; letter-spacing: .12em; }
+.marginalia-book-cover strong { font: normal 25px/1.14 Georgia, serif; }
+.marginalia-book-info { flex: 1; padding-top: 5px; min-width: 0; }
+.marginalia-book-info h2 { font: normal 30px/1.15 Georgia, serif; letter-spacing: -.04em; margin: 13px 0 5px; }
+.marginalia-book-info p { color: var(--m-muted); margin: 0; font-size: 13px; }
+.marginalia-page-rule { display: flex; align-items: end; gap: 12px; margin: 28px 0 16px; }
+.marginalia-page-rule span { color: var(--m-muted); font: 12px Georgia, serif; }
+.marginalia-page-rule i { flex: 1; border-bottom: 1px solid var(--m-line); margin-bottom: 6px; }
+.marginalia-page-rule strong { color: var(--m-accent); font: normal 32px Georgia, serif; }
+.marginalia-book-info label { display: block; font-size: 12px; margin-bottom: 8px; }
+.marginalia-book-info input { width: 100px; background: var(--m-bg); border: 1px solid var(--m-line); color: var(--m-text); padding: 9px; }
+.marginalia-book-info small { display: block; margin-top: 9px; color: var(--m-muted); font-size: 10px; }
+.marginalia-book-notes { margin-top: 27px; border-top: 1px solid var(--m-line); border-bottom: 1px solid var(--m-line); display: grid; grid-template-columns: 1fr 1fr; }
+.marginalia-book-notes > div { display: grid; gap: 2px; padding: 20px 5px; }
+.marginalia-book-notes > div + div { border-left: 1px solid var(--m-line); padding-left: 23px; }
+.marginalia-book-notes strong { font: normal 30px Georgia, serif; }
+.marginalia-book-notes span { color: var(--m-muted); font-size: 12px; }
+.marginalia-mobile-nav { display: none; }
