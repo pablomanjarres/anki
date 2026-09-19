@@ -1,5 +1,16 @@
 # Anki implementation
 
+## Review speed and card precision · issue #2
+
+- [x] Reproduce rejection of broad generated cards with a failing test.
+- [x] Reject list-style answers and expose single-fact rules through MCP.
+- [x] Update the live ChatGPT daily task prompt and repair the two broad saved cards.
+- [ ] Add iPhone status-bar spacing and a card-first review flow with directional ratings.
+- [ ] Verify phone-size rendering, gestures, all five ratings, undo, source visibility, and reduced motion.
+- [ ] Run the full test/build gates, open a focused PR, and complete one official review pass.
+- [ ] Install the reviewed build and verify live app health and preserved data.
+
+
 - [x] Approve phone-first Pocket design.
 - [x] Persist decks, cards, reading progress, review history, and generation runs in SQLite.
 - [x] Enforce source references, eligible dates, book checkpoints, duplicate prevention, and the 30-card daily limit.
