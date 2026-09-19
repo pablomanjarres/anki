@@ -1,6 +1,14 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import * as z from 'zod/v4';
+import type { Book } from '../store/index.ts';
 import { safely, type ToolServices } from './common.ts';
+
+const visibleBook = (book: Book) => ({
+  id: book.id, title: book.title, author: book.author, cortexBookId: book.cortexBookId,
+  currentPage: book.currentPage, currentLocation: book.currentLocation,
+  totalPages: book.totalPages, fileName: book.fileName, fileType: book.fileType,
+  updatedAt: book.updatedAt,
+});
 
 export function registerReadingTools(server: McpServer, { store }: ToolServices): void {
   server.registerTool('get_reading_progress', {
@@ -9,10 +17,10 @@ export function registerReadingTools(server: McpServer, { store }: ToolServices)
     inputSchema: { bookId: z.string().optional() },
     annotations: { readOnlyHint: true, openWorldHint: false },
   }, ({ bookId }) => safely(() => {
-    if (!bookId) return { books: store.listBooks() };
+    if (!bookId) return { books: store.listBooks().map(visibleBook) };
     const book = store.getBook(bookId);
     if (!book) throw new Error('Unknown book');
-    return { book, highlights: store.listHighlights(bookId) };
+    return { book: visibleBook(book), highlights: store.listHighlights(bookId) };
   }));
 
   server.registerTool('set_reading_progress', {
@@ -26,7 +34,8 @@ export function registerReadingTools(server: McpServer, { store }: ToolServices)
     annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: false },
   }, ({ bookId, page, location }) => safely(() => {
     if ((page === undefined) === (location === undefined)) throw new Error('Provide either page or location');
-    return page === undefined ? store.setReadingLocation(bookId, location!) : store.setReadingProgress(bookId, page);
+    const book = page === undefined ? store.setReadingLocation(bookId, location!) : store.setReadingProgress(bookId, page);
+    return visibleBook(book);
   }));
 
   server.registerTool('add_highlight', {
