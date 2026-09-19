@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { dataDir, dbPath, todayBogota } from '../config.ts';
 import { openStudyStore, type StudyStore } from '../store/index.ts';
@@ -28,7 +29,8 @@ export function checkAndAlert(now = new Date()): string | null {
   let prior: { date?: string; message?: string } = {};
   try { prior = JSON.parse(readFileSync(marker, 'utf8')); } catch { /* No prior alert. */ }
   if (prior.date === date && prior.message === message) return null;
-  execFileSync('/bin/bash', ['/Users/pablo/Projects/pushover/bin/notify.sh', '-c', 'anki-generation', '-m', message], { timeout: 20_000 });
+  const notifier = process.env.ANKI_NOTIFY_BIN ?? path.join(os.homedir(), 'Projects', 'pushover', 'bin', 'notify.sh');
+  execFileSync('/bin/bash', [notifier, '-c', 'anki-generation', '-m', message], { timeout: 20_000 });
   writeFileSync(marker, JSON.stringify({ date, message }), { mode: 0o600 });
   return message;
 }
