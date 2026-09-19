@@ -45,6 +45,7 @@ test('MCP generation context excludes future dates and daily submission is groun
   const current = await call('get_generation_context');
   assert.equal(current.value.passages[0].id, passage.id);
   assert.equal(current.value.runKey, `daily:${day}`);
+  assert.match(current.value.cardRules.join(' '), /one short answer/i);
   const future = new Date(`${day}T12:00:00Z`);
   future.setUTCDate(future.getUTCDate() + 1);
   assert.match((await call('get_generation_context', { date: future.toISOString().slice(0, 10) })).value, /Future dates/);
