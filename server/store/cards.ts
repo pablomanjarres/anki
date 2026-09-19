@@ -44,7 +44,7 @@ function validateSource(db: DatabaseSync, source: Source, date?: string): void {
   } else throw new Error('Unknown source type');
 }
 
-export function cardMethods(db: DatabaseSync) {
+export function cardMethods(db: DatabaseSync, clock: () => Date) {
   function createCard(input: CardInput, date?: string): StudyCard {
     if (!db.prepare('SELECT id FROM decks WHERE id=?').get(input.deckId)) throw new Error('Unknown deck');
     if (!['basic', 'cloze'].includes(input.type) || !input.front?.trim() || !input.back?.trim()) throw new Error('Question and answer required');
@@ -54,8 +54,8 @@ export function cardMethods(db: DatabaseSync) {
     const prior = db.prepare(`${sqlCard} WHERE fingerprint=?`).get(hash) as Row | undefined;
     if (prior) return cardFromRow(prior);
     const id = randomUUID();
-    const now = new Date().toISOString();
-    const state = createEmptyCard(new Date());
+    const now = clock().toISOString();
+    const state = createEmptyCard(new Date(now));
     db.prepare(`INSERT INTO cards (id,deck_id,type,front,back,cloze_text,source_json,tags_json,fingerprint,
       fsrs_json,due_at,eligible_on,created_at,updated_at,generated_on) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(
       id, input.deckId, input.type, input.front.trim(), input.back.trim(), input.clozeText ?? null,
@@ -73,7 +73,7 @@ export function cardMethods(db: DatabaseSync) {
   return {
     createDeck(input: DeckInput): Deck {
       if (!input.name.trim()) throw new Error('Deck name required');
-      const deck: Deck = { ...input, id: randomUUID(), createdAt: new Date().toISOString() };
+      const deck: Deck = { ...input, id: randomUUID(), createdAt: clock().toISOString() };
       db.prepare('INSERT INTO decks (id,name,kind,cortex_id,created_at) VALUES (?,?,?,?,?)').run(deck.id, deck.name, deck.kind, deck.cortexId ?? null, deck.createdAt);
       return deck;
     },
@@ -122,7 +122,7 @@ export function cardMethods(db: DatabaseSync) {
       db.prepare(`UPDATE cards SET deck_id=?,type=?,front=?,back=?,cloze_text=?,source_json=?,tags_json=?,
         fingerprint=?,eligible_on=?,updated_at=? WHERE id=?`).run(next.deckId, next.type, next.front.trim(),
         next.back.trim(), next.clozeText ?? null, JSON.stringify(next.source), JSON.stringify(next.tags ?? []),
-        fingerprint(next), next.source.eligibleOn ?? null, new Date().toISOString(), id);
+        fingerprint(next), next.source.eligibleOn ?? null, clock().toISOString(), id);
       return cardFromRow(db.prepare(`${sqlCard} WHERE id=?`).get(id) as Row);
     },
     deleteCard(id: string): boolean {
@@ -132,7 +132,7 @@ export function cardMethods(db: DatabaseSync) {
       const like = `%${query.replace(/[\\%_]/g, '\\$&')}%`;
       return (db.prepare(`${sqlCard} WHERE front LIKE ? ESCAPE '\\' OR back LIKE ? ESCAPE '\\' ORDER BY created_at DESC LIMIT 100`).all(like, like) as Row[]).map(cardFromRow);
     },
-    submitGeneratedCards(input: Submission, at = new Date()): SubmissionResult {
+    submitGeneratedCards(input: Submission, at = clock()): SubmissionResult {
       const prior = getRun(input.runKey);
       if (prior?.result) return prior.result;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date)) throw new Error('Invalid generation date');
@@ -153,7 +153,7 @@ export function cardMethods(db: DatabaseSync) {
           } catch { result.rejected++; }
         }
         db.prepare('INSERT INTO generation_runs (run_key,date,status,result_json,created_at) VALUES (?,?,?,?,?)').run(
-          input.runKey, input.date, result.created ? 'success' : 'zero', JSON.stringify(result), new Date().toISOString(),
+          input.runKey, input.date, result.created ? 'success' : 'zero', JSON.stringify(result), clock().toISOString(),
         );
         db.exec('COMMIT');
       } catch (error) { db.exec('ROLLBACK'); throw error; }
@@ -163,7 +163,7 @@ export function cardMethods(db: DatabaseSync) {
       db.prepare(`INSERT INTO generation_runs (run_key,date,status,result_json,error,created_at) VALUES (?,?,?,?,?,?)
         ON CONFLICT(run_key) DO UPDATE SET status=excluded.status,result_json=excluded.result_json,error=excluded.error`).run(
         input.runKey, input.date, input.status, input.result ? JSON.stringify(input.result) : null,
-        input.error ?? null, new Date().toISOString(),
+        input.error ?? null, clock().toISOString(),
       );
       return getRun(input.runKey)!;
     },

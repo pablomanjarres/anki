@@ -5,11 +5,11 @@ import { reviewMethods } from './reviews.ts';
 
 export * from './types.ts';
 
-export function openStudyStore(path = ':memory:') {
+export function openStudyStore(path = ':memory:', clock: () => Date = () => new Date()) {
   const db = openDatabase(path);
   return {
     ...bookMethods(db),
-    ...cardMethods(db),
+    ...cardMethods(db, clock),
     ...reviewMethods(db),
     close: () => db.close(),
   };
