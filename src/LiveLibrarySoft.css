@@ -82,7 +82,7 @@
 
 @media (max-width: 700px) {
   .live-app .live-library-scene,
-  .live-app .live-stats-scene { display: block; min-height: 340px; margin: 0 -17px; padding: 27px 24px 68px; }
+  .live-app .live-stats-scene { display: block; min-height: 340px; margin: 0; padding: 27px 24px 68px; }
   .live-app .live-library-intro,
   .live-app .live-stats-intro { max-width: 270px; }
   .live-app .live-library-intro h1,
@@ -95,25 +95,30 @@
   .live-app .live-stats-today strong { font-size: 83px; }
   .live-app .live-library-tally span,
   .live-app .live-stats-today span { font-size: 12px; }
-  .live-app .live-library-actions { grid-template-columns: minmax(0, 1fr) auto; gap: 9px; margin: 4px 0 23px; }
+  .live-app .live-library-actions { grid-template-columns: minmax(0, 1fr) auto; gap: 9px; margin: 4px 24px 23px; }
   .live-app .live-library-actions .live-search { grid-column: 1 / -1; min-height: 49px; }
   .live-app .live-library-actions select { min-height: 48px; }
   .live-app .live-library-actions .live-action { min-height: 48px; padding: 0 14px; }
-  .live-app .live-card-list { display: block; }
+  .live-app .live-card-list { display: block; margin: 0 24px; }
   .live-app .live-card-row { padding: 21px 0 22px; }
   .live-app .live-card-row h2 { font-size: 20px; }
-  .live-app .live-editor { padding: 20px; border-radius: 27px 36px 25px 33px; }
-  .live-app .live-stat-grid { margin: 4px 0 30px; }
+  .live-app .live-editor { margin: 18px 24px 30px; padding: 20px; border-radius: 27px 36px 25px 33px; }
+  .live-app .live-decks { margin: 38px 24px 0; }
+  .live-app .live-library > .live-status,
+  .live-app .live-library > .live-empty,
+  .live-app .live-library > .live-inline-error,
+  .live-app .live-stats > .live-status { margin-right: 24px; margin-left: 24px; }
+  .live-app .live-stat-grid { margin: 4px 24px 30px; }
   .live-app .live-stat-grid > div { padding: 7px 13px; }
   .live-app .live-stat-grid strong { font-size: 38px; }
   .live-app .live-stat-grid span { font-size: 11px; }
-  .live-app .live-forecast { padding-top: 18px; }
+  .live-app .live-forecast { margin: 0 24px 30px; padding-top: 18px; }
   .live-app .live-bars { height: 215px; gap: 8px; padding: 0 3px; }
   .live-app .live-bar small { font-size: 10px; }
 }
 @media (max-width: 360px) {
   .live-app .live-library-scene,
-  .live-app .live-stats-scene { margin-inline: -13px; }
+  .live-app .live-stats-scene { margin-inline: 0; }
   .live-app .live-library-actions .live-action { font-size: 13px; }
   .live-app .live-card-kind { padding: 5px 7px; }
   .live-app .live-stat-grid strong { font-size: 34px; }
