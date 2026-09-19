@@ -7,7 +7,7 @@ const proposal = z.object({
   sourcePassageId: z.string().min(1),
   type: z.enum(['basic', 'cloze']),
   question: z.string().min(12).describe('A self-contained question about one specific fact, not a request for a list'),
-  answer: z.string().min(2).describe('One short answer, preferably 1–6 words; no lists or joined claims'),
+  answer: z.string().min(2).describe('One short answer of at most six words; a fixed name may contain a conjunction'),
   evidence: z.string().min(15).describe('Exact quotation from the cited passage that contains the answer'),
   clozeText: z.string().optional(),
 });
@@ -38,7 +38,7 @@ export function registerGenerationTools(server: McpServer, services: ToolService
       targetNewCards: 5,
       cardRules: [
         'Ask one specific fact per card; the question must make sense without seeing its source.',
-        'Use one short answer, preferably 1–6 words and never more than 8 words or 60 characters. Do not join facts or request a list.',
+        'Use one short answer of at most six words or 60 characters. A fixed name may contain a conjunction; do not join separate facts or request a list.',
         'Prefer a single cloze deletion when a broad sentence cannot become a precise question. Skip passages without a clean recall target.',
         'Quote exact evidence containing the answer, and check that only that answer fits the question.',
       ],
