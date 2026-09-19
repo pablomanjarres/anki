@@ -3,8 +3,8 @@ import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { api, type Card, type CardType, type Deck } from './api';
 import { Source, Status } from './LiveShared';
 
-type Draft = { deckId: string; type: CardType; question: string; answer: string; sourceTitle: string; sourceLocator: string; sourceExcerpt: string };
-const emptyDraft: Draft = { deckId: '', type: 'basic', question: '', answer: '', sourceTitle: '', sourceLocator: '', sourceExcerpt: '' };
+type Draft = { deckId: string; type: CardType; question: string; answer: string; clozeText: string; sourceTitle: string; sourceLocator: string; sourceExcerpt: string };
+const emptyDraft: Draft = { deckId: '', type: 'basic', question: '', answer: '', clozeText: '', sourceTitle: '', sourceLocator: '', sourceExcerpt: '' };
 
 export function LiveCards() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -33,7 +33,7 @@ export function LiveCards() {
   function startCreate() { setEditingId(null); setDraft({ ...emptyDraft, deckId: deckFilter || decks[0]?.id || '' }); }
   function startEdit(card: Card) {
     setEditingId(card.id);
-    setDraft({ deckId: card.deckId, type: card.type, question: card.question, answer: card.answer, sourceTitle: card.sourceTitle, sourceLocator: card.sourceLocator, sourceExcerpt: card.sourceExcerpt || '' });
+    setDraft({ deckId: card.deckId, type: card.type, question: card.question, answer: card.answer, clozeText: card.clozeText || '', sourceTitle: card.sourceTitle, sourceLocator: card.sourceLocator, sourceExcerpt: card.sourceExcerpt || '' });
   }
   function change<K extends keyof Draft>(key: K, value: Draft[K]) { setDraft(current => current && { ...current, [key]: value }); }
 
@@ -87,6 +87,7 @@ export function LiveCards() {
         <label>Type<select value={draft.type} onChange={event => change('type', event.target.value as CardType)}><option value="basic">Basic</option><option value="cloze">Cloze</option></select></label></div>
       <label>Question<textarea required value={draft.question} onChange={event => change('question', event.target.value)} rows={3} /></label>
       <label>Answer<textarea required value={draft.answer} onChange={event => change('answer', event.target.value)} rows={3} /></label>
+      {draft.type === 'cloze' && <label>Cloze sentence<textarea required value={draft.clozeText} onChange={event => change('clozeText', event.target.value)} placeholder="The {{c1::answer}} belongs here." rows={3} /></label>}
       <div className="live-form-row"><label>Source title<input required value={draft.sourceTitle} onChange={event => change('sourceTitle', event.target.value)} /></label><label>Page or section<input required value={draft.sourceLocator} onChange={event => change('sourceLocator', event.target.value)} /></label></div>
       <label>Source passage (optional)<textarea value={draft.sourceExcerpt} onChange={event => change('sourceExcerpt', event.target.value)} rows={2} /></label><button className="live-action" type="submit" disabled={busy || !decks.length}>Save card</button></form>}
     {!draft && <><Status loading={loading} error={cards.length ? '' : error} retry={() => void Promise.all([loadCards(), loadDecks()])} />

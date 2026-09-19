@@ -8,6 +8,7 @@ export interface Card {
   type: CardType;
   question: string;
   answer: string;
+  clozeText?: string;
   sourceTitle: string;
   sourceLocator: string;
   sourceExcerpt?: string;

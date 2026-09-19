@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, ty
 import { ArrowUp, Check, RotateCcw } from 'lucide-react';
 import { api, type Card, type Queue, type Rating } from './api';
 import { Source, Status } from './LiveShared';
+import { clozeDisplay } from './cloze';
 
 const grades: { id: Rating; label: string }[] = [
   { id: 'again', label: 'Again' }, { id: 'hard', label: 'Hard' },
@@ -92,7 +93,7 @@ export function LiveReview() {
         style={{ '--drag-y': `${drag}px` } as CSSProperties} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { startY.current = null; lastDy.current = 0; setDrag(0); }}
         onKeyDown={onCardKey} tabIndex={revealed ? -1 : 0} role={revealed ? undefined : 'button'} aria-label={revealed ? undefined : 'Review card. Swipe up or press Enter to reveal answer.'}>
         <div className="pocket-card-top"><span>{card.type === 'cloze' ? 'Cloze' : 'Basic'} card</span><span>{queue.reviewedToday + 1} / {queue.dailyLimit}</span></div>
-        <Source card={card} /><h2>{card.question}</h2>
+        <Source card={card} /><h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, revealed) : card.question}</h2>
         {revealed ? <div className="pocket-answer"><span>Answer</span><p>{card.answer}</p></div> : <div className="pocket-think live-swipe-hint"><ArrowUp size={17} /> Swipe up or tap below to reveal</div>}
       </section><div className="pocket-review-controls">{!revealed ? <button className="pocket-primary" type="button" onClick={() => setRevealed(true)}>Show answer <ArrowUp size={19} /></button>
         : <><p>How well did you remember?</p><div className="pocket-grades">{grades.map(item => <button key={item.id} type="button" disabled={busy} onClick={() => void grade(card, item.id)}><strong>{item.label}</strong></button>)}</div></>}
