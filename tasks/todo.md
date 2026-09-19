@@ -5,10 +5,17 @@
 - [x] Reproduce rejection of broad generated cards with a failing test.
 - [x] Reject list-style answers and expose single-fact rules through MCP.
 - [x] Update the live ChatGPT daily task prompt and repair the two broad saved cards.
-- [ ] Add iPhone status-bar spacing and a card-first review flow with directional ratings.
-- [ ] Verify phone-size rendering, gestures, all five ratings, undo, source visibility, and reduced motion.
+- [x] Add iPhone status-bar spacing and a card-first review flow with directional ratings.
+- [x] Verify phone-size rendering, gestures, all five ratings, undo, source visibility, and reduced motion.
 - [ ] Run the full test/build gates, open a focused PR, and complete one official review pass.
 - [ ] Install the reviewed build and verify live app health and preserved data.
+
+The 393px and 320px review layouts fit without horizontal overflow. A left swipe
+advanced a card, Undo restored it, and cloze text stayed hidden until reveal.
+At 320px with 59px top and 34px bottom iPhone insets, controls cleared system
+chrome. All five grades remain reachable by tap; four directional gestures have
+unit coverage. Scrolling a long answer was found to rate EZ accidentally, then
+fixed and retested without advancing the card.
 
 
 - [x] Approve phone-first Pocket design.
