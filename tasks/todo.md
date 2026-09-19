@@ -1,5 +1,20 @@
 # Anki implementation
 
+## Adopt selected study design · issue #4
+
+- [x] Start from the reviewed review-flow branch in an isolated worktree; baseline tests pass.
+- [ ] Apply the shaped Today scene, dragon artwork, and curved five-destination phone navigation to real dashboard data.
+- [ ] Apply the warm paper review scene while preserving API grades, swipe safety, cloze, undo, and sources.
+- [ ] Restyle Books, Cards, and Stats without dropping their data and editing flows.
+- [ ] Verify 320px and 393px phones, safe areas, desktop, keyboard/reduced motion, and the full test/build gates.
+- [ ] Open one coherent PR referencing this issue and complete one official review pass.
+- [ ] Install the reviewed build; verify launch-on-login, local and Tailscale health, MCP path, and preserved study data.
+
+Visual system: ivory page `#fffdf9`, dark plum text `#3b2d43`, quiet lavender
+`#d7c7eb`, and muted copper `#dca57e`. The Today illustration is the focal
+point; course data sits in open rows, Review keeps one tilted paper surface,
+and the phone navigation has a curved upper edge. Keep the current five tabs.
+
 ## Review speed and card precision · issue #2
 
 - [x] Reproduce rejection of broad generated cards with a failing test.
