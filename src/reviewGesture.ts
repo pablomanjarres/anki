@@ -32,3 +32,7 @@ export function frontDragScrolls(dy: number, scrollTop: number, maxScroll: numbe
   if (maxScroll <= 24) return false;
   return dy < 0 ? scrollTop < maxScroll - 2 : dy > 0 && scrollTop > 2;
 }
+
+export function answerDragCanRateVertically(inAnswer: boolean, scrollHeight: number, clientHeight: number): boolean {
+  return !inAnswer || scrollHeight <= clientHeight + 2;
+}
