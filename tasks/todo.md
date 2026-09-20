@@ -1,21 +1,5 @@
 # Anki implementation
 
-## Phone Books side padding · issue #16
-
-- [x] Reproduce the flush intro and empty-state edges at phone width.
-- [x] Apply consistent Books gutters without crowding the illustration or controls.
-- [x] Verify 393px and 320px, empty and populated Books states, and no horizontal overflow.
-- [x] Run tests and build, open a focused PR, and complete one review pass.
-- [x] Back up study data, install, and verify local and Tailscale delivery.
-
-Before the change, the 393px Books heading started at x=4px and the empty hero
-at x=-2px. The installed app now places both at x=20px (16px at 320px). Empty
-and populated browser checks kept the illustration and controls readable with
-no horizontal overflow. The final 45 server tests, 10 UI tests, and build pass.
-PR #17 has one official review with no actionable findings. A verified SQLite
-backup preceded installation; local and Tailscale HTTPS serve the combined
-build, with six cards, twelve reviews, and one generation run preserved.
-
 ## Remove dark flash from card turn · issue #12
 
 - [x] Reproduce the brief dark answer face in consecutive phone-size flip frames.
@@ -37,6 +21,22 @@ and tailnet HTTPS serve the exact built assets, and the live database retains
 five cards, ten reviews and one generation run with `quick_check=ok`. The
 installed app has no due card for a live flip tonight; the phone-size motion
 check used an isolated card, so native iPhone rendering is still unverified.
+
+## Phone Books side padding · issue #16
+
+- [x] Reproduce the flush intro and empty-state edges at phone width.
+- [x] Apply consistent Books gutters without crowding the illustration or controls.
+- [x] Verify 393px and 320px, empty and populated Books states, and no horizontal overflow.
+- [x] Run tests and build, open a focused PR, and complete one review pass.
+- [x] Back up study data, install, and verify local and Tailscale delivery.
+
+Before the change, the 393px Books heading started at x=4px and the empty hero
+at x=-2px. The installed app now places both at x=20px (16px at 320px). Empty
+and populated browser checks kept the illustration and controls readable with
+no horizontal overflow. The final 45 server tests, 10 UI tests, and build pass.
+PR #17 has one official review with no actionable findings. A verified SQLite
+backup preceded installation; local and Tailscale HTTPS serve the combined
+build, with six cards, twelve reviews, and one generation run preserved.
 
 ## Stable phone card turn · issue #10
 
