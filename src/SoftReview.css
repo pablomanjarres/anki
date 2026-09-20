@@ -56,7 +56,7 @@
   .soft-live-review .pocket-review-controls { flex: 0 0 108px; height: 108px; min-height: 108px; display: flex; flex-direction: column; justify-content: flex-end; }
   .soft-live-review .pocket-review-controls > .pocket-primary,
   .soft-live-review .pocket-review-controls .pocket-grades { margin: 0 auto; }
-  .soft-live-review .pocket-grades { gap: 5px; }
+  .soft-live-review .pocket-grades { max-width: 360px; gap: 5px; }
   .soft-live-review .pocket-grades button { min-height: 0; }
   .soft-live-review .pocket-grades button strong { font-size: 10px; }
 }
