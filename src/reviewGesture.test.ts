@@ -23,6 +23,7 @@ test('a long question scrolls to its end before an upward drag flips it', () => 
   assert.equal(frontDragScrolls(-100, 598, 600), false);
   assert.equal(frontDragScrolls(100, 598, 600), true);
   assert.equal(frontDragScrolls(-100, 0, 0), false);
+  assert.equal(frontDragScrolls(-100, 0, 3), false);
 });
 
 test('four deliberate directions map to their review ratings', () => {
