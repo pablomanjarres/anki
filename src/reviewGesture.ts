@@ -27,3 +27,7 @@ export function reviewSwipeAction(dx: number, dy: number, revealed: boolean, all
 export function flipAngle(dy: number): number {
   return Math.min(165, Math.max(0, -dy * 1.5));
 }
+
+export function frontDragScrolls(dy: number, scrollTop: number, maxScroll: number): boolean {
+  return dy < 0 ? scrollTop < maxScroll - 2 : dy > 0 && scrollTop > 2;
+}
