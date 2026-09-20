@@ -104,23 +104,6 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
-.soft-live-review .live-flip-face::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: #291d31;
-  opacity: 0;
-  pointer-events: none;
-}
-.soft-live-review .pocket-flashcard.is-turning .live-flip-front::after {
-  animation: live-front-turn-shade var(--turn-duration, 880ms) ease-in-out both;
-}
-.soft-live-review .pocket-flashcard.is-turning .live-flip-back::after {
-  animation: live-back-turn-shade var(--turn-duration, 880ms) ease-in-out both;
-}
-@keyframes live-front-turn-shade { 0% { opacity: 0; } 48%, 100% { opacity: .22; } }
-@keyframes live-back-turn-shade { 0%, 48% { opacity: .22; } 100% { opacity: 0; } }
 .soft-live-review .live-flip-front { background: #fffdfb; touch-action: none; }
 .soft-live-review .live-flip-back {
   background: linear-gradient(152deg, #f6ecfa, #e9d8ee 72%, #e6d1e8);
@@ -191,5 +174,4 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .soft-live-review .live-flip-inner { transition: none !important; }
-  .soft-live-review .live-flip-face::after { animation: none !important; }
 }
