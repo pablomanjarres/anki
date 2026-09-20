@@ -5,14 +5,27 @@
 - [x] Reproduce a visible geometry jump in an isolated phone review session.
 - [x] Keep the card and controls the same height as the answer is revealed.
 - [x] Verify before, during, and after geometry at 393px and 320px, with all five ratings visible.
-- [ ] Run the full tests and build, open the focused PR, and complete one official review pass.
-- [ ] Back up study data, install, and verify the local and Tailscale app.
+- [x] Run the full tests and build, open the focused PR, and complete one official review pass.
+- [x] Back up study data, install, and verify the local and Tailscale app.
 
 At 393×852, revealing the answer grew the controls from 82px to 104.2px,
 shrinking the card by 22.2px while it turned. The phone controls now reserve
 108px in both states. Browser measurements after the change show identical
 card bounds before, during, and after the turn at 393×852 and 320×700. The
 320px rating buttons fit from x=17 to x=303 without horizontal overflow.
+The one official review found that the wider 500–700px mobile breakpoint
+let the rating row grow beyond the reserved height. Its width is now capped
+at 360px; at 500px and 700px, the hint stays below the control block's top,
+the card stays steady, and the row fits. PR #11 has three focused commits
+and one posted GitHub review. The final 45 server tests, 10 UI tests and
+production build pass. A verified backup preceded installation; the live
+database retains five cards, eleven reviews and one generation run with
+`quick_check=ok`. Local and tailnet HTTPS health and served asset bytes match
+the build; the login app, monitor and MCP tunnel point to this worktree.
+The installed app has no due cards tonight, so the flip was checked with an
+isolated card at phone sizes rather than mutating study data to force a live
+review. Native iPhone visual inspection remains blocked by the Mac login
+prompt in iPhone Mirroring.
 
 ## Phone header, card turn, and hero art · issue #8
 
