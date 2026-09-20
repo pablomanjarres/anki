@@ -3,9 +3,9 @@
 ## Adopt selected study design · issue #4
 
 - [x] Start from the reviewed review-flow branch in an isolated worktree; baseline tests pass.
-- [ ] Apply the shaped Today scene, dragon artwork, and curved five-destination phone navigation to real dashboard data.
-- [ ] Apply the warm paper review scene while preserving API grades, swipe safety, cloze, undo, and sources.
-- [ ] Restyle Books, Cards, and Stats without dropping their data and editing flows.
+- [x] Apply the shaped Today scene, dragon artwork, and curved five-destination phone navigation to real dashboard data.
+- [x] Apply the warm paper review scene while preserving API grades, swipe safety, cloze, undo, and sources.
+- [x] Restyle Books, Cards, and Stats without dropping their data and editing flows.
 - [ ] Verify 320px and 393px phones, safe areas, desktop, keyboard/reduced motion, and the full test/build gates.
 - [ ] Open one coherent PR referencing this issue and complete one official review pass.
 - [ ] Install the reviewed build; verify launch-on-login, local and Tailscale health, MCP path, and preserved study data.
@@ -48,8 +48,8 @@ fixed and retested without advancing the card.
 
 ## Rulings
 
-- The approved Pocket dark layout is the production default. The light preview remains available for design comparison.
-- Swiping up reveals an answer. Five explicit grade buttons remain the only grading input, avoiding accidental grades from ambiguous horizontal gestures.
+- The approved soft study layout is the production default. Older concept previews remain available for design comparison.
+- Tap or press Enter to reveal an answer. Deliberate directional swipes grade Again, Hard, Easy, and EZ; Mid remains a tap. Five explicit grade buttons and undo are always available.
 - If source dates cannot be grounded in a syllabus or weekly schedule, the generator excludes the passage and records why.
 
 ## Review
