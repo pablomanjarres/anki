@@ -6,14 +6,21 @@
 - [x] Remove the dark face overlay while keeping the 3D turn and fixed card bounds.
 - [x] Capture the same phone-size frames and confirm the answer stays lavender.
 - [x] Run the server and UI tests and the production build.
-- [ ] Open the focused PR and complete one official review pass.
-- [ ] Back up study data, install, and verify local and Tailscale delivery.
+- [x] Open the focused PR and complete one official review pass.
+- [x] Back up study data, install, and verify local and Tailscale delivery.
 
 The previous turn animated a `#291d31` overlay up to 22% opacity on both card
 faces. At 393×852, a captured frame showed the answer dark purple before it
 lightened. After removing that overlay, consecutive frames show the normal
 lavender answer as the physical turn finishes. All five grades remain visible.
 The final 45 server tests, 10 UI tests, and production build pass.
+PR #13 is stacked on #11 and has one official review pass with no actionable
+findings and one posted GitHub review. A verified SQLite backup preceded the
+install. The login app, monitor and MCP tunnel point to this worktree, local
+and tailnet HTTPS serve the exact built assets, and the live database retains
+five cards, ten reviews and one generation run with `quick_check=ok`. The
+installed app has no due card for a live flip tonight; the phone-size motion
+check used an isolated card, so native iPhone rendering is still unverified.
 
 ## Stable phone card turn · issue #10
 
