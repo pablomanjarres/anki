@@ -1,5 +1,25 @@
 # Anki implementation
 
+## Fixed directional review swipes · issue #14
+
+- [x] Reproduce the free-moving answer card and short exit animation.
+- [x] Keep the card anchored during a rating drag, with one visible direction target.
+- [x] Animate each of the four ratings along its direction; keep Mid as a tap.
+- [x] Verify the flip, long-answer scrolling, diagonal cancellation, all ratings, undo, reduced motion, and phone layouts.
+- [x] Run tests and build, open a focused PR, and complete one review pass.
+- [x] Back up study data, install, and verify local and Tailscale delivery.
+
+The old review moved up to 125px with the finger and changed cards after 230ms.
+The answer card now stays fixed, lights the selected rating, and exits along one
+cardinal axis over 410ms. The next card enters from the opposite side. At
+393px and 320px, isolated browser checks exercised all four swipes, a diagonal
+cancellation, a scrolling long answer, Mid, Undo, and reduced motion. The final
+45 server tests, 10 UI tests, and build pass. PR #15 has one official review
+with no actionable findings. A verified SQLite backup preceded installation;
+local and Tailscale HTTPS serve the built assets, and the live database retains
+six cards, twelve reviews, and one generation run. Native iPhone touch motion
+remains unverified; the phone-size browser and private route were checked.
+
 ## Remove dark flash from card turn · issue #12
 
 - [x] Reproduce the brief dark answer face in consecutive phone-size flip frames.
