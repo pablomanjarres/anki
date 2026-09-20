@@ -4,9 +4,9 @@
 
 - [x] Reproduce the instant reveal and absent pre-reveal swipe in the installed app.
 - [x] Start an isolated worktree from the live app revision; baseline tests pass.
-- [ ] Cover deliberate upward reveal and rating gesture separation with a failing test.
-- [ ] Build a front/back card with a finger-driven upward flip, tap/button/keyboard reveal, and a scrollable answer back.
-- [ ] Verify long answers, five ratings, undo, focus, reduced motion, and 320px/393px phone layouts against an isolated database.
+- [x] Cover deliberate upward reveal and rating gesture separation with a failing test.
+- [x] Build a front/back card with a finger-driven upward flip, tap/button/keyboard reveal, and a scrollable answer back.
+- [x] Verify long answers, five ratings, undo, focus, reduced motion, and 320px/393px phone layouts against an isolated database.
 - [ ] Run the full test/build gates; open a focused PR and complete one official review pass.
 - [ ] Back up the study database, install the reviewed build, and verify local/Tailscale health and preserved data.
 
@@ -64,7 +64,7 @@ fixed and retested without advancing the card.
 ## Rulings
 
 - The approved soft study layout is the production default. Older concept previews remain available for design comparison.
-- Tap or press Enter to reveal an answer. Deliberate directional swipes grade Again, Hard, Easy, and EZ; Mid remains a tap. Five explicit grade buttons and undo are always available.
+- Swipe up on the question, tap it, or press Enter to turn the card over. The answer back scrolls independently. Once revealed, deliberate directional swipes grade Again, Hard, Easy, and EZ; Mid remains a tap. Five explicit grade buttons and undo are always available.
 - If source dates cannot be grounded in a syllabus or weekly schedule, the generator excludes the passage and records why.
 
 ## Review
