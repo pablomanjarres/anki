@@ -91,8 +91,9 @@
   .soft-book-page-token strong { font-size: 48px; }
   .soft-book-hero > img, .soft-books-empty > img { width: 63%; right: -9%; bottom: -18px; }
   .soft-book-switch { top: 13px; right: 13px; }
-  .soft-books-empty > div { width: 65%; padding: 17px; }
-  .soft-books-empty h2 { font-size: 25px; }
+  .soft-books-empty > div { width: 58%; padding: 17px; }
+  .soft-books-empty > img { width: 57%; right: -5%; }
+  .soft-books-empty h2 { font-size: 23px; }
   .soft-books-empty p { font-size: 12px; }
   .soft-books-workspace { display: grid; grid-template-columns: 1fr; gap: 31px; padding: 24px 4px 0; }
   .soft-book-material { padding-top: 22px; }
@@ -100,7 +101,7 @@
 @media (max-width: 360px) {
   .soft-book-hero, .soft-books-empty { min-height: 248px; }
   .soft-book-hero-copy h2 { font-size: 22px; }
-  .soft-book-hero > img, .soft-books-empty > img { width: 61%; right: -14%; }
+  .soft-book-hero > img, .soft-books-empty > img { width: 58%; right: -6%; }
   .soft-page-stepper { gap: 12px; }
   .soft-book-form-row { grid-template-columns: 1fr; }
 }
