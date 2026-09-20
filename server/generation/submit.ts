@@ -11,6 +11,10 @@ export type ProposedCard = {
 };
 
 const normalized = (value: string) => value.replace(/\s+/g, ' ').trim().toLocaleLowerCase();
+const englishListTarget = '(?:problems|benefits|advantages|features|steps|reasons|causes|effects|limitations|examples)';
+const englishListQuestion = new RegExp(`^(?:what|which)\\s+(?:(?:are|were)\\s+)?(?:(?:the|some|several)\\s+)?(?:(?:common|main|key|typical|major)\\s+)?${englishListTarget}\\b`);
+const englishListCommand = new RegExp(`^(?:name|identify|describe|give)\\s+(?:(?:the|some|several|two|three|\\d+)\\s+)?(?:(?:common|main|key|typical|major)\\s+)?${englishListTarget}\\b`);
+const spanishListQuestion = /^(?:qué|cuáles)\s+(?:(?:son|fueron)\s+)?(?:(?:los|las|algunos|algunas)\s+)?(?:(?:comunes|principales)\s+)?(?:problemas|ventajas|beneficios|características|pasos|razones|causas|efectos|limitaciones|ejemplos)\b/;
 
 function cardQualityError(proposal: ProposedCard): string | null {
   const answer = proposal.answer.trim();
@@ -19,8 +23,7 @@ function cardQualityError(proposal: ProposedCard): string | null {
     return 'Answer must be one short fact, at most six words';
   }
   if (/^(?:enumera|menciona|lista|list|name some)\b/.test(question) ||
-      /^qué\s+(?:problemas|ventajas|beneficios|características|pasos)\s+comunes\b/.test(question) ||
-      /^what\s+are\s+(?:the\s+)?(?:common\s+)?(?:problems|benefits|advantages|features|steps)\b/.test(question)) {
+      spanishListQuestion.test(question) || englishListQuestion.test(question) || englishListCommand.test(question)) {
     return 'Question must ask for one specific fact, not a list';
   }
   return null;
