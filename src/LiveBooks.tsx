@@ -109,7 +109,7 @@ export function LiveBooks() {
           <label htmlFor="live-book-page"><span>PDF page</span><input id="live-book-page" type="number" min="1" inputMode="numeric" value={page} onChange={event => setPage(event.target.value)} placeholder="—" /></label>
           <button type="button" aria-label="Next PDF page" disabled={busy} onClick={() => setPage(value => String((Number(value) || 0) + 1))}><Plus size={19} /></button></div>
           <label className="soft-epub-location" htmlFor="live-book-location">EPUB location <input id="live-book-location" type="number" min="1" inputMode="numeric" value={location} onChange={event => setLocation(event.target.value)} placeholder="Location number" /></label>
-          <button className="soft-book-save" type="submit" disabled={busy}>Save checkpoint <Check size={18} /></button>
+          <button className="soft-book-save" type="submit" disabled={busy || (!page && !location.trim())}>Save checkpoint <Check size={18} /></button>
         </form>
       </section>
 
