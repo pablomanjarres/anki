@@ -1,5 +1,20 @@
 # Anki implementation
 
+## Turn the review card over · issue #6
+
+- [x] Reproduce the instant reveal and absent pre-reveal swipe in the installed app.
+- [x] Start an isolated worktree from the live app revision; baseline tests pass.
+- [ ] Cover deliberate upward reveal and rating gesture separation with a failing test.
+- [ ] Build a front/back card with a finger-driven upward flip, tap/button/keyboard reveal, and a scrollable answer back.
+- [ ] Verify long answers, five ratings, undo, focus, reduced motion, and 320px/393px phone layouts against an isolated database.
+- [ ] Run the full test/build gates; open a focused PR and complete one official review pass.
+- [ ] Back up the study database, install the reviewed build, and verify local/Tailscale health and preserved data.
+
+Keep the current warm paper and aubergine palette. The card turn is the one
+expressive movement: the front carries the question, and the lavender back
+gives the answer the card's full height. The outer card still moves in the
+rating direction after a grade. Reading and grading must remain separate.
+
 ## Adopt selected study design · issue #4
 
 - [x] Start from the reviewed review-flow branch in an isolated worktree; baseline tests pass.
