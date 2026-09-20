@@ -3,6 +3,7 @@
 
 from pathlib import Path
 import json
+import shlex
 import sys
 
 from install_local import ROOT, install_agent
@@ -10,6 +11,14 @@ from install_local import ROOT, install_agent
 SUPPORT = Path.home() / "Library/Application Support"
 CORTEX_TUNNEL = SUPPORT / "CortexChatGPTTunnel"
 ANKI_TUNNEL = SUPPORT / "AnkiChatGPTTunnel"
+
+
+def tsx_binary() -> Path:
+    for directory in (ROOT, *ROOT.parents):
+        candidate = directory / "node_modules/.bin/tsx"
+        if candidate.is_file():
+            return candidate
+    raise SystemExit("Install Anki dependencies before connecting the MCP tunnel")
 
 
 def main() -> None:
@@ -21,7 +30,7 @@ def main() -> None:
     if not all(item.exists() for item in (supervisor, key, client)):
         raise SystemExit("The existing Cortex tunnel client and runtime key are required")
     ANKI_TUNNEL.mkdir(parents=True, exist_ok=True, mode=0o700)
-    command = f"{ROOT / 'node_modules/.bin/tsx'} {ROOT / 'server/mcp/index.ts'}"
+    command = shlex.join([str(tsx_binary()), str(ROOT / "server/mcp/index.ts")])
     config = {
         "alias": "anki-chatgpt",
         "name": "Anki",

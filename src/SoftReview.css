@@ -28,11 +28,11 @@
 .soft-live-review .pocket-answer span { color: #756580; font-size: 12px; }
 .soft-live-review .pocket-answer p { color: var(--ink); font-size: clamp(20px, 2.5vw, 25px); letter-spacing: -.035em; }
 .soft-live-review .live-swipe-pad { color: #8b7d8e; border-color: #ede6e5; font-weight: 650; }
-.soft-live-review .pocket-review-controls { background: transparent; }
+.soft-live-review .pocket-review-controls { width: 100%; background: transparent; }
 .soft-live-review .pocket-review-controls > .pocket-primary { min-height: 57px; border-radius: 32px 22px 33px 23px; background: #513958; color: #fff; box-shadow: 0 9px 21px #93647d3b; }
 .soft-live-review .pocket-review-controls > .pocket-primary:hover { background: #3e2b44; }
 .soft-live-review .live-rating-hint { color: #5b405f; font-size: 13px; font-weight: 800; }
-.soft-live-review .pocket-grades { max-width: 440px; }
+.soft-live-review .pocket-grades { width: 100%; max-width: 440px; }
 .soft-live-review .pocket-grades button { width: 100%; min-height: 0; aspect-ratio: 1; display: grid; place-content: center; gap: 2px; padding: 2px; border: 1px solid #ffffffb5; border-radius: 50%; background: #ffffffbf; color: var(--ink); box-shadow: 0 4px 10px #bb818d26; }
 .soft-live-review .pocket-grades button:nth-child(1) { background: #f4c4b7; }
 .soft-live-review .pocket-grades button:nth-child(2) { background: #f5dbba; }
@@ -66,3 +66,107 @@
   .soft-live-review .pocket-grades button strong { font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) { .soft-live-review .pocket-flashcard { transform: none !important; } }
+
+/* The paper has two real faces. Only the answer face scrolls after the flip. */
+.soft-live-review .pocket-flashcard {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  perspective: 1200px;
+  touch-action: pan-y;
+}
+.soft-live-review .live-flip-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg);
+  transition: transform 420ms cubic-bezier(.22, .76, .22, 1);
+  will-change: transform;
+}
+.soft-live-review .pocket-flashcard.is-revealed .live-flip-inner { transform: rotateX(180deg); }
+.soft-live-review .pocket-flashcard .live-flip-inner.is-flipping {
+  transform: rotateX(var(--flip-angle));
+  transition: none;
+}
+.soft-live-review .live-flip-face {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: inherit;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.soft-live-review .live-flip-front { background: #fffdfb; touch-action: none; }
+.soft-live-review .live-flip-back {
+  background: linear-gradient(152deg, #f6ecfa, #e9d8ee 72%, #e6d1e8);
+  transform: rotateX(180deg);
+  touch-action: pan-y;
+  pointer-events: none;
+}
+.soft-live-review .pocket-flashcard.is-revealed .live-flip-front { pointer-events: none; }
+.soft-live-review .pocket-flashcard.is-revealed .live-flip-back { pointer-events: auto; }
+.soft-live-review .live-flip-face .live-card-scroll { flex: 1; min-height: 0; scrollbar-width: none; }
+.soft-live-review .live-flip-face .live-card-scroll::-webkit-scrollbar { display: none; }
+.soft-live-review .live-flip-front .live-card-scroll { touch-action: none; }
+.soft-live-review .live-flip-back .live-card-scroll { touch-action: pan-y; }
+.soft-live-review .live-flip-back .live-source .pocket-source-mark { background: #fff9ff; }
+.soft-live-review .live-flip-back .live-source small { color: #76657b; }
+.soft-live-review .live-flip-front .live-reveal-prompt { margin-top: auto; padding-top: 24px; }
+.soft-live-review .live-reveal-prompt span { display: inline-block; margin-right: 8px; font-size: 21px; line-height: 0; }
+.soft-live-review .live-answer-eyebrow {
+  display: block;
+  flex-shrink: 0;
+  margin-top: 32px;
+  color: #6d4875;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.soft-live-review .live-answer-question {
+  flex-shrink: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 8px 0 0;
+  color: #6c5d70;
+  font-size: 14px;
+  line-height: 1.35;
+}
+.soft-live-review .live-flip-back .pocket-answer {
+  flex-shrink: 0;
+  margin: 26px 0 12px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.soft-live-review .pocket-flashcard.is-revealed .live-flip-back .pocket-answer { animation: none; }
+.soft-live-review .live-flip-back .pocket-answer p {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 620;
+  line-height: 1.39;
+  letter-spacing: -.035em;
+  white-space: pre-wrap;
+}
+.soft-live-review .live-flip-back .live-swipe-pad { border-color: #d7c4db; color: #6d5673; }
+@media (max-width: 700px) {
+  .soft-live .soft-live-review .pocket-flashcard,
+  .soft-live .soft-live-review .pocket-flashcard.is-revealed { padding: 0; }
+  .soft-live-review .live-flip-face { padding: 23px; }
+  .soft-live-review .live-flip-back .pocket-answer p { font-size: clamp(21px, 5.6vw, 25px); }
+}
+@media (max-width: 360px) {
+  .soft-live-review .live-flip-face { padding: 20px; }
+  .soft-live-review .live-answer-eyebrow { margin-top: 22px; }
+  .soft-live-review .live-flip-back .pocket-answer { margin-top: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soft-live-review .live-flip-inner { transition: none !important; }
+}

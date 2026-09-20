@@ -1,7 +1,30 @@
 /// <reference types="node" />
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { keyboardRating, swipeRating } from './reviewGesture';
+import { flipAngle, frontDragScrolls, keyboardRating, reviewSwipeAction, swipeRating } from './reviewGesture';
+
+test('an upward swipe reveals the question side before any rating is possible', () => {
+  assert.equal(reviewSwipeAction(2, -84, false, true), 'reveal');
+  assert.equal(reviewSwipeAction(2, -84, true, true), 'ez');
+  assert.equal(reviewSwipeAction(-100, 0, false, true), null);
+  assert.equal(reviewSwipeAction(0, 100, false, true), null);
+  assert.equal(reviewSwipeAction(0, -64, false, true), null);
+  assert.equal(reviewSwipeAction(78, -82, false, true), null);
+});
+
+test('the front face follows upward finger travel and stops before exposing the back', () => {
+  assert.equal(flipAngle(12), 0);
+  assert.equal(flipAngle(-40), 60);
+  assert.equal(flipAngle(-150), 165);
+});
+
+test('a long question scrolls to its end before an upward drag flips it', () => {
+  assert.equal(frontDragScrolls(-100, 0, 600), true);
+  assert.equal(frontDragScrolls(-100, 598, 600), false);
+  assert.equal(frontDragScrolls(100, 598, 600), true);
+  assert.equal(frontDragScrolls(-100, 0, 0), false);
+  assert.equal(frontDragScrolls(-100, 0, 3), false);
+});
 
 test('four deliberate directions map to their review ratings', () => {
   assert.equal(swipeRating(-90, 2), 'again');

@@ -1,5 +1,20 @@
 # Anki implementation
 
+## Turn the review card over · issue #6
+
+- [x] Reproduce the instant reveal and absent pre-reveal swipe in the installed app.
+- [x] Start an isolated worktree from the live app revision; baseline tests pass.
+- [x] Cover deliberate upward reveal and rating gesture separation with a failing test.
+- [x] Build a front/back card with a finger-driven upward flip, tap/button/keyboard reveal, and a scrollable answer back.
+- [x] Verify long answers, five ratings, undo, focus, reduced motion, and 320px/393px phone layouts against an isolated database.
+- [x] Run the full test/build gates; open a focused PR and complete one official review pass.
+- [x] Back up the study database, install the reviewed build, and verify local/Tailscale health and preserved data.
+
+Keep the current warm paper and aubergine palette. The card turn is the one
+expressive movement: the front carries the question, and the lavender back
+gives the answer the card's full height. The outer card still moves in the
+rating direction after a grade. Reading and grading must remain separate.
+
 ## Adopt selected study design · issue #4
 
 - [x] Start from the reviewed review-flow branch in an isolated worktree; baseline tests pass.
@@ -49,7 +64,7 @@ fixed and retested without advancing the card.
 ## Rulings
 
 - The approved soft study layout is the production default. Older concept previews remain available for design comparison.
-- Tap or press Enter to reveal an answer. Deliberate directional swipes grade Again, Hard, Easy, and EZ; Mid remains a tap. Five explicit grade buttons and undo are always available.
+- Swipe up on the question, tap it, or press Enter to turn the card over. The answer back scrolls independently. Once revealed, deliberate directional swipes grade Again, Hard, Easy, and EZ; Mid remains a tap. Five explicit grade buttons and undo are always available.
 - If source dates cannot be grounded in a syllabus or weekly schedule, the generator excludes the passage and records why.
 
 ## Review
@@ -73,3 +88,14 @@ Anki MCP tunnel now point at `codex/soft-study-live`; the served asset matches
 this build over localhost and tailnet HTTPS. The SQLite backup and active file
 both pass integrity checks, with five cards, five reviews, and one generation
 run retained.
+
+PR #7 is stacked on #5 and adds the answer-side flip. Its single official
+review found two regressions: completed cloze text remained hidden and keyboard
+focus was lost after grading. Both were fixed and retested in an isolated
+browser, including Enter-to-reveal on the next card and focus after Undo.
+The final gate passes 45 server tests, 10 UI tests, and the production build.
+The installed service and MCP tunnel point to `codex/review-card-flip`; the
+served assets match the build through localhost and Tailscale HTTPS. The
+database backup and live file pass integrity checks, preserving five cards,
+six reviews, and one generation run. A real local MCP call lists all 14 tools
+and returns due counts.
