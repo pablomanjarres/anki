@@ -25,7 +25,7 @@ export function LiveToday({ go }: { go: (section: Section) => void }) {
       <section className="soft-live-hero" aria-label="Today's study progress">
         <div className="soft-live-hero-top"><span>Today’s run</span><span>{queue.reviewedToday} / {queue.dailyLimit} done</span></div>
         <div className="soft-live-hero-count"><strong>{ready}</strong><span>{ready === 1 ? 'card ready' : 'cards ready'}</span></div>
-        <img className="soft-live-dragon" src="/design/study-dragon-v2.webp" alt="Illustrated dragon holding a flashcard" />
+        <img className="soft-live-shiva" src="/design/study-shiva-shiba.webp" alt="Illustration of Shiva the Shiba Inu sitting beside a flashcard" />
         <button className="soft-live-hero-action" type="button" onClick={() => go(nextCard ? 'review' : 'cards')}>
           <span>{nextCard ? 'Continue reviewing' : queue.reviewedToday >= queue.dailyLimit ? 'Browse your cards' : 'See your cards'}</span><ArrowRight size={20} />
         </button>

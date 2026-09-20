@@ -13,12 +13,14 @@ const grades: { id: Rating; label: string; direction: string }[] = [
   { id: 'ez', label: 'EZ', direction: '↑' },
 ];
 const motionOff = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const turnDurationMs = 880;
 
 export function LiveReview() {
   const [queue, setQueue] = useState<Queue | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [revealed, setRevealed] = useState(false);
+  const [turning, setTurning] = useState(false);
   const [drag, setDrag] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [flipping, setFlipping] = useState(false);
@@ -34,17 +36,24 @@ export function LiveReview() {
   const inFlight = useRef(false);
   const suppressClick = useRef(false);
   const focusNextCard = useRef(false);
+  const turnTimer = useRef<number | null>(null);
 
   async function load() {
     setLoading(true);
     setError('');
     setRevealed(false);
+    setTurning(false);
+    if (turnTimer.current !== null) window.clearTimeout(turnTimer.current);
+    turnTimer.current = null;
     resetDrag();
     try { setQueue(await api.queue()); }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Could not load cards.'); }
     finally { setLoading(false); }
   }
   useEffect(() => { void load(); }, []);
+  useEffect(() => () => {
+    if (turnTimer.current !== null) window.clearTimeout(turnTimer.current);
+  }, []);
 
   function resetDrag() {
     pointerStart.current = null;
@@ -54,7 +63,7 @@ export function LiveReview() {
     setFlipDrag(0);
   }
   function onPointerDown(event: PointerEvent<HTMLElement>) {
-    if (inFlight.current) return;
+    if (inFlight.current || turning) return;
     suppressClick.current = false;
     const inScrollableContent = revealed && event.target instanceof Element && Boolean(event.target.closest('.live-card-scroll'));
     pointerStart.current = { x: event.clientX, y: event.clientY, allowVertical: !inScrollableContent,
@@ -98,6 +107,18 @@ export function LiveReview() {
   function reveal() {
     if (revealed || inFlight.current) return;
     setRevealed(true);
+    if (motionOff()) {
+      window.requestAnimationFrame(() => scrollRegion.current?.focus());
+      return;
+    }
+    setTurning(true);
+    turnTimer.current = window.setTimeout(completeTurn, turnDurationMs + 120);
+  }
+  function completeTurn() {
+    if (turnTimer.current === null) return;
+    window.clearTimeout(turnTimer.current);
+    turnTimer.current = null;
+    setTurning(false);
     window.requestAnimationFrame(() => scrollRegion.current?.focus());
   }
   function onCardKey(event: KeyboardEvent<HTMLElement>, card: Card) {
@@ -106,12 +127,12 @@ export function LiveReview() {
       reveal();
       return;
     }
-    const rating = revealed ? keyboardRating(event.key) : null;
+    const rating = revealed && !turning ? keyboardRating(event.key) : null;
     if (rating) { event.preventDefault(); void grade(card, rating); }
   }
 
   async function grade(card: Card, rating: Rating) {
-    if (inFlight.current) return;
+    if (inFlight.current || turning) return;
     inFlight.current = true;
     setBusy(true);
     setError('');
@@ -126,6 +147,7 @@ export function LiveReview() {
       focusNextCard.current = true;
       setQueue(nextQueue);
       setRevealed(false);
+      setTurning(false);
       setLeavingRating(null);
       setEntering(true);
       window.setTimeout(() => setEntering(false), motionOff() ? 0 : 280);
@@ -137,7 +159,7 @@ export function LiveReview() {
   }
 
   async function undo() {
-    if (!lastReview || inFlight.current) return;
+    if (!lastReview || inFlight.current || turning) return;
     inFlight.current = true;
     setBusy(true);
     setError('');
@@ -148,6 +170,7 @@ export function LiveReview() {
       setQueue(restoredQueue);
       setLastReview(null);
       setRevealed(false);
+      setTurning(false);
     }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Could not undo the rating.'); }
     finally { inFlight.current = false; setBusy(false); }
@@ -161,26 +184,27 @@ export function LiveReview() {
   }, [queue, revealed]);
   return <div className="pocket-review live-review soft-live-review">
     <div className="live-review-top"><div><h1>Review</h1><span>{queue ? `${queue.reviewedToday} / ${queue.dailyLimit} today` : 'Your cards'}</span></div>
-      {lastReview && <div className="live-review-undo"><span role="status">Rated {lastReview.rating}</span><button type="button" onClick={() => void undo()} disabled={busy}><RotateCcw size={16} /> Undo</button></div>}
+      {lastReview && <div className="live-review-undo"><span role="status">Rated {lastReview.rating}</span><button type="button" onClick={() => void undo()} disabled={busy || turning}><RotateCcw size={16} /> Undo</button></div>}
     </div>
     {queue && <div className="soft-live-review-progress" aria-label={`${queue.reviewedToday} of ${queue.dailyLimit} cards reviewed today`}><span style={{ width: `${Math.min(100, queue.reviewedToday / Math.max(1, queue.dailyLimit) * 100)}%` }} /></div>}
     {!queue && <Status loading={loading} error={error} retry={() => void load()} />}
     {queue && <>
       {error && <div className="live-inline-error" role="alert">{error}</div>}
-      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${dragging ? 'is-dragging' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
-        style={{ '--drag-x': `${drag.x}px`, '--drag-y': `${drag.y}px`, '--flip-angle': `${flipDrag}deg` } as CSSProperties}
+      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${revealed && !turning ? 'is-turned' : ''} ${turning ? 'is-turning' : ''} ${dragging ? 'is-dragging' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
+        style={{ '--drag-x': `${drag.x}px`, '--drag-y': `${drag.y}px`, '--flip-angle': `${flipDrag}deg`, '--turn-duration': `${turnDurationMs}ms` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
         onClick={() => { if (suppressClick.current) { suppressClick.current = false; return; } reveal(); }} onKeyDown={event => onCardKey(event, card)}
-        tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={revealed ? 'Answer revealed. Scroll the answer. Swipe left or right on the card, or use the swipe handle for all directions. Press 1 through 5 to rate.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Swipe up, tap, or press Enter to reveal the answer.`}>
-        <div className={`live-flip-inner ${flipping ? 'is-flipping' : ''}`} key={card.id}>
-          <div className="live-flip-face live-flip-front" aria-hidden={revealed} inert={revealed}>
+        tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={turning ? 'Turning card to reveal the answer.' : revealed ? 'Answer revealed. Scroll the answer. Swipe left or right on the card, or use the swipe handle for all directions. Press 1 through 5 to rate.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Swipe up, tap, or press Enter to reveal the answer.`}>
+        <div className={`live-flip-inner ${flipping ? 'is-flipping' : ''}`} key={card.id}
+          onTransitionEnd={event => { if (event.target === event.currentTarget && event.propertyName === 'transform') completeTurn(); }}>
+          <div className="live-flip-face live-flip-front" aria-hidden={revealed && !turning} inert={revealed && !turning}>
             <div className="live-card-scroll" ref={frontScrollRegion}><Source card={card} />
               <h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question}</h2>
-              <p className="live-reveal-prompt"><span aria-hidden="true">↑</span> Swipe up to reveal</p>
+              <p className="live-reveal-prompt"><span aria-hidden="true">↑</span> Swipe up to flip</p>
             </div>
           </div>
-          <div className="live-flip-face live-flip-back" aria-hidden={!revealed} inert={!revealed}>
-            <div className="live-card-scroll" ref={scrollRegion} role="region" aria-label="Answer" tabIndex={revealed ? 0 : -1}>
+          <div className="live-flip-face live-flip-back" aria-hidden={!revealed || turning} inert={!revealed || turning}>
+            <div className="live-card-scroll" ref={scrollRegion} role="region" aria-label="Answer" tabIndex={revealed && !turning ? 0 : -1}>
               <Source card={card} />
               <span className="live-answer-eyebrow">Answer</span>
               <p className="live-answer-question">{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, true) : card.question}</p>
@@ -189,8 +213,8 @@ export function LiveReview() {
             <div className="live-swipe-pad" aria-hidden="true">Swipe here to rate in any direction</div>
           </div>
         </div>
-      </section><div className="pocket-review-controls">{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
-        : <><p className="live-rating-hint">Swipe a direction or tap a rating</p><div className="pocket-grades" aria-label="Rate this card">{grades.map(item => <button key={item.id} type="button" disabled={busy} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
+      </section><div className={`pocket-review-controls ${turning ? 'is-turning' : ''}`}>{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
+        : <><p className="live-rating-hint" aria-hidden={turning}>Swipe a direction or tap a rating</p><div className="pocket-grades" aria-label="Rate this card" aria-hidden={turning} inert={turning}>{grades.map(item => <button key={item.id} type="button" disabled={busy || turning} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
       </div></div>
         : <div className="live-empty live-done"><h2>{queue.reviewedToday >= queue.dailyLimit ? 'Daily limit reached' : 'You’re caught up'}</h2><p>{queue.reviewedToday >= queue.dailyLimit ? 'You reviewed 30 distinct cards today. Due cards remain in the backlog for tomorrow.' : 'No cards are ready right now.'}</p>{queue.backlogCount > 0 && <p>{queue.backlogCount} overdue cards remain in your backlog.</p>}</div>}
     </>}
