@@ -7,7 +7,7 @@
 - [x] Save and load the next card during the exit instead of after it.
 - [x] Let fitting answers use up and down swipes while long answers keep vertical scrolling.
 - [x] Verify left, right, up, and down at phone width; run tests and build.
-- [ ] Open the follow-up PR and complete one official review pass.
+- [x] Open the follow-up PR and complete one official review pass.
 - [ ] Merge the review, Books, mascot, and follow-up PRs; install and verify the merged app.
 
 The old 410ms exit faded from its first frame and finished before the grade
@@ -17,6 +17,12 @@ the next-card request runs during the motion. The isolated app recorded Hard
 and EZ from vertical drags on the short answer itself. A new gesture test
 first failed, then passed. The final gate passes 45 server tests, 11 UI tests,
 and the production build.
+PR #20's single review found two issues: native panning could cancel vertical
+touch ratings on fitting answers, and a failed queue refresh could hide Undo
+after saving. Both were fixed. At 393px, short answers now compute
+`touch-action: none`, long answers retain `pan-y`, and a simulated refresh
+failure left Undo available and restored the card. The final 45 server tests,
+11 UI tests, and production build pass.
 
 ## Fixed directional review swipes · issue #14
 
