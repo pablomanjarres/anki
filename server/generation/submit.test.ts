@@ -108,7 +108,10 @@ test('an all-rejected proposal batch stays retryable while an empty batch record
   const rejected = submitGroundedCards(store, context, 'daily:2026-09-19', [{ ...valid, answer: 'todos los diagramas' }]);
   assert.equal(rejected.created, 0);
   assert.equal(rejected.rejected, 1);
-  assert.equal(store.getGenerationRun('daily:2026-09-19')?.status, 'failed');
+  const failedRun = store.getGenerationRun('daily:2026-09-19');
+  assert.equal(failedRun?.status, 'failed');
+  assert.deepEqual(failedRun?.result, rejected);
+  assert.deepEqual(failedRun?.result?.rejectionReasons, [{ index: 0, reason: 'Answer must appear in the evidence' }]);
   assert.equal(submitGroundedCards(store, context, 'daily:2026-09-19', [valid]).created, 1);
   assert.equal(store.getGenerationRun('daily:2026-09-19')?.status, 'success');
   assert.equal(submitGroundedCards(store, context, 'daily:empty', []).created, 0);
