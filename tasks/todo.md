@@ -7,8 +7,8 @@
 - [x] Cover deliberate upward reveal and rating gesture separation with a failing test.
 - [x] Build a front/back card with a finger-driven upward flip, tap/button/keyboard reveal, and a scrollable answer back.
 - [x] Verify long answers, five ratings, undo, focus, reduced motion, and 320px/393px phone layouts against an isolated database.
-- [ ] Run the full test/build gates; open a focused PR and complete one official review pass.
-- [ ] Back up the study database, install the reviewed build, and verify local/Tailscale health and preserved data.
+- [x] Run the full test/build gates; open a focused PR and complete one official review pass.
+- [x] Back up the study database, install the reviewed build, and verify local/Tailscale health and preserved data.
 
 Keep the current warm paper and aubergine palette. The card turn is the one
 expressive movement: the front carries the question, and the lavender back
@@ -88,3 +88,14 @@ Anki MCP tunnel now point at `codex/soft-study-live`; the served asset matches
 this build over localhost and tailnet HTTPS. The SQLite backup and active file
 both pass integrity checks, with five cards, five reviews, and one generation
 run retained.
+
+PR #7 is stacked on #5 and adds the answer-side flip. Its single official
+review found two regressions: completed cloze text remained hidden and keyboard
+focus was lost after grading. Both were fixed and retested in an isolated
+browser, including Enter-to-reveal on the next card and focus after Undo.
+The final gate passes 45 server tests, 10 UI tests, and the production build.
+The installed service and MCP tunnel point to `codex/review-card-flip`; the
+served assets match the build through localhost and Tailscale HTTPS. The
+database backup and live file pass integrity checks, preserving five cards,
+six reviews, and one generation run. A real local MCP call lists all 14 tools
+and returns due counts.
