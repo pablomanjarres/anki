@@ -8,8 +8,8 @@
 - [x] Make a swipe preview the front face, then finish a slower full 3D turn before exposing ratings.
 - [x] Replace the Today dragon with an illustration of Shiva the Shiba Inu and accessible copy.
 - [x] Verify 320px/393px layouts, flip frames, keyboard/reduced motion, long answers, grades and undo.
-- [ ] Open a focused PR and complete one official review pass.
-- [ ] Back up data, install, and verify the local and Tailscale app and MCP connection.
+- [x] Open a focused PR and complete one official review pass.
+- [x] Back up data, install, and verify the local and Tailscale app and MCP connection.
 
 The question side should remain recognizable while the finger moves. Once
 released, it turns over a horizontal axis, the lavender answer back settles,
@@ -20,6 +20,16 @@ Shiva is Pablo's Shiba Inu. The illustration uses the breed description; no
 photo was supplied to match individual markings. The isolated 393px and 320px
 browser runs showed the header, Today art, a swipe-triggered 880ms turn, a
 scrolling long answer, reduced-motion reveal, grading and undo.
+
+PR #9 has eight commits on #7. Its one `codex review` pass found no actionable
+regressions; one GitHub PullRequestReview was posted. The final 45 server tests,
+10 UI tests and production build pass. The installed login app and Anki MCP
+tunnel point to this worktree. Local and tailnet HTTPS health and served
+asset hashes match the build; all 14 MCP tools load and `get_due_counts`
+answers. A verified SQLite backup precedes the install. The live database
+retains five cards, ten reviews and one generation run with `quick_check=ok`.
+Native iPhone visual inspection remains blocked by the Mac login prompt in
+iPhone Mirroring; the private phone route and browser-size UI were verified.
 
 ## Turn the review card over · issue #6
 
