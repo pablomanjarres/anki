@@ -3,7 +3,7 @@ import { RotateCcw } from 'lucide-react';
 import { api, type Card, type Queue, type Rating } from './api';
 import { Source, Status } from './LiveShared';
 import { clozeDisplay } from './cloze';
-import { flipAngle, frontDragScrolls, keyboardRating, reviewSwipeAction, swipeRating } from './reviewGesture';
+import { answerDragCanRateVertically, flipAngle, frontDragScrolls, keyboardRating, reviewSwipeAction, swipeRating } from './reviewGesture';
 
 const grades: { id: Rating; label: string; direction: string }[] = [
   { id: 'again', label: 'Again', direction: '←' },
@@ -14,8 +14,8 @@ const grades: { id: Rating; label: string; direction: string }[] = [
 ];
 const motionOff = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const turnDurationMs = 880;
-const exitDurationMs = 410;
-const enterDurationMs = 340;
+const exitDurationMs = 680;
+const enterDurationMs = 400;
 
 export function LiveReview() {
   const [queue, setQueue] = useState<Queue | null>(null);
@@ -27,7 +27,7 @@ export function LiveReview() {
   const [flipping, setFlipping] = useState(false);
   const [flipDrag, setFlipDrag] = useState(0);
   const [leavingRating, setLeavingRating] = useState<Rating | null>(null);
-  const [enteringRating, setEnteringRating] = useState<Rating | null>(null);
+  const [entering, setEntering] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lastReview, setLastReview] = useState<{ id: string; rating: string } | null>(null);
   const pointerStart = useRef<{ x: number; y: number; allowVertical: boolean; frontScrollTop: number; scrolledFront: boolean } | null>(null);
@@ -45,7 +45,7 @@ export function LiveReview() {
     setError('');
     setRevealed(false);
     setTurning(false);
-    setEnteringRating(null);
+    setEntering(false);
     if (turnTimer.current !== null) window.clearTimeout(turnTimer.current);
     if (enterTimer.current !== null) window.clearTimeout(enterTimer.current);
     turnTimer.current = null;
@@ -71,7 +71,9 @@ export function LiveReview() {
     if (inFlight.current || turning) return;
     suppressClick.current = false;
     const inScrollableContent = revealed && event.target instanceof Element && Boolean(event.target.closest('.live-card-scroll'));
-    pointerStart.current = { x: event.clientX, y: event.clientY, allowVertical: !inScrollableContent,
+    const answerScroll = scrollRegion.current;
+    const allowVertical = answerDragCanRateVertically(inScrollableContent, answerScroll?.scrollHeight ?? 0, answerScroll?.clientHeight ?? 0);
+    pointerStart.current = { x: event.clientX, y: event.clientY, allowVertical,
       frontScrollTop: frontScrollRegion.current?.scrollTop ?? 0, scrolledFront: false };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
@@ -146,20 +148,25 @@ export function LiveReview() {
     let saved = false;
     try {
       setLeavingRating(rating);
-      if (!motionOff()) await new Promise(resolve => window.setTimeout(resolve, exitDurationMs));
-      const result = await api.grade(card.id, rating);
-      saved = true;
+      const exit = motionOff() ? Promise.resolve() : new Promise<void>(resolve => window.setTimeout(resolve, exitDurationMs));
+      const [{ result, nextQueue }] = await Promise.all([
+        (async () => {
+          const result = await api.grade(card.id, rating);
+          saved = true;
+          return { result, nextQueue: await api.queue() };
+        })(),
+        exit,
+      ]);
       setLastReview({ id: result.reviewId, rating: grades.find(item => item.id === rating)!.label });
-      const nextQueue = await api.queue();
       focusNextCard.current = true;
       setQueue(nextQueue);
       setRevealed(false);
       setTurning(false);
       setLeavingRating(null);
-      setEnteringRating(rating);
+      setEntering(true);
       if (enterTimer.current !== null) window.clearTimeout(enterTimer.current);
       enterTimer.current = window.setTimeout(() => {
-        setEnteringRating(null);
+        setEntering(false);
         enterTimer.current = null;
       }, motionOff() ? 0 : enterDurationMs);
     } catch (reason) {
@@ -188,6 +195,7 @@ export function LiveReview() {
   }
 
   const card = queue?.cards[0];
+  const activeGrade = grades.find(item => item.id === (leavingRating ?? aimRating));
   useEffect(() => {
     if (!focusNextCard.current || revealed) return;
     focusNextCard.current = false;
@@ -201,8 +209,8 @@ export function LiveReview() {
     {!queue && <Status loading={loading} error={error} retry={() => void load()} />}
     {queue && <>
       {error && <div className="live-inline-error" role="alert">{error}</div>}
-      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${revealed && !turning ? 'is-turned' : ''} ${turning ? 'is-turning' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${enteringRating ? `is-entering is-entering-${enteringRating}` : ''}`}
-        style={{ '--flip-angle': `${flipDrag}deg`, '--turn-duration': `${turnDurationMs}ms` } as CSSProperties}
+      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${revealed && !turning ? 'is-turned' : ''} ${turning ? 'is-turning' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
+        style={{ '--flip-angle': `${flipDrag}deg`, '--turn-duration': `${turnDurationMs}ms`, '--exit-duration': `${exitDurationMs}ms`, '--enter-duration': `${enterDurationMs}ms` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
         onClick={() => { if (suppressClick.current) { suppressClick.current = false; return; } reveal(); }} onKeyDown={event => onCardKey(event, card)}
         tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={turning ? 'Turning card to reveal the answer.' : revealed ? 'Answer revealed. Swipe left for Again, down for Hard, right for Easy, or up for EZ. Tap Mid or press 1 through 5 to rate.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Swipe up, tap, or press Enter to reveal the answer.`}>
@@ -224,6 +232,7 @@ export function LiveReview() {
             <div className="live-swipe-pad" aria-hidden="true">← Again · ↓ Hard · → Easy · ↑ EZ</div>
           </div>
         </div>
+        {revealed && activeGrade && <div className="live-swipe-choice" aria-hidden="true"><span>{activeGrade.direction}</span> {activeGrade.label}</div>}
       </section><div className={`pocket-review-controls ${turning ? 'is-turning' : ''}`}>{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
         : <><p className="live-rating-hint" aria-hidden={turning}>{aimRating ? `Release for ${grades.find(item => item.id === aimRating)?.label}` : 'Swipe a direction or tap Mid'}</p><div className="pocket-grades" aria-label="Rate this card" aria-hidden={turning} inert={turning}>{grades.map(item => <button key={item.id} className={aimRating === item.id ? 'is-aimed' : ''} type="button" disabled={busy || turning} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
       </div></div>
