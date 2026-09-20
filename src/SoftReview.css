@@ -28,7 +28,7 @@
 .soft-live-review .pocket-answer span { color: #756580; font-size: 12px; }
 .soft-live-review .pocket-answer p { color: var(--ink); font-size: clamp(20px, 2.5vw, 25px); letter-spacing: -.035em; }
 .soft-live-review .live-swipe-pad { color: #8b7d8e; border-color: #ede6e5; font-weight: 650; }
-.soft-live-review .pocket-review-controls { width: 100%; background: transparent; }
+.soft-live-review .pocket-review-controls { width: 100%; min-height: 82px; background: transparent; }
 .soft-live-review .pocket-review-controls > .pocket-primary { min-height: 57px; border-radius: 32px 22px 33px 23px; background: #513958; color: #fff; box-shadow: 0 9px 21px #93647d3b; }
 .soft-live-review .pocket-review-controls > .pocket-primary:hover { background: #3e2b44; }
 .soft-live-review .live-rating-hint { color: #5b405f; font-size: 13px; font-weight: 800; }
@@ -72,7 +72,7 @@
   width: 100%;
   padding: 0;
   background: transparent;
-  perspective: 1200px;
+  perspective: 850px;
   touch-action: pan-y;
 }
 .soft-live-review .live-flip-inner {
@@ -80,8 +80,9 @@
   inset: 0;
   border-radius: inherit;
   transform-style: preserve-3d;
+  transform-origin: center center;
   transform: rotateX(0deg);
-  transition: transform 420ms cubic-bezier(.22, .76, .22, 1);
+  transition: transform var(--turn-duration, 880ms) cubic-bezier(.42, 0, .2, 1);
   will-change: transform;
 }
 .soft-live-review .pocket-flashcard.is-revealed .live-flip-inner { transform: rotateX(180deg); }
@@ -101,6 +102,23 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+.soft-live-review .live-flip-face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: #291d31;
+  opacity: 0;
+  pointer-events: none;
+}
+.soft-live-review .pocket-flashcard.is-turning .live-flip-front::after {
+  animation: live-front-turn-shade var(--turn-duration, 880ms) ease-in-out both;
+}
+.soft-live-review .pocket-flashcard.is-turning .live-flip-back::after {
+  animation: live-back-turn-shade var(--turn-duration, 880ms) ease-in-out both;
+}
+@keyframes live-front-turn-shade { 0% { opacity: 0; } 48%, 100% { opacity: .22; } }
+@keyframes live-back-turn-shade { 0%, 48% { opacity: .22; } 100% { opacity: 0; } }
 .soft-live-review .live-flip-front { background: #fffdfb; touch-action: none; }
 .soft-live-review .live-flip-back {
   background: linear-gradient(152deg, #f6ecfa, #e9d8ee 72%, #e6d1e8);
@@ -108,8 +126,10 @@
   touch-action: pan-y;
   pointer-events: none;
 }
-.soft-live-review .pocket-flashcard.is-revealed .live-flip-front { pointer-events: none; }
-.soft-live-review .pocket-flashcard.is-revealed .live-flip-back { pointer-events: auto; }
+.soft-live-review .pocket-flashcard.is-turned .live-flip-front { pointer-events: none; }
+.soft-live-review .pocket-flashcard.is-turned .live-flip-back { pointer-events: auto; }
+.soft-live-review .pocket-review-controls.is-turning .live-rating-hint,
+.soft-live-review .pocket-review-controls.is-turning .pocket-grades { visibility: hidden; }
 .soft-live-review .live-flip-face .live-card-scroll { flex: 1; min-height: 0; scrollbar-width: none; }
 .soft-live-review .live-flip-face .live-card-scroll::-webkit-scrollbar { display: none; }
 .soft-live-review .live-flip-front .live-card-scroll { touch-action: none; }
@@ -169,4 +189,5 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .soft-live-review .live-flip-inner { transition: none !important; }
+  .soft-live-review .live-flip-face::after { animation: none !important; }
 }
