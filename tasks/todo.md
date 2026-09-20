@@ -6,9 +6,9 @@
 - [x] Apply the shaped Today scene, dragon artwork, and curved five-destination phone navigation to real dashboard data.
 - [x] Apply the warm paper review scene while preserving API grades, swipe safety, cloze, undo, and sources.
 - [x] Restyle Books, Cards, and Stats without dropping their data and editing flows.
-- [ ] Verify 320px and 393px phones, safe areas, desktop, keyboard/reduced motion, and the full test/build gates.
-- [ ] Open one coherent PR referencing this issue and complete one official review pass.
-- [ ] Install the reviewed build; verify launch-on-login, local and Tailscale health, MCP path, and preserved study data.
+- [x] Verify 320px and 393px phones, safe areas, desktop, keyboard/reduced motion, and the full test/build gates.
+- [x] Open one coherent PR referencing this issue and complete one official review pass.
+- [x] Install the reviewed build; verify launch-on-login, local and Tailscale health, MCP path, and preserved study data.
 
 Visual system: ivory page `#fffdf9`, dark plum text `#3b2d43`, quiet lavender
 `#d7c7eb`, and muted copper `#dca57e`. The Today illustration is the focal
@@ -22,8 +22,8 @@ and the phone navigation has a curved upper edge. Keep the current five tabs.
 - [x] Update the live ChatGPT daily task prompt and repair the two broad saved cards.
 - [x] Add iPhone status-bar spacing and a card-first review flow with directional ratings.
 - [x] Verify phone-size rendering, gestures, all five ratings, undo, source visibility, and reduced motion.
-- [ ] Run the full test/build gates, open a focused PR, and complete one official review pass.
-- [ ] Install the reviewed build and verify live app health and preserved data.
+- [x] Run the full test/build gates, open a focused PR, and complete one official review pass.
+- [x] Install the reviewed build and verify live app health and preserved data.
 
 The 393px and 320px review layouts fit without horizontal overflow. A left swipe
 advanced a card, Undo restored it, and cloze text stayed hidden until reveal.
@@ -63,3 +63,13 @@ build pass. A ChatGPT task “Run now” execution saved five cited Cortex cards
 `com.pablo.anki` service uses `RunAtLoad` and `KeepAlive` from
 `/Users/pablo/Projects/anki`. The database migration retained five cards and one
 generation run, and the local and tailnet health endpoints report `service: anki`.
+
+PR #5 supersedes PR #3 and applies the approved soft study design to all five
+live screens. Its single official review found four issues: broad English list
+prompts, lost rejection details on failed runs, backlog cards shown as ready,
+and keyboard focus after Show answer. All four were fixed. The final gate passes
+45 server tests, 7 UI tests, and the production build. The login service and
+Anki MCP tunnel now point at `codex/soft-study-live`; the served asset matches
+this build over localhost and tailnet HTTPS. The SQLite backup and active file
+both pass integrity checks, with five cards, five reviews, and one generation
+run retained.
