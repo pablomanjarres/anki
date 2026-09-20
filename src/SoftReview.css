@@ -177,7 +177,7 @@
   opacity: 1;
   pointer-events: none;
   transition: none;
-  animation: soft-review-exit 410ms cubic-bezier(.23, .8, .25, 1) both;
+  animation: soft-review-exit var(--exit-duration, 680ms) cubic-bezier(.42, 0, .58, 1) both;
 }
 .soft-live-review .pocket-flashcard.is-leaving-again { --exit-x: -115vw; --exit-y: 0px; --exit-tilt: -9deg; }
 .soft-live-review .pocket-flashcard.is-leaving-hard { --exit-x: 0px; --exit-y: 110vh; --exit-tilt: -1.5deg; }
@@ -185,27 +185,48 @@
 .soft-live-review .pocket-flashcard.is-leaving-ez { --exit-x: 0px; --exit-y: -110vh; --exit-tilt: -1.5deg; }
 .soft-live-review .pocket-flashcard.is-leaving-mid { animation-name: soft-review-exit-mid; }
 .soft-live-review .pocket-flashcard.is-entering {
-  animation: soft-review-enter 340ms cubic-bezier(.16, 1, .3, 1) both;
+  animation: soft-review-enter var(--enter-duration, 400ms) cubic-bezier(.16, .75, .26, 1) both;
 }
-.soft-live-review .pocket-flashcard.is-entering-again { --enter-x: 45px; --enter-y: 0px; }
-.soft-live-review .pocket-flashcard.is-entering-hard { --enter-x: 0px; --enter-y: -45px; }
-.soft-live-review .pocket-flashcard.is-entering-easy { --enter-x: -45px; --enter-y: 0px; }
-.soft-live-review .pocket-flashcard.is-entering-ez { --enter-x: 0px; --enter-y: 45px; }
-.soft-live-review .pocket-flashcard.is-entering-mid { --enter-x: 0px; --enter-y: 0px; }
 @keyframes soft-review-exit {
-  from { transform: rotate(-1.5deg); opacity: 1; }
-  to { transform: translate3d(var(--exit-x), var(--exit-y), 0) rotate(var(--exit-tilt)) scale(.94); opacity: 0; }
+  from { transform: translate3d(0, 0, 0) rotate(-1.5deg); }
+  to { transform: translate3d(var(--exit-x), var(--exit-y), 0) rotate(var(--exit-tilt)) scale(.97); }
 }
 @keyframes soft-review-exit-mid {
   from { transform: rotate(-1.5deg) scale(1); opacity: 1; }
-  to { transform: rotate(-1.5deg) scale(.88); opacity: 0; }
+  55% { transform: rotate(-1.5deg) scale(.94); opacity: 1; }
+  to { transform: translate3d(0, -14px, 0) rotate(-1.5deg) scale(.82); opacity: 0; }
 }
 @keyframes soft-review-enter {
-  from { transform: translate3d(var(--enter-x), var(--enter-y), 0) rotate(-1.5deg) scale(.96); opacity: 0; }
-  to { transform: rotate(-1.5deg) scale(1); opacity: 1; }
+  from { transform: translate3d(0, 28px, 0) rotate(-1.5deg) scale(.98); }
+  to { transform: translate3d(0, 0, 0) rotate(-1.5deg) scale(1); }
+}
+.soft-live-review .live-swipe-choice {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 58px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 17px;
+  border: 1px solid #ffffffc9;
+  border-radius: 999px;
+  background: #fffdf9f2;
+  box-shadow: 0 5px 18px #48324930;
+  color: #44324b;
+  font-size: 15px;
+  font-weight: 800;
+  pointer-events: none;
+  animation: soft-review-choice-in 180ms ease-out both;
+}
+.soft-live-review .live-swipe-choice span { font-size: 22px; line-height: 1; }
+@keyframes soft-review-choice-in {
+  from { transform: translate3d(-50%, 8px, 0) scale(.94); opacity: 0; }
+  to { transform: translate3d(-50%, 0, 0) scale(1); opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .soft-live-review .pocket-flashcard.is-leaving,
   .soft-live-review .pocket-flashcard.is-entering { animation: none !important; }
+  .soft-live-review .live-swipe-choice { animation: none; transform: translateX(-50%); }
   .soft-live-review .pocket-grades button.is-aimed { transform: none; }
 }
