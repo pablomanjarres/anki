@@ -167,7 +167,7 @@ export function LiveReview() {
             <div className="live-card-scroll" ref={scrollRegion} role="region" aria-label="Answer" tabIndex={revealed ? 0 : -1}>
               <Source card={card} />
               <span className="live-answer-eyebrow">Answer</span>
-              <p className="live-answer-question">{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question}</p>
+              <p className="live-answer-question">{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, true) : card.question}</p>
               <div className="pocket-answer"><p>{card.answer}</p></div>
             </div>
             <div className="live-swipe-pad" aria-hidden="true">Swipe here to rate in any direction</div>
