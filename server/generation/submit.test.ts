@@ -72,6 +72,30 @@ test('generation keeps concise facts with conjunctions, decimals, and precise ou
   store.close();
 });
 
+test('generation rejects English list questions even when their answers fit the word limit', () => {
+  const store = openStudyStore(':memory:', () => new Date('2026-09-19T13:00:00Z'));
+  const evidence = 'Ad hoc architecture diagrams have confusing notation and unclear semantics.';
+  const context: GenerationContext = { asOf: '2026-09-19', timeline: [], books: [], skipped: [], passages: [{
+    id: 'slide-6', sourceId: 'material-1', sourceType: 'course', courseId: 'softeng',
+    title: 'Architecture lecture', section: 'Slide 6', page: 6, eligibleOn: '2026-09-18', text: evidence,
+  }] };
+  const base = { sourcePassageId: 'slide-6', type: 'basic' as const, evidence, answer: 'confusing notation and unclear semantics' };
+  const result = submitGroundedCards(store, context, 'daily:list-prompts', [
+    { ...base, question: 'What common problems do ad hoc architecture diagrams have?' },
+    { ...base, question: 'Which problems do ad hoc architecture diagrams have?' },
+    { ...base, question: 'Name the problems with ad hoc architecture diagrams.' },
+    { ...base, question: 'What are the problems with ad hoc architecture diagrams?' },
+    { ...base, question: 'What are some common problems with ad hoc architecture diagrams?' },
+    { ...base, question: '¿Cuáles son los problemas de los diagramas arquitectónicos ad hoc?' },
+    { ...base, question: 'Which issue affects ad hoc architecture diagrams?', answer: 'unclear semantics' },
+  ]);
+  assert.equal(result.created, 1);
+  assert.equal(result.rejected, 6);
+  assert.ok(result.rejectionReasons?.every(item => /one|specific|list/i.test(item.reason)));
+  assert.equal(store.listCards()[0]?.back, 'unclear semantics');
+  store.close();
+});
+
 test('an all-rejected proposal batch stays retryable while an empty batch records zero', () => {
   const store = openStudyStore(':memory:', () => new Date('2026-09-19T13:00:00Z'));
   const evidence = 'El modelo C4 permite crear mapas del código.';
