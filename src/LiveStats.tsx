@@ -6,6 +6,7 @@ export function LiveStats() {
   const { data, error, loading, reload } = useResource(api.stats);
   const max = Math.max(1, ...(data?.dueByDay.map(day => day.count) || []));
   return <div className="live-stats"><section className="live-stats-scene" aria-labelledby="stats-title"><div className="live-stats-intro"><span>Your rhythm</span><h1 id="stats-title">A little, every day.</h1><p>See how your reviews are adding up.</p></div>
+    <img className="live-stats-sun" src="/design/sun.webp" alt="" aria-hidden="true" />
     {data && !error && <div className="live-stats-today"><strong>{data.reviewedToday}</strong><span>cards reviewed<br />today</span></div>}
     <svg className="live-stats-wave" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 25 C240 75 335 5 525 29 S965 76 1200 21 V80 H0Z" /></svg></section>
     {(!data || error) && <Status loading={loading} error={error} retry={reload} />}

@@ -3,8 +3,10 @@
 
 .live-app .live-library-scene,
 .live-app .live-stats-scene { position: relative; isolation: isolate; display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; min-height: 265px; overflow: hidden; padding: 36px 38px 80px; }
-.live-app .live-library-scene { background: radial-gradient(ellipse at 90% 92%, #d8a58f 0, transparent 38%), radial-gradient(ellipse at 5% 0, #f7f2f9 0, transparent 48%), linear-gradient(125deg, #ece4f1, #ded4e6); }
-.live-app .live-stats-scene { background: radial-gradient(ellipse at 90% 20%, #f1ac8e 0, transparent 39%), radial-gradient(ellipse at 8% 98%, #eed5e9 0, transparent 48%), linear-gradient(125deg, #fff1d9, #f7c8ad); }
+.live-app .live-library-scene { background: url('/design/grain.svg'), radial-gradient(ellipse at 90% 92%, #d8a58f 0, transparent 38%), radial-gradient(ellipse at 5% 0, #f7f2f9 0, transparent 48%), linear-gradient(125deg, #ece4f1, #ded4e6); }
+.live-app .live-stats-scene { background: url('/design/grain.svg'), radial-gradient(ellipse at 90% 20%, #f1ac8e 0, transparent 39%), radial-gradient(ellipse at 8% 98%, #eed5e9 0, transparent 48%), linear-gradient(125deg, #fff1d9, #f7c8ad); }
+.live-app .live-stats-sun { position: absolute; z-index: 0; width: 156px; height: auto; right: 24%; top: 35px; pointer-events: none; filter: drop-shadow(0 10px 12px #a66a692b); }
+.live-app .live-stats-today { position: relative; z-index: 1; }
 .live-app .live-library-scene::before,
 .live-app .live-stats-scene::before { content: ''; position: absolute; z-index: -1; width: 250px; height: 230px; right: -70px; bottom: -82px; border-radius: 63% 37% 48% 52% / 46% 58% 42% 54%; transform: rotate(-17deg); background: #ffffff38; }
 .live-app .live-library-intro,
@@ -95,6 +97,7 @@
   .live-app .live-stats-intro p { max-width: 240px; font-size: 13px; }
   .live-app .live-library-tally,
   .live-app .live-stats-today { position: absolute; right: 17px; bottom: 43px; gap: 7px; margin: 0; }
+  .live-app .live-stats-sun { width: 140px; right: 8px; top: 133px; }
   .live-app .live-library-tally strong,
   .live-app .live-stats-today strong { font-size: 83px; }
   .live-app .live-library-tally span,
