@@ -12,7 +12,6 @@
 .live-review .pocket-review-layout{display:flex;flex-direction:column;gap:12px}.live-review .pocket-flashcard{min-height:clamp(390px,55vh,620px);touch-action:pan-y;overflow:auto}.live-review .pocket-flashcard.is-revealed{touch-action:none}.live-review .pocket-flashcard .live-source{margin-top:0}.live-review .pocket-flashcard h2{margin:34px 0 24px;font-size:clamp(28px,3.5vw,43px)}.live-review .pocket-flashcard .pocket-answer{margin-top:auto}.live-review .pocket-answer p{overflow-wrap:anywhere}.live-reveal-prompt{margin:auto 0 0;color:#675c85;font-size:13px;font-weight:750}
 
 .live-review .pocket-review-controls{background:none;border:0;padding:0}.live-review .pocket-review-controls>.pocket-primary{max-width:640px;margin:auto;background:var(--lavender);color:var(--dark-ink);justify-content:center}.live-rating-hint{text-align:center;color:var(--muted);font-size:12px;margin:0 0 8px}.live-review .pocket-grades{max-width:640px;margin:auto;gap:8px}.live-review .pocket-grades button{min-height:66px;gap:2px}.live-review .pocket-grades button span{font-size:19px;line-height:1;color:var(--muted)}.live-review .pocket-grades button strong{font-size:12px}
-@media(prefers-reduced-motion:reduce){}
 .live-review .pocket-flashcard{overflow:hidden}
 .live-review .live-card-scroll{min-height:0;flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;overscroll-behavior:contain}
 .live-review .live-card-scroll:focus-visible{outline:2px solid #655b82;outline-offset:-2px;border-radius:12px}
