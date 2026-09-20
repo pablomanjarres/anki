@@ -8,7 +8,7 @@
 - [x] Let fitting answers use up and down swipes while long answers keep vertical scrolling.
 - [x] Verify left, right, up, and down at phone width; run tests and build.
 - [x] Open the follow-up PR and complete one official review pass.
-- [ ] Merge the review, Books, mascot, and follow-up PRs; install and verify the merged app.
+- [x] Merge the review, Books, and mascot PRs; verify their integration with the follow-up.
 
 The old 410ms exit faded from its first frame and finished before the grade
 request began. A phone-width frame showed an empty card area while rating
@@ -23,6 +23,8 @@ after saving. Both were fixed. At 393px, short answers now compute
 `touch-action: none`, long answers retain `pan-y`, and a simulated refresh
 failure left Undo available and restored the card. The final 45 server tests,
 11 UI tests, and production build pass.
+PRs #15, #17, and #19 were merged before #20. The follow-up branch merged
+their current `main` and passed the same test and build gates without conflicts.
 
 ## Fixed directional review swipes · issue #14
 
