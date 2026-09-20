@@ -1,5 +1,20 @@
 # Anki implementation
 
+## Remove dark flash from card turn · issue #12
+
+- [x] Reproduce the brief dark answer face in consecutive phone-size flip frames.
+- [x] Remove the dark face overlay while keeping the 3D turn and fixed card bounds.
+- [x] Capture the same phone-size frames and confirm the answer stays lavender.
+- [x] Run the server and UI tests and the production build.
+- [ ] Open the focused PR and complete one official review pass.
+- [ ] Back up study data, install, and verify local and Tailscale delivery.
+
+The previous turn animated a `#291d31` overlay up to 22% opacity on both card
+faces. At 393×852, a captured frame showed the answer dark purple before it
+lightened. After removing that overlay, consecutive frames show the normal
+lavender answer as the physical turn finishes. All five grades remain visible.
+The final 45 server tests, 10 UI tests, and production build pass.
+
 ## Stable phone card turn · issue #10
 
 - [x] Reproduce a visible geometry jump in an isolated phone review session.
