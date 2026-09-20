@@ -29,5 +29,6 @@ export function flipAngle(dy: number): number {
 }
 
 export function frontDragScrolls(dy: number, scrollTop: number, maxScroll: number): boolean {
+  if (maxScroll <= 24) return false;
   return dy < 0 ? scrollTop < maxScroll - 2 : dy > 0 && scrollTop > 2;
 }
