@@ -12,10 +12,11 @@ test('an upward swipe reveals the question side before any rating is possible', 
   assert.equal(reviewSwipeAction(78, -82, false, true), null);
 });
 
-test('the front face follows upward finger travel and stops before exposing the back', () => {
+test('drag previews a tilted front without exposing the answer before release', () => {
   assert.equal(flipAngle(12), 0);
-  assert.equal(flipAngle(-40), 60);
-  assert.equal(flipAngle(-150), 165);
+  assert.equal(flipAngle(-40), 20);
+  assert.equal(flipAngle(-150), 75);
+  assert.equal(flipAngle(-300), 78);
 });
 
 test('a long question scrolls to its end before an upward drag flips it', () => {
