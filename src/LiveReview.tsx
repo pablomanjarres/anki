@@ -28,10 +28,12 @@ export function LiveReview() {
   const [busy, setBusy] = useState(false);
   const [lastReview, setLastReview] = useState<{ id: string; rating: string } | null>(null);
   const pointerStart = useRef<{ x: number; y: number; allowVertical: boolean; frontScrollTop: number; scrolledFront: boolean } | null>(null);
+  const cardRegion = useRef<HTMLElement>(null);
   const frontScrollRegion = useRef<HTMLDivElement>(null);
   const scrollRegion = useRef<HTMLDivElement>(null);
   const inFlight = useRef(false);
   const suppressClick = useRef(false);
+  const focusNextCard = useRef(false);
 
   async function load() {
     setLoading(true);
@@ -120,7 +122,9 @@ export function LiveReview() {
       const result = await api.grade(card.id, rating);
       saved = true;
       setLastReview({ id: result.reviewId, rating: grades.find(item => item.id === rating)!.label });
-      setQueue(await api.queue());
+      const nextQueue = await api.queue();
+      focusNextCard.current = true;
+      setQueue(nextQueue);
       setRevealed(false);
       setLeavingRating(null);
       setEntering(true);
@@ -137,12 +141,24 @@ export function LiveReview() {
     inFlight.current = true;
     setBusy(true);
     setError('');
-    try { await api.undo(lastReview.id); setQueue(await api.queue()); setLastReview(null); setRevealed(false); }
+    try {
+      await api.undo(lastReview.id);
+      const restoredQueue = await api.queue();
+      focusNextCard.current = true;
+      setQueue(restoredQueue);
+      setLastReview(null);
+      setRevealed(false);
+    }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Could not undo the rating.'); }
     finally { inFlight.current = false; setBusy(false); }
   }
 
   const card = queue?.cards[0];
+  useEffect(() => {
+    if (!focusNextCard.current || revealed) return;
+    focusNextCard.current = false;
+    cardRegion.current?.focus();
+  }, [queue, revealed]);
   return <div className="pocket-review live-review soft-live-review">
     <div className="live-review-top"><div><h1>Review</h1><span>{queue ? `${queue.reviewedToday} / ${queue.dailyLimit} today` : 'Your cards'}</span></div>
       {lastReview && <div className="live-review-undo"><span role="status">Rated {lastReview.rating}</span><button type="button" onClick={() => void undo()} disabled={busy}><RotateCcw size={16} /> Undo</button></div>}
@@ -151,7 +167,7 @@ export function LiveReview() {
     {!queue && <Status loading={loading} error={error} retry={() => void load()} />}
     {queue && <>
       {error && <div className="live-inline-error" role="alert">{error}</div>}
-      {card ? <div className="pocket-review-layout"><section className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${dragging ? 'is-dragging' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
+      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${dragging ? 'is-dragging' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
         style={{ '--drag-x': `${drag.x}px`, '--drag-y': `${drag.y}px`, '--flip-angle': `${flipDrag}deg` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
         onClick={() => { if (suppressClick.current) { suppressClick.current = false; return; } reveal(); }} onKeyDown={event => onCardKey(event, card)}
