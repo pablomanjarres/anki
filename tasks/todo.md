@@ -1,5 +1,23 @@
 # Anki implementation
 
+## Clearer rating motion · issue #14 follow-up
+
+- [x] Reproduce the vanishing card and empty pause on a 393px isolated app.
+- [x] Slow the four directional exits, keep the card opaque, and show its rating while it moves.
+- [x] Save and load the next card during the exit instead of after it.
+- [x] Let fitting answers use up and down swipes while long answers keep vertical scrolling.
+- [x] Verify left, right, up, and down at phone width; run tests and build.
+- [ ] Open the follow-up PR and complete one official review pass.
+- [ ] Merge the review, Books, mascot, and follow-up PRs; install and verify the merged app.
+
+The old 410ms exit faded from its first frame and finished before the grade
+request began. A phone-width frame showed an empty card area while rating
+controls were still visible. The 680ms exit stays readable as it moves, and
+the next-card request runs during the motion. The isolated app recorded Hard
+and EZ from vertical drags on the short answer itself. A new gesture test
+first failed, then passed. The final gate passes 45 server tests, 11 UI tests,
+and the production build.
+
 ## Fixed directional review swipes · issue #14
 
 - [x] Reproduce the free-moving answer card and short exit animation.
