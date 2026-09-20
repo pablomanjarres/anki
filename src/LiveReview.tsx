@@ -66,11 +66,15 @@ export function LiveReview() {
     resetDrag();
     if (rating) void grade(card, rating);
   }
+  function reveal() {
+    if (revealed || inFlight.current) return;
+    setRevealed(true);
+    window.requestAnimationFrame(() => scrollRegion.current?.focus());
+  }
   function onCardKey(event: KeyboardEvent<HTMLElement>, card: Card) {
     if (!revealed && (event.key === ' ' || event.key === 'Enter')) {
       event.preventDefault();
-      setRevealed(true);
-      window.requestAnimationFrame(() => scrollRegion.current?.focus());
+      reveal();
       return;
     }
     const rating = revealed ? keyboardRating(event.key) : null;
@@ -123,14 +127,14 @@ export function LiveReview() {
       {card ? <div className="pocket-review-layout"><section className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${dragging ? 'is-dragging' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
         style={{ '--drag-x': `${drag.x}px`, '--drag-y': `${drag.y}px` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
-        onClick={() => { if (!revealed && !busy) setRevealed(true); }} onKeyDown={event => onCardKey(event, card)}
+        onClick={reveal} onKeyDown={event => onCardKey(event, card)}
         tabIndex={0} role={revealed ? 'group' : 'button'} aria-label={revealed ? 'Answer revealed. Scroll the question and answer. Swipe left or right on the card, or use the swipe handle for all directions. Press 1 through 5 to rate.' : `${card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question} Tap or press Enter to reveal the answer.`}>
         <div className="live-card-scroll" ref={scrollRegion} role="region" aria-label="Question and answer" tabIndex={revealed ? 0 : -1}><Source card={card} />
           <h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, revealed) : card.question}</h2>
           {revealed ? <div className="pocket-answer"><span>Answer</span><p>{card.answer}</p></div> : <p className="live-reveal-prompt">Tap to reveal</p>}
         </div>
         {revealed && <div className="live-swipe-pad" aria-hidden="true">Swipe here in any direction</div>}
-      </section><div className="pocket-review-controls">{!revealed ? <button className="pocket-primary" type="button" onClick={() => setRevealed(true)}>Show answer</button>
+      </section><div className="pocket-review-controls">{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
         : <><p className="live-rating-hint">Swipe a direction or tap a rating</p><div className="pocket-grades" aria-label="Rate this card">{grades.map(item => <button key={item.id} type="button" disabled={busy} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
       </div></div>
         : <div className="live-empty live-done"><h2>{queue.reviewedToday >= queue.dailyLimit ? 'Daily limit reached' : 'You’re caught up'}</h2><p>{queue.reviewedToday >= queue.dailyLimit ? 'You reviewed 30 distinct cards today. Due cards remain in the backlog for tomorrow.' : 'No cards are ready right now.'}</p>{queue.backlogCount > 0 && <p>{queue.backlogCount} overdue cards remain in your backlog.</p>}</div>}
