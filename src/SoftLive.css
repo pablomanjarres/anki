@@ -2,7 +2,7 @@
   --base: #fffdf9; --surface: #fffdfb; --surface-soft: #f0edf3; --line: #e7dce7;
   --ink: #3b2d43; --muted: #817287; --lavender: #d7c7eb; --copper: #dca57e;
   --lime: #dce9cb; --dark-ink: #3b2d43;
-  min-height: 100dvh; background: var(--base); color: var(--ink);
+  min-height: 100dvh; background: var(--base) url('/design/grain.svg') repeat; color: var(--ink);
   font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif; letter-spacing: -.022em;
 }
 .soft-live * { box-sizing: border-box; }
@@ -24,7 +24,7 @@
 .soft-live .live-status, .soft-live .live-empty { background: transparent; border-color: var(--line); color: var(--muted); }
 .soft-live .live-inline-error { color: #612f37; background: #fff0ed; }
 .soft-live-today { max-width: 720px; margin: 0 auto; padding-bottom: 35px; }
-.soft-live-stage { position: relative; min-height: 426px; overflow: hidden; border-radius: 34px 34px 0 0; background: radial-gradient(ellipse at 78% 64%, #e9b696 0, #e8c9ba 24%, transparent 52%), radial-gradient(ellipse at 14% 6%, #f9f6fb 0, transparent 46%), linear-gradient(145deg, #f0edf3 8%, #e0d9e9 55%, #e7d9df 100%); }
+.soft-live-stage { position: relative; min-height: 426px; overflow: hidden; border-radius: 34px 34px 0 0; background: url('/design/grain.svg'), radial-gradient(ellipse at 78% 64%, #e9b696 0, #e8c9ba 24%, transparent 52%), radial-gradient(ellipse at 14% 6%, #f9f6fb 0, transparent 46%), linear-gradient(145deg, #f0edf3 8%, #e0d9e9 55%, #e7d9df 100%); }
 .soft-live-stage::before { content: ''; position: absolute; width: 310px; height: 270px; right: -104px; top: 128px; border-radius: 42% 58% 64% 36% / 47% 56% 44% 53%; background: #d49b8099; transform: rotate(-14deg); filter: blur(3px); }
 .soft-live-welcome { position: relative; z-index: 2; padding: 26px 29px 0; }
 .soft-live-welcome > span { color: #746779; font-size: 12px; font-weight: 750; }
@@ -36,7 +36,8 @@
 .soft-live-hero-count { position: relative; z-index: 2; display: grid; justify-items: start; margin: 15px 0 0 30px; }
 .soft-live-hero-count strong { font-size: 95px; line-height: .85; letter-spacing: -.12em; font-weight: 720; }
 .soft-live-hero-count span { font-size: 17px; font-weight: 800; }
-.soft-live-shiva { position: absolute; z-index: 1; width: 220px; height: auto; right: 26px; top: -9px; filter: drop-shadow(0 12px 17px #76526845); }
+.soft-live-cloud { position: absolute; z-index: 1; width: 290px; height: auto; right: 12px; top: -10px; pointer-events: none; filter: drop-shadow(0 13px 16px #7652682b); }
+.soft-live-star { position: absolute; z-index: 1; width: 86px; height: auto; right: 232px; top: 118px; pointer-events: none; transform: rotate(-12deg); filter: drop-shadow(0 8px 9px #b778662b); }
 .soft-live-hero-action { position: absolute; z-index: 5; left: 28px; right: 28px; bottom: 42px; min-height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 19px; border: 0; border-radius: 28px 23px 28px 18px; background: #fffdfbe8; color: var(--ink); font-size: 15px; font-weight: 800; box-shadow: 0 8px 25px #ab70913b; backdrop-filter: blur(8px); }
 .soft-live-stage-wave { position: absolute; z-index: 4; left: 0; bottom: -1px; width: 100%; height: 57px; pointer-events: none; }
 .soft-live-stage-wave path { fill: var(--base); }

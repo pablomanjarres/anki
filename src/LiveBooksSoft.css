@@ -7,7 +7,7 @@
 .soft-book-hero, .soft-books-empty {
   position: relative; isolation: isolate; min-height: 286px; overflow: hidden;
   border-radius: 37px 28px 106px 34px / 38px 48px 78px 43px;
-  background: radial-gradient(ellipse at 24% 100%, #ffd89f 0, transparent 57%), linear-gradient(128deg, #ee9866 0%, #f4aa78 52%, #f5c399 100%);
+  background: url('/design/grain.svg'), radial-gradient(ellipse at 24% 100%, #ffd89f 0, transparent 57%), linear-gradient(128deg, #ee9866 0%, #f4aa78 52%, #f5c399 100%);
 }
 .soft-book-hero::before, .soft-books-empty::before {
   content: ''; position: absolute; z-index: -1; width: 310px; height: 290px; right: -56px; bottom: -112px;
@@ -24,7 +24,7 @@
 .soft-book-page-token { display: flex; align-items: center; gap: 10px; margin-top: 23px; }
 .soft-book-page-token strong { max-width: 160px; overflow: hidden; font-size: clamp(43px, 6vw, 62px); line-height: 1; letter-spacing: -.08em; text-overflow: ellipsis; white-space: nowrap; }
 .soft-book-page-token span { font-size: 12px; line-height: 1.05; font-weight: 800; white-space: pre-line; }
-.soft-book-hero > img, .soft-books-empty > img { position: absolute; z-index: 1; width: min(36%, 295px); height: auto; right: 8%; bottom: -24px; filter: drop-shadow(0 10px 13px #ad6b7470); pointer-events: none; }
+.soft-book-hero > img, .soft-books-empty > img { position: absolute; z-index: 1; width: min(36%, 295px); height: auto; right: 8%; bottom: -24px; filter: drop-shadow(0 10px 13px #ad6b7440); pointer-events: none; }
 .soft-book-switch { position: absolute; z-index: 2; top: 20px; right: 20px; display: inline-flex; align-items: center; gap: 6px; min-height: 35px; padding: 0 13px; border: 0; border-radius: 99px; background: #fffdf5e8; color: var(--ink); font-size: 12px; font-weight: 750; }
 .soft-book-switch[aria-expanded='true'] svg:last-child { transform: rotate(180deg); }
 .soft-library-panel { display: flex; flex-wrap: wrap; align-items: end; gap: 10px; padding: 19px 5px 15px; border-bottom: 1px solid var(--line); }
@@ -33,6 +33,7 @@
 .soft-library-panel button, .soft-books-empty button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 0 17px; border: 0; border-radius: 99px; background: var(--lavender); color: var(--ink); font-weight: 750; }
 
 .soft-books-empty { display: flex; align-items: center; min-height: 285px; }
+.soft-books-empty > img { width: min(42%, 245px); right: 6%; bottom: 4px; }
 .soft-books-empty > div { position: relative; z-index: 2; width: 58%; padding: 30px; }
 .soft-books-empty h2 { margin: 14px 0 7px; font-size: clamp(25px, 3vw, 34px); line-height: 1.12; letter-spacing: -.05em; }
 .soft-books-empty p { margin: 0 0 16px; color: #65434f; line-height: 1.4; }
@@ -90,10 +91,10 @@
   .soft-book-hero-copy h2 { margin-top: 54px; font-size: clamp(23px, 6.5vw, 29px); }
   .soft-book-page-token { margin-top: 16px; }
   .soft-book-page-token strong { font-size: 48px; }
-  .soft-book-hero > img, .soft-books-empty > img { width: 63%; right: -9%; bottom: -18px; }
+  .soft-book-hero > img { width: 61%; right: -5%; bottom: -18px; }
   .soft-book-switch { top: 13px; right: 13px; }
   .soft-books-empty > div { width: 58%; padding: 17px; }
-  .soft-books-empty > img { width: 57%; right: -5%; }
+  .soft-books-empty > img { width: 49%; right: -1%; bottom: 4px; }
   .soft-books-empty h2 { font-size: 23px; }
   .soft-books-empty p { font-size: 12px; }
   .soft-books-workspace { display: grid; grid-template-columns: 1fr; gap: 31px; padding: 24px 0 0; }

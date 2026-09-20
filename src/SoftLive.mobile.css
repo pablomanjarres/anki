@@ -19,7 +19,8 @@
   .soft-live-hero { min-height: 312px; }
   .soft-live-hero-top { padding: 26px 27px 0; }
   .soft-live-hero-count { margin: 15px 0 0 27px; }
-  .soft-live-shiva { width: 216px; right: 2px; top: -3px; }
+  .soft-live-cloud { width: 255px; right: -28px; top: 3px; }
+  .soft-live-star { width: 72px; right: 182px; top: 134px; }
   .soft-live-hero-action { left: 25px; right: 25px; bottom: 45px; }
   .soft-live-ribbon { margin-left: 21px; margin-right: 21px; }
   .soft-live-courses { margin-left: 24px; margin-right: 24px; }
@@ -36,6 +37,7 @@
   .soft-live-hero-count { margin-left: 20px; }
   .soft-live-hero-count strong { font-size: 82px; }
   .soft-live-hero-count span { font-size: 15px; }
-  .soft-live-shiva { width: 183px; right: -3px; top: 18px; }
+  .soft-live-cloud { width: 222px; right: -31px; top: 21px; }
+  .soft-live-star { width: 60px; right: 158px; top: 142px; }
   .soft-live-hero-action { left: 20px; right: 20px; }
 }

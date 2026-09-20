@@ -80,7 +80,7 @@ export function LiveBooks() {
     {!loading && !error && !books.length && !creating && <section className="soft-books-empty">
       <div><span>Start here</span><h2>Your reading starts a new deck.</h2><p>Add a PDF or EPUB to track your place and create cards from pages you have read.</p>
         <button type="button" onClick={() => setCreating(true)}><Plus size={18} /> Add a book</button></div>
-      <img src="/design/reading-mouse.webp" alt="A felt mouse sitting on a book" />
+      <img src="/design/star.webp" alt="Smiling golden star" />
     </section>}
 
     {selected && <>
@@ -89,7 +89,7 @@ export function LiveBooks() {
           <div className="soft-book-page-token"><strong>{selected.currentPage || selected.location || '—'}</strong><span>{selected.currentPage ? 'current\npage' : selected.location ? 'EPUB\nlocation' : 'set your\nplace'}</span></div>
         </div>
         <button className="soft-book-switch" type="button" aria-expanded={libraryOpen} aria-controls="live-library-panel" onClick={() => setLibraryOpen(value => !value)}><BookOpen size={15} /> Your books <ChevronDown size={14} /></button>
-        <img src="/design/reading-mouse.webp" alt="A felt mouse sitting on a book" />
+        <img src="/design/moon.webp" alt="Smiling lavender moon" />
       </section>
       {libraryOpen && <div className="soft-library-panel" id="live-library-panel"><label htmlFor="live-book-select">Choose a book</label><select id="live-book-select" value={selected.id} onChange={event => { setSelectedId(event.target.value); setMessage(''); setLibraryOpen(false); }}>
         {books.map(book => <option key={book.id} value={book.id}>{book.title}</option>)}
