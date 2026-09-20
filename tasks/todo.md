@@ -16,8 +16,8 @@ card bounds before, during, and after the turn at 393×852 and 320×700. The
 The one official review found that the wider 500–700px mobile breakpoint
 let the rating row grow beyond the reserved height. Its width is now capped
 at 360px; at 500px and 700px, the hint stays below the control block's top,
-the card stays steady, and the row fits. PR #11 has three focused commits
-and one posted GitHub review. The final 45 server tests, 10 UI tests and
+the card stays steady, and the row fits. PR #11 has focused commits and one
+posted GitHub review. The final 45 server tests, 10 UI tests and
 production build pass. A verified backup preceded installation; the live
 database retains five cards, eleven reviews and one generation run with
 `quick_check=ok`. Local and tailnet HTTPS health and served asset bytes match
