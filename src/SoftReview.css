@@ -1,4 +1,4 @@
-.soft-live.is-reviewing { background: radial-gradient(ellipse at 85% 26%, #f2a585 0, #f4ca9f 38%, transparent 68%), radial-gradient(ellipse at 6% 77%, #ebc6c2 0, transparent 60%), linear-gradient(150deg, #f8efdc 0, #f3d1ac 50%, #e8c1cb 100%); }
+.soft-live.is-reviewing { background: url('/design/grain.svg'), radial-gradient(ellipse at 85% 26%, #f2a585 0, #f4ca9f 38%, transparent 68%), radial-gradient(ellipse at 6% 77%, #ebc6c2 0, transparent 60%), linear-gradient(150deg, #f8efdc 0, #f3d1ac 50%, #e8c1cb 100%); }
 .soft-live.is-reviewing .soft-live-shell { min-height: 100dvh; }
 .soft-live.is-reviewing .soft-live-header { max-width: 720px; width: 100%; margin: auto; background: transparent; }
 .soft-live.is-reviewing .soft-live-nav { display: none; }
