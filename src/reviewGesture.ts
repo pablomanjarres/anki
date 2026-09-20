@@ -18,3 +18,12 @@ export function swipeRating(dx: number, dy: number, allowVertical = true): Ratin
   if (allowVertical && vertical > horizontal * dominance) return dy < 0 ? 'ez' : 'hard';
   return null;
 }
+
+export function reviewSwipeAction(dx: number, dy: number, revealed: boolean, allowVertical: boolean): Rating | 'reveal' | null {
+  if (revealed) return swipeRating(dx, dy, allowVertical);
+  return allowVertical && dy <= -76 && -dy > Math.abs(dx) * 1.35 ? 'reveal' : null;
+}
+
+export function flipAngle(dy: number): number {
+  return Math.min(165, Math.max(0, -dy * 1.5));
+}
