@@ -86,7 +86,7 @@ export function submitGroundedCards(store: StudyStore, context: GenerationContex
       cardIds: [], rejectionReasons: rejected,
     };
     store.recordGenerationRun({
-      runKey, date: context.asOf, status: 'failed',
+      runKey, date: context.asOf, status: 'failed', result,
       error: `All ${rejected.length} proposed cards were rejected; revise and retry`,
     });
     return result;
