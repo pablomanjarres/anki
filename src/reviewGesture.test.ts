@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { flipAngle, frontDragScrolls, keyboardRating, reviewSwipeAction, swipeRating } from './reviewGesture';
+import { answerDragCanRateVertically, flipAngle, frontDragScrolls, keyboardRating, reviewSwipeAction, swipeRating } from './reviewGesture';
 
 test('an upward swipe reveals the question side before any rating is possible', () => {
   assert.equal(reviewSwipeAction(2, -84, false, true), 'reveal');
@@ -46,6 +46,13 @@ test('scrolling content can only submit horizontal swipes', () => {
   assert.equal(swipeRating(0, -95, false), null);
   assert.equal(swipeRating(-95, 0, false), 'again');
   assert.equal(swipeRating(95, 0, false), 'easy');
+});
+
+test('a fitting answer accepts vertical ratings while a long answer keeps vertical scrolling', () => {
+  assert.equal(answerDragCanRateVertically(true, 420, 420), true);
+  assert.equal(answerDragCanRateVertically(true, 421, 420), true);
+  assert.equal(answerDragCanRateVertically(true, 600, 420), false);
+  assert.equal(answerDragCanRateVertically(false, 600, 420), true);
 });
 
 test('number keys rate cards but arrow keys stay available for scrolling', () => {
