@@ -1,5 +1,19 @@
 # Anki implementation
 
+## Stable phone card turn · issue #10
+
+- [x] Reproduce a visible geometry jump in an isolated phone review session.
+- [x] Keep the card and controls the same height as the answer is revealed.
+- [x] Verify before, during, and after geometry at 393px and 320px, with all five ratings visible.
+- [ ] Run the full tests and build, open the focused PR, and complete one official review pass.
+- [ ] Back up study data, install, and verify the local and Tailscale app.
+
+At 393×852, revealing the answer grew the controls from 82px to 104.2px,
+shrinking the card by 22.2px while it turned. The phone controls now reserve
+108px in both states. Browser measurements after the change show identical
+card bounds before, during, and after the turn at 393×852 and 320×700. The
+320px rating buttons fit from x=17 to x=303 without horizontal overflow.
+
 ## Phone header, card turn, and hero art · issue #8
 
 - [x] Trace the extra phone header space, abbreviated card turn, and dragon asset.
