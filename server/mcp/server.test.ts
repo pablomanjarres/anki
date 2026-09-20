@@ -45,6 +45,7 @@ test('MCP generation context excludes future dates and daily submission is groun
   const current = await call('get_generation_context');
   assert.equal(current.value.passages[0].id, passage.id);
   assert.equal(current.value.runKey, `daily:${day}`);
+  assert.match(current.value.cardRules.join(' '), /one short answer/i);
   const future = new Date(`${day}T12:00:00Z`);
   future.setUTCDate(future.getUTCDate() + 1);
   assert.match((await call('get_generation_context', { date: future.toISOString().slice(0, 10) })).value, /Future dates/);
@@ -63,20 +64,25 @@ test('MCP generation context excludes future dates and daily submission is groun
   assert.equal(after.value.run.status, 'success');
 });
 
-test('MCP rejects fabricated evidence, records zero runs, and allows failed-run retries', async t => {
+test('MCP rejects fabricated evidence, records empty zero runs, and allows failed-run retries', async t => {
   const { store, call } = await fixture(t);
   const wrong = { sourcePassageId: passage.id, type: 'basic', question: 'What does a context diagram show?',
     answer: 'planetary orbit', evidence: passage.text };
   const rejected = await call('submit_generated_cards', { runKey: 'manual:rejected', cards: [wrong] });
   assert.equal(rejected.value.result.created, 0);
   assert.equal(rejected.value.result.rejected, 1);
-  assert.equal(store.getGenerationRun('manual:rejected')?.status, 'zero');
+  assert.equal(store.getGenerationRun('manual:rejected')?.status, 'failed');
+  const corrected = await call('submit_generated_cards', { runKey: 'manual:rejected', cards: [{ ...wrong, answer: 'software system' }] });
+  assert.equal(corrected.value.result.created, 1);
+  assert.equal(store.getGenerationRun('manual:rejected')?.status, 'success');
   const zero = await call('submit_generated_cards', { runKey: 'manual:empty', cards: [] });
   assert.equal(zero.value.result.created, 0);
   assert.equal(store.getGenerationRun('manual:empty')?.status, 'zero');
   const failed = await call('record_generation_failure', { runKey: 'manual:retry', error: 'Cortex temporary failure' });
   assert.equal(failed.value.status, 'failed');
-  const retried = await call('submit_generated_cards', { runKey: 'manual:retry', cards: [{ ...wrong, answer: 'software system' }] });
+  const retried = await call('submit_generated_cards', { runKey: 'manual:retry', cards: [{
+    ...wrong, question: 'Which thing is shown by a context diagram?', answer: 'software system',
+  }] });
   assert.equal(retried.value.result.created, 1);
   assert.equal(store.getGenerationRun('manual:retry')?.status, 'success');
 });

@@ -137,7 +137,7 @@ export function cardMethods(db: DatabaseSync, clock: () => Date) {
     },
     submitGeneratedCards(input: Submission, at = clock()): SubmissionResult {
       const prior = getRun(input.runKey);
-      if (prior?.result) return prior.result;
+      if (prior?.status !== 'failed' && prior?.result) return prior.result;
       if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date)) throw new Error('Invalid generation date');
       if (input.date > localDay(at)) throw new Error('Future generation date');
       const result: SubmissionResult = { created: 0, duplicates: 0, rejected: input.rejections?.length ?? 0,

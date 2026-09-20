@@ -12,7 +12,7 @@
   <img alt="Vite 8" src="https://img.shields.io/badge/Vite_8-646CFF?style=flat&logo=vite&logoColor=white" />
   <img alt="MCP 14 tools" src="https://img.shields.io/badge/MCP-14_tools-c8542a?style=flat&logo=modelcontextprotocol&logoColor=white" />
   <img alt="License MIT" src="https://img.shields.io/badge/license-MIT-c8542a?style=flat" />
-  <img alt="Status WIP" src="https://img.shields.io/badge/status-WIP-e0a642?style=flat" />
+  <img alt="Status live" src="https://img.shields.io/badge/status-live-success?style=flat" />
   <a href="https://pablomanjarres.com/portfolio/projects/anki"><img alt="Portfolio" src="https://img.shields.io/badge/portfolio-pablomanjarres.com-c8542a?style=flat" /></a>
   <a href="https://pablomanjarres.com/oss/anki"><img alt="Landing" src="https://img.shields.io/badge/landing-pablo--oss-c8542a?style=flat" /></a>
 </p>
@@ -24,7 +24,7 @@ Anki turns reached course material and book pages into cited study cards. It rea
 ## Highlights
 
 - **Thirty distinct reviews per day.** `server/store/reviews.ts` puts due cards first, keeps overdue cards in a visible backlog, and allows same-day relearning after the cap.
-- **Five ways to grade recall.** `server/store/reviews.ts` uses FSRS for Again, Hard, Mid, and Easy; EZ extends the Easy interval. The review screen adds swipe-up reveal, visible grade buttons, and undo.
+- **Five ways to grade recall.** `server/store/reviews.ts` uses FSRS for Again, Hard, Mid, and Easy; EZ extends the Easy interval. The review screen adds directional swipes, visible grade buttons, and undo.
 - **Every generated card has evidence.** `server/cortex/index.ts` selects material reached by class date or book checkpoint. `server/generation/submit.ts` checks the source quote and answer before saving a card.
 - **Fourteen focused MCP tools.** `server/mcp/` exposes seven reads and seven writes for generation context, cards, reading progress, grading, and run records.
 - **A small morning batch.** The ChatGPT task targets five new cards. `server/store/cards.ts` records success, zero-card, and rejected results, while `server/monitor/check.ts` alerts after 8:00 a.m. Bogota if a run is missing or failed.

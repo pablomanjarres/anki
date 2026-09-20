@@ -4,3 +4,35 @@
   .live-library-actions{display:grid;grid-template-columns:1fr auto}.live-search{grid-column:1/-1}.live-library-actions select{min-width:0;width:100%}.live-library-actions .live-action{white-space:nowrap;padding:0 12px}.live-form-row{grid-template-columns:1fr}.live-editor,.live-decks,.live-book-extras,.live-forecast{padding:18px;border-radius:20px}.live-card-row{padding:17px}.live-card-row h2{font-size:17px}.live-books .pocket-books-layout{display:flex}.live-book-extras{width:100%;margin-top:0}.live-stat-grid{grid-template-columns:repeat(2,1fr)}.live-stat-grid>div{padding:18px}.live-stat-grid strong{font-size:32px}.live-bars{gap:6px;height:190px}.live-bar small{font-size:10px}
 }
 @media(max-width:360px){.live-app .pocket-shell{padding-left:13px;padding-right:13px}.live-app .pocket-nav{left:5px;right:5px}.live-app .pocket-nav button{font-size:9px}.live-app .pocket-flashcard h2{font-size:27px}.live-app .pocket-book-feature{gap:12px}}
+
+@media(max-width:700px){
+  .live-app .pocket-shell{padding-top:calc(env(safe-area-inset-top) + 8px)}
+  .live-app .pocket-header{height:54px;flex:none}
+  .live-app.is-reviewing .pocket-shell{height:100dvh;padding-bottom:calc(env(safe-area-inset-bottom) + 10px);display:flex;flex-direction:column;overflow:hidden}
+  .live-app.is-reviewing .pocket-nav{display:none}
+  .live-app.is-reviewing main{flex:1;min-height:0;display:flex;overflow:hidden}
+  .live-app.is-reviewing .live-review{flex:1;min-height:0;display:flex;flex-direction:column}
+  .live-review .live-review-top{flex:none;min-height:46px;margin:5px 0 11px}
+  .live-review .live-review-top h1{font-size:21px}
+  .live-review .live-review-top>div:first-child{display:grid;gap:0}
+  .live-review .live-review-top span{font-size:11px}
+  .live-review .live-review-undo{gap:5px}
+  .live-review .live-review-undo button{padding:0 9px;min-height:38px}
+  .live-review .pocket-review-layout{flex:1;min-height:0;gap:11px}
+  .live-app .live-review .pocket-flashcard,.live-app .live-review .pocket-flashcard.is-revealed{flex:1;min-height:0;padding:22px;border-radius:25px}
+  .live-app .live-review .pocket-flashcard .live-source{margin-top:0}
+  .live-app .live-review .pocket-flashcard h2{font-size:clamp(25px,7vw,32px);line-height:1.16;margin:25px 0 22px}
+  .live-review .pocket-answer{max-height:none;overflow:visible;touch-action:auto}
+  .live-review .pocket-answer p{font-size:18px}
+  .live-review .pocket-review-controls{flex:none}
+  .live-review .pocket-grades{gap:5px}
+  .live-review .pocket-grades button{min-height:61px;padding:5px 1px}
+  .live-review .pocket-grades button strong{font-size:11px}
+  .live-review .pocket-grades button span{font-size:17px}
+  .live-review .live-rating-hint{font-size:11px;margin-bottom:7px}
+  .live-review .live-done{flex:1;min-height:0}
+}
+@media(max-width:360px){
+  .live-app .live-review .pocket-flashcard h2{font-size:25px}
+  .live-review .pocket-grades button strong{font-size:10px}
+}

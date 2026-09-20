@@ -1,5 +1,5 @@
 import type { GenerationContext, SourcePassage } from '../cortex/index.ts';
-import type { CardInput, StudyStore } from '../store/index.ts';
+import type { CardInput, StudyStore, SubmissionResult } from '../store/index.ts';
 
 export type ProposedCard = {
   sourcePassageId: string;
@@ -11,12 +11,31 @@ export type ProposedCard = {
 };
 
 const normalized = (value: string) => value.replace(/\s+/g, ' ').trim().toLocaleLowerCase();
+const englishListTarget = '(?:problems|benefits|advantages|features|steps|reasons|causes|effects|limitations|examples)';
+const englishListQuestion = new RegExp(`^(?:what|which)\\s+(?:(?:are|were)\\s+)?(?:(?:the|some|several)\\s+)?(?:(?:common|main|key|typical|major)\\s+)?${englishListTarget}\\b`);
+const englishListCommand = new RegExp(`^(?:name|identify|describe|give)\\s+(?:(?:the|some|several|two|three|\\d+)\\s+)?(?:(?:common|main|key|typical|major)\\s+)?${englishListTarget}\\b`);
+const spanishListQuestion = /^(?:qué|cuáles)\s+(?:(?:son|fueron)\s+)?(?:(?:los|las|algunos|algunas)\s+)?(?:(?:comunes|principales)\s+)?(?:problemas|ventajas|beneficios|características|pasos|razones|causas|efectos|limitaciones|ejemplos)\b/;
+
+function cardQualityError(proposal: ProposedCard): string | null {
+  const answer = proposal.answer.trim();
+  const question = normalized(proposal.question).replace(/^¿\s*/, '');
+  if (answer.length > 60 || answer.split(/\s+/).length > 6) {
+    return 'Answer must be one short fact, at most six words';
+  }
+  if (/^(?:enumera|menciona|lista|list|name some)\b/.test(question) ||
+      spanishListQuestion.test(question) || englishListQuestion.test(question) || englishListCommand.test(question)) {
+    return 'Question must ask for one specific fact, not a list';
+  }
+  return null;
+}
 
 function verifyProposal(proposal: ProposedCard, passage: SourcePassage): string | null {
   const quote = normalized(proposal.evidence);
   if (quote.length < 15 || !normalized(passage.text).includes(quote)) return 'Evidence must quote the cited passage';
   if (normalized(proposal.answer).length < 2 || !quote.includes(normalized(proposal.answer))) return 'Answer must appear in the evidence';
   if (normalized(proposal.question).length < 12) return 'Question is too short';
+  const qualityError = cardQualityError(proposal);
+  if (qualityError) return qualityError;
   if (proposal.type === 'cloze') {
     const deletion = proposal.clozeText?.match(/\{\{c1::([^}:]+)(?:::[^}]+)?\}\}/);
     if (!deletion) return 'Cloze card needs {{c1::...}} text';
@@ -38,6 +57,8 @@ function deckFor(store: StudyStore, passage: SourcePassage, context: GenerationC
 
 export function submitGroundedCards(store: StudyStore, context: GenerationContext, runKey: string, proposals: ProposedCard[]) {
   if (!runKey.trim()) throw new Error('Run key required');
+  const prior = store.getGenerationRun(runKey);
+  if (prior?.status !== 'failed' && prior?.result) return prior.result;
   const candidates = new Map(context.passages.map(passage => [passage.id, passage]));
   const cards: CardInput[] = [];
   const rejected: Array<{ index: number; reason: string }> = [];
@@ -59,5 +80,16 @@ export function submitGroundedCards(store: StudyStore, context: GenerationContex
       },
     });
   });
+  if (proposals.length > 0 && cards.length === 0) {
+    const result: SubmissionResult = {
+      created: 0, duplicates: 0, rejected: rejected.length, paused: false,
+      cardIds: [], rejectionReasons: rejected,
+    };
+    store.recordGenerationRun({
+      runKey, date: context.asOf, status: 'failed', result,
+      error: `All ${rejected.length} proposed cards were rejected; revise and retry`,
+    });
+    return result;
+  }
   return store.submitGeneratedCards({ runKey, date: context.asOf, cards, rejections: rejected });
 }
