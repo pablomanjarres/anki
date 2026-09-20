@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { api, type Card, type Queue, type Rating } from './api';
 import { Source, Status } from './LiveShared';
@@ -28,6 +28,7 @@ export function LiveReview() {
   const [flipDrag, setFlipDrag] = useState(0);
   const [leavingRating, setLeavingRating] = useState<Rating | null>(null);
   const [entering, setEntering] = useState(false);
+  const [answerScrollable, setAnswerScrollable] = useState(false);
   const [busy, setBusy] = useState(false);
   const [lastReview, setLastReview] = useState<{ id: string; rating: string } | null>(null);
   const pointerStart = useRef<{ x: number; y: number; allowVertical: boolean; frontScrollTop: number; scrolledFront: boolean } | null>(null);
@@ -149,15 +150,15 @@ export function LiveReview() {
     try {
       setLeavingRating(rating);
       const exit = motionOff() ? Promise.resolve() : new Promise<void>(resolve => window.setTimeout(resolve, exitDurationMs));
-      const [{ result, nextQueue }] = await Promise.all([
+      const [nextQueue] = await Promise.all([
         (async () => {
           const result = await api.grade(card.id, rating);
           saved = true;
-          return { result, nextQueue: await api.queue() };
+          setLastReview({ id: result.reviewId, rating: grades.find(item => item.id === rating)!.label });
+          return await api.queue();
         })(),
         exit,
       ]);
-      setLastReview({ id: result.reviewId, rating: grades.find(item => item.id === rating)!.label });
       focusNextCard.current = true;
       setQueue(nextQueue);
       setRevealed(false);
@@ -196,6 +197,17 @@ export function LiveReview() {
 
   const card = queue?.cards[0];
   const activeGrade = grades.find(item => item.id === (leavingRating ?? aimRating));
+  useLayoutEffect(() => {
+    const answer = scrollRegion.current;
+    if (!answer) return;
+    const measure = () => setAnswerScrollable(answer.scrollHeight > answer.clientHeight + 2);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(answer);
+    const answerText = answer.querySelector('.pocket-answer');
+    if (answerText) observer.observe(answerText);
+    return () => observer.disconnect();
+  }, [card?.id, revealed]);
   useEffect(() => {
     if (!focusNextCard.current || revealed) return;
     focusNextCard.current = false;
@@ -209,7 +221,7 @@ export function LiveReview() {
     {!queue && <Status loading={loading} error={error} retry={() => void load()} />}
     {queue && <>
       {error && <div className="live-inline-error" role="alert">{error}</div>}
-      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${revealed && !turning ? 'is-turned' : ''} ${turning ? 'is-turning' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
+      {card ? <div className="pocket-review-layout"><section ref={cardRegion} className={`pocket-flashcard live-flashcard ${revealed ? 'is-revealed' : ''} ${revealed && !turning ? 'is-turned' : ''} ${answerScrollable ? 'is-answer-scrollable' : ''} ${turning ? 'is-turning' : ''} ${leavingRating ? `is-leaving is-leaving-${leavingRating}` : ''} ${entering ? 'is-entering' : ''}`}
         style={{ '--flip-angle': `${flipDrag}deg`, '--turn-duration': `${turnDurationMs}ms`, '--exit-duration': `${exitDurationMs}ms`, '--enter-duration': `${enterDurationMs}ms` } as CSSProperties}
         onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={event => onPointerUp(event, card)} onPointerCancel={resetDrag}
         onClick={() => { if (suppressClick.current) { suppressClick.current = false; return; } reveal(); }} onKeyDown={event => onCardKey(event, card)}

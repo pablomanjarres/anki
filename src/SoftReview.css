@@ -115,6 +115,7 @@
 .soft-live-review .live-flip-face .live-card-scroll::-webkit-scrollbar { display: none; }
 .soft-live-review .live-flip-front .live-card-scroll { touch-action: none; }
 .soft-live-review .live-flip-back .live-card-scroll { touch-action: pan-y; }
+.soft-live-review .pocket-flashcard:not(.is-answer-scrollable) .live-flip-back .live-card-scroll { touch-action: none; }
 .soft-live-review .live-flip-back .live-source .pocket-source-mark { background: #fff9ff; }
 .soft-live-review .live-flip-back .live-source small { color: #76657b; }
 .soft-live-review .live-flip-front .live-reveal-prompt { margin-top: auto; padding-top: 24px; }
