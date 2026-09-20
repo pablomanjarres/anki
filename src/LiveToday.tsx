@@ -11,12 +11,11 @@ export function LiveToday({ go }: { go: (section: Section) => void }) {
   const ready = data.dueCount + data.newCount;
   const courses = data.courses.filter(course => course.dueCount > 0);
   const book = data.books[0];
-  const date = new Date(`${data.date}T12:00:00`).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
   const progress = Math.min(100, data.reviewedToday / Math.max(1, data.dailyLimit) * 100);
 
   return <div className="soft-live-today">
     <div className="soft-live-stage">
-      <div className="soft-live-welcome"><span>{date}</span><h1>Make it stick.</h1><p>A few good cards today, a stronger memory tomorrow.</p></div>
+      <div className="soft-live-welcome"><span>{data.date}</span><h1>Make it stick.</h1><p>A few good cards today, a stronger memory tomorrow.</p></div>
       <section className="soft-live-hero" aria-label="Today's study progress">
         <div className="soft-live-hero-top"><span>Today’s run</span><span>{data.reviewedToday} / {data.dailyLimit} done</span></div>
         <div className="soft-live-hero-count"><strong>{ready}</strong><span>{ready === 1 ? 'card ready' : 'cards ready'}</span></div>
@@ -31,7 +30,7 @@ export function LiveToday({ go }: { go: (section: Section) => void }) {
       <span>{data.reviewedToday} done</span><span className="soft-live-ribbon-track"><i style={{ width: `${progress}%` }} /></span><span>{data.dailyLimit} max</span>
     </div>
     <section className="soft-live-courses" aria-labelledby="soft-live-due-title">
-      <div className="soft-live-section-heading"><h2 id="soft-live-due-title">Due today</h2><span>Old cards first</span></div>
+      <div className="soft-live-section-heading"><h2 id="soft-live-due-title">Ready today</h2><span>Due cards first</span></div>
       {courses.length ? courses.map((course, index) => <button type="button" className="soft-live-course-row" key={course.id} onClick={() => go('review')}>
         <span className={`soft-live-course-symbol soft-live-course-symbol-${index % 2}`}>{course.name.slice(0, 1).toUpperCase()}</span>
         <span className="soft-live-course-copy"><strong>{course.name}</strong><small>{course.dueCount} {course.dueCount === 1 ? 'card' : 'cards'} ready</small></span>
