@@ -4,10 +4,10 @@
 
 - [x] Trace the extra phone header space, abbreviated card turn, and dragon asset.
 - [x] Start a worktree from the installed revision; baseline tests and build pass.
-- [ ] Tighten the phone header without overlapping the iPhone status area.
-- [ ] Make a swipe preview the front face, then finish a slower full 3D turn before exposing ratings.
-- [ ] Replace the Today dragon with the requested Shiva illustration and accessible copy.
-- [ ] Verify 320px/393px layouts, flip frames, keyboard/reduced motion, long answers, grades and undo.
+- [x] Tighten the phone header without overlapping the iPhone status area.
+- [x] Make a swipe preview the front face, then finish a slower full 3D turn before exposing ratings.
+- [x] Replace the Today dragon with an illustration of Shiva the Shiba Inu and accessible copy.
+- [x] Verify 320px/393px layouts, flip frames, keyboard/reduced motion, long answers, grades and undo.
 - [ ] Open a focused PR and complete one official review pass.
 - [ ] Back up data, install, and verify the local and Tailscale app and MCP connection.
 
@@ -15,6 +15,11 @@ The question side should remain recognizable while the finger moves. Once
 released, it turns over a horizontal axis, the lavender answer back settles,
 and only then do the grading controls appear. The phone header uses one safe
 area inset plus a compact control row.
+
+Shiva is Pablo's Shiba Inu. The illustration uses the breed description; no
+photo was supplied to match individual markings. The isolated 393px and 320px
+browser runs showed the header, Today art, a swipe-triggered 880ms turn, a
+scrolling long answer, reduced-motion reveal, grading and undo.
 
 ## Turn the review card over · issue #6
 
