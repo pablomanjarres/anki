@@ -6,3 +6,7 @@ export function AnkiBrand({ symbolOnly = false, className = '', surface = false,
   return <img className={`anki-brand ${surface ? 'anki-brand-surface' : ''} ${className}`} src={`/brand/anki-${symbolOnly ? 'symbol' : 'logo'}.svg`}
     width={symbolOnly ? 412 : 1398} height={symbolOnly ? 405 : 320} alt={decorative ? '' : 'Anki'} aria-hidden={decorative || undefined} />;
 }
+
+export function AnkiPreviewHeader() {
+  return <header className="anki-preview-header"><AnkiBrand surface decorative={false} /></header>;
+}

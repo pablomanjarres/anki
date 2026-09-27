@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import type { DesignProps, PreviewScreen } from '../types';
 import { previewData as data } from '../data';
-import { AnkiBrand } from '../AnkiBrand';
+import { AnkiBrand, AnkiPreviewHeader } from '../AnkiBrand';
 import './Focus.css';
 import './Focus.mobile.css';
 import './Focus.refresh.css';
@@ -115,7 +115,7 @@ function FocusBooks({ onScreenChange }: Pick<DesignProps, 'onScreenChange'>) {
 }
 
 export function Focus(props: DesignProps & { theme?: 'noir' | 'index' | 'atmosphere' }) {
-  return <div className={`focus-app ${props.theme ? `focus-redesign focus-${props.theme}` : ''}`}><FocusNav {...props} />{props.screen === 'home' ? <FocusHome onScreenChange={props.onScreenChange} /> : props.screen === 'review' ? <FocusReview onScreenChange={props.onScreenChange} /> : <FocusBooks onScreenChange={props.onScreenChange} />}</div>;
+  return <div className={`focus-app ${props.theme ? `focus-redesign focus-${props.theme}` : ''}`}><AnkiPreviewHeader /><FocusNav {...props} />{props.screen === 'home' ? <FocusHome onScreenChange={props.onScreenChange} /> : props.screen === 'review' ? <FocusReview onScreenChange={props.onScreenChange} /> : <FocusBooks onScreenChange={props.onScreenChange} />}</div>;
 }
 
 export default Focus;
