@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronRight, Clock3, Layers3, LibraryBig, RotateCcw, Sparkles } from 'lucide-react';
 import type { DesignProps, PreviewScreen } from '../types';
 import { previewData } from '../data';
+import { AnkiBrand } from '../AnkiBrand';
 import './Timeline.css';
 
 const navigation: { id: PreviewScreen; label: string; icon: typeof Layers3 }[] = [
@@ -20,7 +21,7 @@ function Navigation({ screen, onScreenChange }: DesignProps) {
 
 function DailyRail({ screen }: { screen: PreviewScreen }) {
   return <aside className="tl-rail">
-    <div className="tl-brand"><span className="tl-brand-mark" aria-hidden="true"><span /><span /><span /></span><span>anki<span className="tl-brand-period">.</span></span></div>
+    <div className="tl-brand"><AnkiBrand surface decorative={false} /></div>
     <p className="tl-rail-caption">Your study record</p>
     <div className="tl-rail-date"><span>19</span><div>September<br /><strong>Saturday</strong></div></div>
     <div className="tl-rail-rule" />
@@ -97,7 +98,7 @@ function Books() {
 }
 
 export function Timeline({ screen, onScreenChange }: DesignProps) {
-  return <div className="tl-app"><DailyRail screen={screen} /><div className="tl-content"><header className="tl-topbar"><div className="tl-mobile-brand"><span className="tl-brand-mark" aria-hidden="true"><span /><span /><span /></span>anki<span className="tl-brand-period">.</span></div><span>Course timeline / {screen === 'home' ? 'Today' : screen === 'review' ? 'Review' : 'Books'}</span><span className="tl-topbar-right">Saturday, September 19 <span className="tl-avatar">P</span></span></header><Navigation screen={screen} onScreenChange={onScreenChange} /><main className="tl-main">{screen === 'home' ? <Home onScreenChange={onScreenChange} /> : screen === 'review' ? <Review /> : <Books />}</main></div></div>;
+  return <div className="tl-app"><DailyRail screen={screen} /><div className="tl-content"><header className="tl-topbar"><div className="tl-mobile-brand"><AnkiBrand surface decorative={false} /></div><span>Course timeline / {screen === 'home' ? 'Today' : screen === 'review' ? 'Review' : 'Books'}</span><span className="tl-topbar-right">Saturday, September 19 <span className="tl-avatar">P</span></span></header><Navigation screen={screen} onScreenChange={onScreenChange} /><main className="tl-main">{screen === 'home' ? <Home onScreenChange={onScreenChange} /> : screen === 'review' ? <Review /> : <Books />}</main></div></div>;
 }
 
 export default Timeline;

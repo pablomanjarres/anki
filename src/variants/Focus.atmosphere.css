@@ -1,7 +1,5 @@
 .focus-atmosphere { --r-bg:#100e1b; --r-rail:#0d0c16; --r-panel:#201b30; --r-card:#2a2440; --r-card-border:#564a77; --r-line:#49405f; --r-text:#f7f3ff; --r-muted:#c2bad2; --r-accent:#d3c2ff; --r-accent-hover:#e8dcff; --r-on-accent:#241938; --r-secondary:#ffb9a4; --r-status:#a8e0c8; --r-soft:#3a3251; --r-hover:#39304e; --r-current:#372e4c; --r-progress-bg:#4d4564; --r-grade:#29233c; --r-grade-hover:#433759; --r-cover:#6b465b; --r-cover-border:#b58ca7; --r-cover-text:#fff1ef; --r-cover-shadow:#0b0811; --r-input:#191426; --r-radius:21px; --r-radius-sm:11px; font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif; background:radial-gradient(ellipse 70% 35% at 67% 0%,#36284d 0%,transparent 75%),var(--r-bg); }
 .focus-atmosphere .focus-nav { box-shadow:8px 0 40px #05050b33; }
-.focus-atmosphere .focus-brand-mark { box-shadow:0 0 28px #d3c2ff40; }
-.focus-atmosphere .focus-brand { font-weight:720; }
 .focus-atmosphere .focus-nav-link.is-current { box-shadow:inset 3px 0 var(--r-accent); }
 .focus-atmosphere .focus-top h1 { font-size:42px; font-weight:670; letter-spacing:-.06em; }
 .focus-atmosphere .focus-top-detail { color:var(--r-secondary); }

@@ -1,0 +1,14 @@
+.anki-brand.anki-brand-surface {
+  display: block;
+  box-sizing: content-box;
+  width: 146px;
+  height: auto;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #fff7ed;
+}
+
+.anki-preview-header { display: none; }
+@media (max-width: 700px) {
+  .anki-preview-header { display: flex; padding: 22px 22px 0; }
+}
