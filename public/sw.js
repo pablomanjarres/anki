@@ -1,4 +1,4 @@
-const CACHE = 'anki-shell-v3-abstract-brand';
+const CACHE = 'anki-shell-v4-preview-brand';
 const SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/brand/anki-logo.svg', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
 
 self.addEventListener('install', event => {
