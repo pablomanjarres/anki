@@ -1,7 +1,7 @@
 .soft-live {
   --base: #fffdf9; --surface: #fffdfb; --surface-soft: #f0edf3; --line: #e7dce7;
-  --ink: #3b2d43; --muted: #817287; --lavender: #d7c7eb; --copper: #dca57e;
-  --lime: #dce9cb; --dark-ink: #3b2d43;
+  --ink: #433449; --muted: #817287; --lavender: #d7c7eb; --copper: #dca57e;
+  --lime: #dce9cb; --dark-ink: #433449; --brand-copper: #b7673f;
   min-height: 100dvh; background: var(--base) url('/design/grain.svg') repeat; color: var(--ink);
   font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif; letter-spacing: -.022em;
 }
@@ -11,8 +11,8 @@
 .soft-live .soft-live-shell { max-width: 1120px; margin: auto; padding: 0 32px 72px; display: grid; grid-template-areas: 'header' 'nav' 'main'; }
 .soft-live-header { grid-area: header; min-height: 85px; display: flex; align-items: center; justify-content: space-between; }
 .soft-live-brand { display: inline-flex; align-items: center; gap: 9px; padding: 8px 0; border: 0; background: none; color: var(--ink); }
-.soft-live-brand strong { font-size: 28px; font-weight: 750; letter-spacing: -.09em; }
-.soft-live-brand-mark { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 12px 17px 11px 15px; background: #d8c5ef; transform: rotate(-9deg); }
+.soft-live-brand .anki-brand { display: block; width: 153px; height: 35px; object-fit: contain; }
+.soft-live-brand:hover { opacity: .8; }
 .soft-live-header-action { width: 42px; height: 42px; display: grid; place-items: center; border: 0; border-radius: 45% 55% 38% 62%; background: #e1edcb; color: var(--ink); }
 .soft-live-header-action.soft-live-close { background: #fff9f6bf; }
 .soft-live-main { grid-area: main; min-width: 0; }

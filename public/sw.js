@@ -1,5 +1,5 @@
-const CACHE = 'anki-shell-v2';
-const SHELL = ['/', '/manifest.webmanifest', '/icon-180.png', '/icon-192.png', '/icon-512.png'];
+const CACHE = 'anki-shell-v3-abstract-brand';
+const SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/brand/anki-logo.svg', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
