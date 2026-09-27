@@ -7,6 +7,7 @@
     "dev": "vite --host 0.0.0.0",
     "dev:api": "tsx watch server/http/index.ts",
     "build": "tsc --noEmit && tsc -p tsconfig.server.json --noEmit && vite build",
+    "brand:icons": "node ops/generate_brand_icons.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "start": "tsx server/http/index.ts",
     "mcp": "tsx server/mcp/index.ts",
