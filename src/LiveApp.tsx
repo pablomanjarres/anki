@@ -5,6 +5,7 @@ import { LiveReview } from './LiveReview';
 import { LiveCards } from './LiveCards';
 import { LiveBooks } from './LiveBooks';
 import { LiveStats } from './LiveStats';
+import { AnkiBrand } from './AnkiBrand';
 import './variants/Pocket.css';
 import './variants/Pocket.mobile.css';
 import './Live.css';
@@ -46,7 +47,7 @@ export function LiveApp() {
     <div className="pocket-shell soft-live-shell">
       <header className="soft-live-header">
         <button className="soft-live-brand" type="button" onClick={() => go('today')} aria-label="Anki home">
-          <span className="soft-live-brand-mark"><Layers3 size={19} strokeWidth={2.3} /></span><strong>anki</strong>
+          <AnkiBrand />
         </button>
         {section === 'review' ? <button className="soft-live-header-action soft-live-close" type="button" onClick={() => go('today')} aria-label="Finish review"><X size={20} /></button>
           : <button className="soft-live-header-action" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={22} /></button>}
