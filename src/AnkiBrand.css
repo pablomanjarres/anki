@@ -1,0 +1,9 @@
+.anki-brand.anki-brand-surface {
+  display: block;
+  box-sizing: content-box;
+  width: 146px;
+  height: auto;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #fff7ed;
+}
