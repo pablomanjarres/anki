@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, BookOpen, Check, ChevronRight, Layers3, RotateCcw, Sparkles } from 'lucide-react';
 import { previewData as data } from '../data';
 import type { DesignProps, PreviewScreen } from '../types';
+import { AnkiBrand } from '../AnkiBrand';
 import './Pocket.css';
 import './Pocket.mobile.css';
 
@@ -90,7 +91,7 @@ function Books() {
 
 export function Pocket({ mode, screen, onScreenChange }: PocketProps) {
   return <div className={`pocket-app pocket-${mode}`}><div className="pocket-shell"><header className="pocket-header">
-    <button className="pocket-brand" type="button" onClick={() => onScreenChange('home')} aria-label="Anki home"><span className="pocket-logo"><Layers3 size={20} /></span><strong>anki</strong></button>
+    <button className="pocket-brand" type="button" onClick={() => onScreenChange('home')} aria-label="Anki home"><AnkiBrand surface /></button>
     <Navigation screen={screen} onScreenChange={onScreenChange} /><span className="pocket-avatar" aria-label="Pablo">P</span>
   </header><main>{screen === 'home' ? <Home onScreenChange={onScreenChange} /> : screen === 'review' ? <Review /> : <Books />}</main></div></div>;
 }
