@@ -1,6 +1,4 @@
 .focus-index { --r-bg:#181317; --r-rail:#120e11; --r-panel:#241b21; --r-card:#2b2128; --r-card-border:#72565c; --r-line:#4b3940; --r-text:#f6eee6; --r-muted:#c7b8b9; --r-accent:#efc9a8; --r-accent-hover:#ffe0bf; --r-on-accent:#291820; --r-secondary:#e9a99b; --r-status:#a8c49a; --r-soft:#3a2932; --r-hover:#392a32; --r-current:#422c35; --r-progress-bg:#503e47; --r-grade:#2c2128; --r-grade-hover:#49343d; --r-cover:#713f42; --r-cover-border:#a5716f; --r-cover-text:#fff0dd; --r-cover-shadow:#0e090c; --r-input:#1a1216; --r-radius:10px; --r-radius-sm:5px; font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif; }
-.focus-index .focus-brand-mark { background:transparent; border:1px solid var(--r-accent); color:var(--r-accent); }
-.focus-index .focus-brand-period { color:var(--r-secondary); }
 .focus-index .focus-top h1,.focus-index .focus-queue-heading h2,.focus-index .focus-section-heading h2,.focus-index .focus-book-info h2,.focus-index .focus-book-side h3,.focus-index .focus-page-update h2 { font-family:"Iowan Old Style",Georgia,serif; font-weight:500; letter-spacing:-.04em; }
 .focus-index .focus-top h1 { font-size:43px; }
 .focus-index .focus-top-detail,.focus-index .focus-card-topline,.focus-index .focus-panel-head,.focus-index .focus-book-header { text-transform:uppercase; letter-spacing:.12em; font-size:11px; }

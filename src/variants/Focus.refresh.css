@@ -2,8 +2,7 @@
 .focus-redesign button, .focus-redesign input { touch-action: manipulation; }
 .focus-redesign button:focus-visible, .focus-redesign input:focus-visible { outline: 3px solid var(--r-accent); outline-offset: 3px; }
 .focus-redesign .focus-nav { background: var(--r-rail); border-color: var(--r-line); }
-.focus-redesign .focus-brand-mark { background: var(--r-accent); color: var(--r-on-accent); border-radius: var(--r-radius-sm); }
-.focus-redesign .focus-brand-period, .focus-redesign .focus-nav-link.is-current svg { color: var(--r-accent); }
+.focus-redesign .focus-nav-link.is-current svg { color: var(--r-accent); }
 .focus-redesign .focus-nav-link { color: var(--r-muted); border-radius: var(--r-radius-sm); min-height: 48px; }
 .focus-redesign .focus-nav-link:hover { background: var(--r-hover); color: var(--r-text); }
 .focus-redesign .focus-nav-link.is-current { background: var(--r-current); color: var(--r-text); }
