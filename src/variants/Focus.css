@@ -4,9 +4,7 @@
 .focus-app button{cursor:pointer}
 .focus-app button:focus-visible,.focus-app input:focus-visible{outline:2px solid #dceef7;outline-offset:3px}
 .focus-nav{width:224px;min-width:224px;min-height:100vh;padding:32px 16px 24px;background:var(--f-rail);border-right:1px solid #26323b;display:flex;flex-direction:column}
-.focus-brand{display:flex;align-items:center;gap:11px;padding:0 13px;font-size:24px;font-weight:750;letter-spacing:-.065em}
-.focus-brand-mark{width:31px;height:31px;display:grid;place-items:center;color:#111820;background:var(--f-blue);border-radius:9px}
-.focus-brand-period{color:var(--f-blue)}
+.focus-brand{display:flex;align-items:center;padding:0 13px}
 .focus-nav-links{display:grid;gap:7px;margin-top:69px}
 .focus-nav-link{width:100%;min-height:46px;display:flex;align-items:center;gap:15px;padding:0 16px;border:0;border-radius:9px;background:transparent;color:#8fa1ad;text-align:left;font-size:14px;font-weight:600}
 .focus-nav-link:hover{color:var(--f-text);background:#18232c}

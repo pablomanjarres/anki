@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import {
-  ArrowLeft, ArrowRight, BookOpen, Check, ChevronRight, Command,
+  ArrowLeft, ArrowRight, BookOpen, Check, ChevronRight,
   Layers3, LibraryBig, RotateCcw, Sparkles,
 } from 'lucide-react';
 import type { DesignProps, PreviewScreen } from '../types';
 import { previewData as data } from '../data';
+import { AnkiBrand } from '../AnkiBrand';
 import './Focus.css';
 import './Focus.mobile.css';
 import './Focus.refresh.css';
@@ -20,7 +21,7 @@ const sections: { id: PreviewScreen; label: string; icon: typeof Layers3 }[] = [
 
 function FocusNav({ screen, onScreenChange }: DesignProps) {
   return <nav className="focus-nav" aria-label="Main navigation">
-    <div className="focus-brand"><span className="focus-brand-mark"><Command size={19} strokeWidth={2.2} /></span><span>anki<span className="focus-brand-period">.</span></span></div>
+    <div className="focus-brand"><AnkiBrand surface decorative={false} /></div>
     <div className="focus-nav-links">{sections.map(({ id, label, icon: Icon }) =>
       <button key={id} type="button" aria-current={screen === id ? 'page' : undefined} className={`focus-nav-link ${screen === id ? 'is-current' : ''}`} onClick={() => onScreenChange(id)}>
         <Icon size={18} strokeWidth={1.8} /><span>{label}</span>

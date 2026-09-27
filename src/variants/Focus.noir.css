@@ -1,6 +1,4 @@
 .focus-noir { --r-bg:#0b0d0a; --r-rail:#090b08; --r-panel:#151a14; --r-card:#1b2118; --r-card-border:#5b6a42; --r-line:#394234; --r-text:#f5f6eb; --r-muted:#b6c0af; --r-accent:#d5f577; --r-accent-hover:#e7ffa0; --r-on-accent:#17200d; --r-secondary:#e7d6a0; --r-status:#acd883; --r-soft:#273021; --r-hover:#232c20; --r-current:#2a3422; --r-progress-bg:#394533; --r-grade:#1a2017; --r-grade-hover:#2c3822; --r-cover:#2e3927; --r-cover-border:#7d9360; --r-cover-text:#f1f4dd; --r-cover-shadow:#070907; --r-input:#10150e; --r-radius:3px; --r-radius-sm:2px; font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif; }
-.focus-noir .focus-brand { font-weight:760; letter-spacing:-.08em; }
-.focus-noir .focus-brand-mark { transform:rotate(-6deg); }
 .focus-noir .focus-nav-link.is-current { border-left:3px solid var(--r-accent); }
 .focus-noir .focus-top h1 { font-size:43px; font-weight:720; letter-spacing:-.065em; }
 .focus-noir .focus-top-detail,.focus-noir .focus-status-line,.focus-noir .focus-card-topline,.focus-noir .focus-panel-head,.focus-noir .focus-book-header { font-family:Menlo,Consolas,monospace; letter-spacing:.035em; }
