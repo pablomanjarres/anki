@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, BookOpen, Check, Home, Layers3, RotateCcw, Sparkles } from 'lucide-react';
 import { previewData as data } from '../data';
 import type { DesignProps, PreviewScreen } from '../types';
-import { AnkiBrand } from '../AnkiBrand';
+import { AnkiBrand, AnkiPreviewHeader } from '../AnkiBrand';
 import './Marginalia.css';
 import './Marginalia.mobile.css';
 
@@ -111,6 +111,7 @@ function BooksScreen({ onScreenChange }: Pick<DesignProps, 'onScreenChange'>) {
 
 export function Marginalia({ screen, onScreenChange }: DesignProps) {
   return <div className="marginalia-app">
+    <AnkiPreviewHeader />
     <aside className="marginalia-sidebar"><div className="marginalia-brand"><AnkiBrand surface decorative={false} /></div>
       <Navigation screen={screen} onScreenChange={onScreenChange} />
       <div className="marginalia-sidebar-note"><span className="marginalia-kicker">A daily practice</span>
