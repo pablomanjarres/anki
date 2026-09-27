@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://pablomanjarres.com/oss/anki"><img src="public/brand/anki-logo.svg" alt="Anki" width="280" /></a>
+  <a href="https://pablomanjarres.com/oss/anki"><img src=".github/logo.svg" alt="Anki" width="280" /></a>
 </p>
 
 <p align="center"><em>A private study deck that knows which lecture and page you have reached.</em></p>
