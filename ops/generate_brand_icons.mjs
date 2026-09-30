@@ -28,8 +28,9 @@ function svg(width, height, content) {
 
 const symbolSvg = svg(412, 405, `<g fill="currentColor">${symbol}</g>`);
 const wordmarkSvg = svg(982, 316, `<g fill="${plum}">${wordmark}</g>`);
-const lockupSvg = svg(1398, 320,
-  `<g fill="${orange}" transform="scale(0.7901234567901234)">${symbol}</g>\n<g fill="${plum}" transform="translate(416 2)">${wordmark}</g>`);
+const lockupArt = `<g fill="${orange}" transform="scale(0.7901234567901234)">${symbol}</g>\n<g fill="${plum}" transform="translate(416 2)">${wordmark}</g>`;
+const lockupSvg = svg(1398, 320, lockupArt);
+const readmeLogoSvg = svg(1398, 320, `<rect width="1398" height="320" fill="#FFFDF9"/>\n${lockupArt}`);
 const icon = (maskable = false) => svg(512, 512,
   `<rect width="512" height="512"${maskable ? '' : ' rx="102.4"'} fill="${orange}"/>\n<g fill="#FFFFFF" transform="translate(97.28 99.97669902912622) scale(0.7704854368932039)">${symbol}</g>`);
 
@@ -42,6 +43,7 @@ for (const [name, content] of [
 ]) {
   await writeFile(resolve(root, 'public', name), content);
 }
+await writeFile(resolve(root, '.github/logo.svg'), readmeLogoSvg);
 
 for (const [file, size, source] of [
   ['icon-180.png', 180, icon()],
@@ -56,4 +58,4 @@ for (const [file, size, source] of [
   if (rendered.status !== 0) throw new Error(rendered.stderr.toString());
   await writeFile(resolve(root, 'public', file), rendered.stdout);
 }
-console.log('Generated geometric Anki SVGs, favicon, Apple touch icon, and PWA icons.');
+console.log('Generated geometric Anki SVGs, README logo, favicon, Apple touch icon, and PWA icons.');
