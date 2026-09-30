@@ -31,6 +31,6 @@ Open `http://127.0.0.1:3464`. The installer starts Anki at login and serves tail
 
 ## Brand assets
 
-The approved [symbol](public/brand/anki-symbol.svg), [wordmark](public/brand/anki-wordmark.svg), [lockup](public/brand/anki-logo.svg), and [app icon](public/brand/anki-app-icon.svg) are generated from the editable curves in `ops/generate_brand_icons.mjs`. Run `npm run brand:icons` with librsvg installed to regenerate every SVG, favicon, and install icon.
+The approved [symbol](public/brand/anki-symbol.svg), [wordmark](public/brand/anki-wordmark.svg), [lockup](public/brand/anki-logo.svg), and [app icon](public/brand/anki-app-icon.svg) are generated from the editable curves in `ops/generate_brand_icons.mjs`. Run `npm run brand:icons` with librsvg installed to regenerate every SVG, the README logo, favicon, and install icons.
 
 [MIT License](LICENSE) · [Landing page](https://pablomanjarres.com/oss/anki) · [Portfolio write-up](https://pablomanjarres.com/portfolio/projects/anki)
