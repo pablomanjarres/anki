@@ -1,12 +1,14 @@
-const CACHE = 'anki-shell-v4-preview-brand';
-const SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/brand/anki-logo.svg', '/icon-180.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
+const CACHE = 'anki-shell-v5-geometric-brand';
+const BRAND_VERSION = 'geometric-1';
+const brandUrl = path => `${path}?v=${BRAND_VERSION}`;
+const SHELL = ['/', brandUrl('/manifest.webmanifest'), brandUrl('/favicon.svg'), brandUrl('/brand/anki-symbol.svg'), brandUrl('/brand/anki-wordmark.svg'), brandUrl('/brand/anki-logo.svg'), brandUrl('/brand/anki-app-icon.svg'), brandUrl('/icon-180.png'), brandUrl('/icon-192.png'), brandUrl('/icon-512.png'), brandUrl('/icon-maskable-512.png')];
 
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const html = await fetch('/', { cache: 'no-store' }).then(response => response.text());
     const assets = [...html.matchAll(/(?:src|href)="(\/assets\/[^\"]+)"/g)].map(match => match[1]);
     const cache = await caches.open(CACHE);
-    await cache.addAll([...SHELL, ...assets]);
+    await cache.addAll([...SHELL, ...assets].map(path => new Request(path, { cache: 'reload' })));
     await self.skipWaiting();
   })());
 });
