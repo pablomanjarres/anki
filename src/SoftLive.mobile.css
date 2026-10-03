@@ -1,4 +1,7 @@
 @media (max-width: 700px) {
+  .soft-live.is-today { position: relative; isolation: isolate; }
+  .soft-live.is-today::before { content: ''; position: absolute; z-index: -1; inset: 0 0 auto; height: var(--home-canvas-height, 0px); background: var(--today-backdrop); pointer-events: none; }
+  .soft-live.is-today .soft-live-header, .soft-live.is-today .soft-live-stage { background: transparent; }
   .soft-live .soft-live-shell { display: flex; flex-direction: column; min-height: 100dvh; padding: 0 0 calc(93px + var(--safe-area-bottom)); }
   .soft-live.is-reviewing .soft-live-shell { padding-bottom: 0; }
   .soft-live-header { flex: none; min-height: calc(56px + var(--safe-area-top)); padding: calc(2px + var(--safe-area-top)) 22px 0; background: var(--surface-soft); }

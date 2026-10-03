@@ -4,6 +4,7 @@
   --lime: #dce9cb; --dark-ink: #433449; --brand-copper: #b7673f;
   --viewport-color: var(--surface-soft);
   --safe-area-top: env(safe-area-inset-top, 0px); --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --today-backdrop: url('/design/grain.svg'), radial-gradient(ellipse at 78% 64%, #e9b696 0, #e8c9ba 24%, transparent 52%), radial-gradient(ellipse at 14% 6%, #f9f6fb 0, transparent 46%), linear-gradient(145deg, #f0edf3 8%, #e0d9e9 55%, #e7d9df 100%);
   min-height: 100dvh; background: var(--base) url('/design/grain.svg') repeat; color: var(--ink);
   font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif; letter-spacing: -.022em;
 }
@@ -26,7 +27,7 @@
 .soft-live .live-status, .soft-live .live-empty { background: transparent; border-color: var(--line); color: var(--muted); }
 .soft-live .live-inline-error { color: #612f37; background: #fff0ed; }
 .soft-live-today { max-width: 720px; margin: 0 auto; padding-bottom: 35px; }
-.soft-live-stage { position: relative; min-height: 426px; overflow: hidden; border-radius: 34px 34px 0 0; background: url('/design/grain.svg'), radial-gradient(ellipse at 78% 64%, #e9b696 0, #e8c9ba 24%, transparent 52%), radial-gradient(ellipse at 14% 6%, #f9f6fb 0, transparent 46%), linear-gradient(145deg, #f0edf3 8%, #e0d9e9 55%, #e7d9df 100%); }
+.soft-live-stage { position: relative; min-height: 426px; overflow: hidden; border-radius: 34px 34px 0 0; background: var(--today-backdrop); }
 .soft-live-stage::before { content: ''; position: absolute; width: 310px; height: 270px; right: -104px; top: 128px; border-radius: 42% 58% 64% 36% / 47% 56% 44% 53%; background: #d49b8099; transform: rotate(-14deg); filter: blur(3px); }
 .soft-live-welcome { position: relative; z-index: 2; padding: 26px 29px 0; }
 .soft-live-welcome > span { color: #746779; font-size: 12px; font-weight: 750; }
