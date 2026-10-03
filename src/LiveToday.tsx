@@ -1,4 +1,5 @@
 import { ArrowRight, BookOpen, ChevronRight } from 'lucide-react';
+import type { RefCallback } from 'react';
 import { api } from './api';
 import { useResource } from './useResource';
 import { Status } from './LiveShared';
@@ -10,7 +11,7 @@ const loadToday = async () => {
   return { dashboard, queue };
 };
 
-export function LiveToday({ go }: { go: (section: Section) => void }) {
+export function LiveToday({ go, stageRef }: { go: (section: Section) => void; stageRef: RefCallback<HTMLDivElement> }) {
   const { data, error, loading, reload } = useResource(loadToday);
   if (!data || error) return <Status loading={loading} error={error} retry={reload} />;
 
@@ -20,7 +21,7 @@ export function LiveToday({ go }: { go: (section: Section) => void }) {
   const progress = Math.min(100, queue.reviewedToday / Math.max(1, queue.dailyLimit) * 100);
 
   return <div className="soft-live-today">
-    <div className="soft-live-stage">
+    <div ref={stageRef} className="soft-live-stage">
       <div className="soft-live-welcome"><span>{dashboard.date}</span><h1>Make it stick.</h1><p>A few good cards today, a stronger memory tomorrow.</p></div>
       <section className="soft-live-hero" aria-label="Today's study progress">
         <div className="soft-live-hero-top"><span>Today’s run</span><span>{queue.reviewedToday} / {queue.dailyLimit} done</span></div>

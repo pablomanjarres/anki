@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { BookOpen, ChartNoAxesCombined, House, Layers3, LibraryBig, Plus, X } from 'lucide-react';
 import { LiveToday } from './LiveToday';
 import { LiveReview } from './LiveReview';
@@ -36,14 +36,42 @@ function Navigation({ section, go }: { section: Section; go: (section: Section) 
 }
 
 export function LiveApp() {
+  const canvas = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState<Section>('today');
   const [refresh, setRefresh] = useState(0);
+  const homeStage = useCallback((stage: HTMLDivElement | null) => {
+    const app = canvas.current;
+    const header = app?.querySelector('.soft-live-header');
+    if (!stage || !app || !header) return;
+    const paint = () => app.style.setProperty('--home-canvas-height', `${stage.getBoundingClientRect().bottom - app.getBoundingClientRect().top}px`);
+    const observer = new ResizeObserver(paint);
+    observer.observe(stage);
+    observer.observe(header);
+    paint();
+    return () => {
+      observer.disconnect();
+      app.style.removeProperty('--home-canvas-height');
+    };
+  }, []);
+  useLayoutEffect(() => {
+    if (!canvas.current) return;
+    const color = getComputedStyle(canvas.current).getPropertyValue('--viewport-color').trim();
+    const previousColors = [document.documentElement, document.body].map(element => ({ element, color: element.style.backgroundColor }));
+    const theme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    const previousTheme = theme?.content;
+    for (const { element } of previousColors) element.style.backgroundColor = color;
+    if (theme) theme.content = color;
+    return () => {
+      for (const previous of previousColors) previous.element.style.backgroundColor = previous.color;
+      if (theme && previousTheme !== undefined) theme.content = previousTheme;
+    };
+  }, [section]);
   function go(next: Section) {
     setSection(next);
     if (next === 'today') setRefresh(value => value + 1);
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
-  return <div className={`pocket-app live-app soft-live ${section === 'review' ? 'is-reviewing' : ''}`}>
+  return <div ref={canvas} className={`pocket-app live-app soft-live ${section === 'review' ? 'is-reviewing' : section === 'today' ? 'is-today' : ''}`}>
     <div className="pocket-shell soft-live-shell">
       <header className="soft-live-header">
         <button className="soft-live-brand" type="button" onClick={() => go('today')} aria-label="Anki home">
@@ -53,7 +81,7 @@ export function LiveApp() {
           : <button className="soft-live-header-action" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={22} /></button>}
       </header>
       <main className="soft-live-main" key={section === 'today' ? refresh : section}>
-        {section === 'today' && <LiveToday go={go} />}
+        {section === 'today' && <LiveToday go={go} stageRef={homeStage} />}
         {section === 'review' && <LiveReview />}
         {section === 'cards' && <LiveCards />}
         {section === 'books' && <LiveBooks />}
