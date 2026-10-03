@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { BookOpen, ChartNoAxesCombined, House, Layers3, LibraryBig, Plus, X } from 'lucide-react';
 import { LiveToday } from './LiveToday';
 import { LiveReview } from './LiveReview';
@@ -36,14 +36,28 @@ function Navigation({ section, go }: { section: Section; go: (section: Section) 
 }
 
 export function LiveApp() {
+  const canvas = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState<Section>('today');
   const [refresh, setRefresh] = useState(0);
+  useLayoutEffect(() => {
+    if (!canvas.current) return;
+    const color = getComputedStyle(canvas.current).getPropertyValue('--viewport-color').trim();
+    const previousColors = [document.documentElement, document.body].map(element => ({ element, color: element.style.backgroundColor }));
+    const theme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    const previousTheme = theme?.content;
+    for (const { element } of previousColors) element.style.backgroundColor = color;
+    if (theme) theme.content = color;
+    return () => {
+      for (const previous of previousColors) previous.element.style.backgroundColor = previous.color;
+      if (theme && previousTheme !== undefined) theme.content = previousTheme;
+    };
+  }, [section]);
   function go(next: Section) {
     setSection(next);
     if (next === 'today') setRefresh(value => value + 1);
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
-  return <div className={`pocket-app live-app soft-live ${section === 'review' ? 'is-reviewing' : ''}`}>
+  return <div ref={canvas} className={`pocket-app live-app soft-live ${section === 'review' ? 'is-reviewing' : ''}`}>
     <div className="pocket-shell soft-live-shell">
       <header className="soft-live-header">
         <button className="soft-live-brand" type="button" onClick={() => go('today')} aria-label="Anki home">
