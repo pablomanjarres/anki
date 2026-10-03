@@ -1,6 +1,6 @@
-const CACHE = 'anki-shell-v5-geometric-brand';
+const CACHE = 'anki-shell-v6-type-b';
 const BRAND_VERSION = 'geometric-1';
-const brandUrl = path => `${path}?v=${BRAND_VERSION}`;
+const brandUrl = path => `${path}?v=${path === '/brand/anki-wordmark.svg' || path === '/brand/anki-logo.svg' ? 'type-b-1' : BRAND_VERSION}`;
 const SHELL = ['/', brandUrl('/manifest.webmanifest'), brandUrl('/favicon.svg'), brandUrl('/brand/anki-symbol.svg'), brandUrl('/brand/anki-wordmark.svg'), brandUrl('/brand/anki-logo.svg'), brandUrl('/brand/anki-app-icon.svg'), brandUrl('/icon-180.png'), brandUrl('/icon-192.png'), brandUrl('/icon-512.png'), brandUrl('/icon-maskable-512.png')];
 
 self.addEventListener('install', event => {

@@ -13,7 +13,8 @@
     "mcp": "tsx server/mcp/index.ts",
     "test:server": "node --import tsx --test server/**/*.test.ts",
     "test:ui": "node --import tsx --test src/*.test.ts",
-    "test": "npm run test:server && npm run test:ui"
+    "test:brand": "node --test ops/brand.test.mjs",
+    "test": "npm run test:server && npm run test:ui && npm run test:brand"
   },
   "dependencies": {
     "@hono/node-server": "2.1.1",
