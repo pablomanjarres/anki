@@ -1,4 +1,4 @@
-.soft-live.is-reviewing { background: url('/design/grain.svg'), radial-gradient(ellipse at 85% 26%, #f2a585 0, #f4ca9f 38%, transparent 68%), radial-gradient(ellipse at 6% 77%, #ebc6c2 0, transparent 60%), linear-gradient(150deg, #f8efdc 0, #f3d1ac 50%, #e8c1cb 100%); }
+.soft-live.is-reviewing { --viewport-color: #f8efdc; background: url('/design/grain.svg'), radial-gradient(ellipse at 85% 26%, #f2a585 0, #f4ca9f 38%, transparent 68%), radial-gradient(ellipse at 6% 77%, #ebc6c2 0, transparent 60%), linear-gradient(150deg, var(--viewport-color) 0, #f3d1ac 50%, #e8c1cb 100%); }
 .soft-live.is-reviewing .soft-live-shell { min-height: 100dvh; }
 .soft-live.is-reviewing .soft-live-header { max-width: 720px; width: 100%; margin: auto; background: transparent; }
 .soft-live.is-reviewing .soft-live-nav { display: none; }
@@ -42,7 +42,7 @@
 @media (max-width: 700px) {
   .soft-live.is-reviewing .soft-live-shell { height: 100dvh; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
   .soft-live.is-reviewing .soft-live-main { flex: 1; min-height: 0; display: flex; overflow: hidden; }
-  .soft-live-review { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 16px calc(18px + env(safe-area-inset-bottom, 0px)); }
+  .soft-live-review { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 0 16px calc(18px + var(--safe-area-bottom)); }
   .soft-live-review .live-review-top { flex: none; min-height: 47px; margin: 3px 0 8px; }
   .soft-live-review .live-review-top h1 { font-size: 21px; }
   .soft-live-review .pocket-review-layout { flex: 1; min-height: 0; gap: 13px; padding: 12px 5px 0; }

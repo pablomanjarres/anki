@@ -2,6 +2,8 @@
   --base: #fffdf9; --surface: #fffdfb; --surface-soft: #f0edf3; --line: #e7dce7;
   --ink: #433449; --muted: #817287; --lavender: #d7c7eb; --copper: #dca57e;
   --lime: #dce9cb; --dark-ink: #433449; --brand-copper: #b7673f;
+  --viewport-color: var(--surface-soft);
+  --safe-area-top: env(safe-area-inset-top, 0px); --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   min-height: 100dvh; background: var(--base) url('/design/grain.svg') repeat; color: var(--ink);
   font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif; letter-spacing: -.022em;
 }
