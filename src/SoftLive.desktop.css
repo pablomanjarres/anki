@@ -1,0 +1,211 @@
+.soft-live-action-label { display: none; }
+.live-desktop-help { display: none; }
+.soft-live-review .live-reveal-prompt > span { margin-right: 0; font-size: inherit; line-height: inherit; }
+.soft-live-review .live-reveal-prompt > .live-desktop-help { display: none; }
+
+@media (min-width: 701px) and (max-width: 1099px) {
+  .soft-live.is-reviewing .soft-live-shell { grid-template-areas: 'header' 'main'; align-content: start; }
+}
+
+@media (min-width: 1100px) {
+  .soft-live .soft-live-shell {
+    max-width: 1480px;
+    padding: 0 32px 64px;
+    grid-template-columns: 184px minmax(0, 1fr);
+    grid-template-areas: 'header header' 'nav main';
+    column-gap: 40px;
+    align-items: start;
+  }
+  .soft-live-header { min-height: 112px; }
+  .soft-live-header-action {
+    width: auto;
+    min-height: 44px;
+    padding: 0 18px;
+    display: flex;
+    gap: 9px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 650;
+  }
+  .soft-live-action-label { display: inline; }
+  .soft-live-nav {
+    position: sticky;
+    top: 24px;
+    width: 100%;
+    justify-self: stretch;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin: 0;
+    padding: 12px;
+    border-radius: 26px;
+    background: #f0eaf4;
+  }
+  .soft-live-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 0;
+    min-height: 52px;
+    padding: 0 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    font-weight: 650;
+  }
+  .soft-live-nav button svg { flex: none; margin: 0; }
+  .soft-live-nav button:hover { color: var(--ink); background: #ffffff80; }
+  .soft-live-nav button.is-current { background: var(--surface); }
+  .soft-live-today {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(280px, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .soft-live-stage { grid-column: 1; grid-row: 1 / 3; min-height: 490px; }
+  .soft-live-welcome { padding: 32px 32px 0; }
+  .soft-live-welcome h1 { font-size: 44px; }
+  .soft-live-welcome p { max-width: 360px; font-size: 14px; }
+  .soft-live-hero { min-height: 350px; }
+  .soft-live-hero-top { padding: 30px 32px 0; }
+  .soft-live-hero-count { margin-left: 32px; }
+  .soft-live-cloud { width: 310px; right: -10px; top: 10px; }
+  .soft-live-star { right: 220px; top: 160px; }
+  .soft-live-hero-action { left: 32px; right: 32px; bottom: 42px; }
+  .soft-live-ribbon { grid-column: 1; grid-row: 3; min-height: 40px; margin: -8px 16px 0; }
+  .soft-live-courses {
+    grid-column: 2;
+    grid-row: 1;
+    min-height: 350px;
+    margin: 0;
+    padding: 26px 24px;
+    border: 1px solid var(--line);
+    border-radius: 26px;
+    background: #fffdfbb3;
+  }
+  .soft-live-section-heading { align-items: baseline; flex-wrap: wrap; gap: 5px; margin-bottom: 18px; }
+  .soft-live-course-row { min-height: 75px; }
+  .soft-live-reading {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    min-height: 116px;
+    margin: 0;
+    padding: 22px;
+    border: 0;
+    border-radius: 24px;
+    background: #eee5f4;
+  }
+}
+
+@media (min-width: 1100px) {
+  .soft-live .live-library-scene,
+  .soft-live .live-stats-scene { min-height: 245px; padding: 32px 34px 72px; border-radius: 30px 30px 0 0; }
+  .soft-live .live-library-intro h1,
+  .soft-live .live-stats-intro h1 { font-size: 48px; }
+  .soft-live .live-library-actions { max-width: none; margin: 8px 0 28px; }
+  .soft-live .live-library-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: start; }
+  .soft-live .live-library-content { min-width: 0; }
+  .soft-live .live-card-list { max-width: none; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .soft-live .live-card-row {
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #fffdfbb3;
+  }
+  .soft-live .live-card-row h2 { font-size: 22px; }
+  .soft-live .live-editor { max-width: none; margin: 0; padding: 26px; border-radius: 26px; }
+  .soft-live .live-decks {
+    position: sticky;
+    top: 24px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: #f2edf5;
+  }
+  .soft-live .live-decks .pocket-section-head h2 { font-size: 22px; }
+  .soft-live .live-decks form { flex-wrap: wrap; margin-bottom: 20px; }
+  .soft-live .live-decks form input { width: 100%; flex-basis: 100%; }
+  .soft-live .live-decks form button { width: 100%; }
+  .soft-live .live-deck-row { flex-wrap: wrap; gap: 8px; padding: 16px 0; }
+  .soft-live .live-deck-row span { flex-basis: 100%; }
+  .soft-live .live-deck-row button { width: 34px; min-width: 34px; height: 34px; min-height: 34px; }
+  .soft-live .live-stats { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px 30px; align-items: start; }
+  .soft-live .live-stats-scene { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) 130px auto; align-items: center; gap: 24px; }
+  .soft-live .live-stats-sun { position: static; width: 130px; }
+  .soft-live .live-stats-today { margin: 0; }
+  .soft-live .live-stat-grid { flex-direction: column; width: 100%; max-width: none; margin: 0; gap: 12px; }
+  .soft-live .live-stat-grid > div {
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: #fffdfbb3;
+  }
+  .soft-live .live-stat-grid strong { font-size: 46px; }
+  .soft-live .live-stat-grid > div:first-child { padding-left: 22px; border-left: 1px solid var(--line); }
+  .soft-live .live-forecast { width: 100%; max-width: none; margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: 26px; background: #fffdfbb3; }
+  .soft-live .live-bars { height: 310px; gap: 16px; }
+  .soft-live .soft-live-books { max-width: none; }
+  .soft-live .soft-books-intro { padding: 4px 0 28px; }
+  .soft-live .soft-book-hero { min-height: 280px; border-radius: 30px; }
+  .soft-live .soft-book-hero-copy { padding: 28px 32px; }
+  .soft-live .soft-book-hero-copy h2 { max-width: 540px; margin-top: 48px; font-size: 40px; }
+  .soft-live .soft-book-hero > img { max-width: 420px; width: 42%; right: 2%; }
+  .soft-live .soft-books-workspace { gap: 32px; margin: 28px 0 0; padding: 0; }
+  .soft-live .soft-book-checkpoint,
+  .soft-live .soft-book-material { min-width: 0; padding: 26px; border: 1px solid var(--line); border-radius: 26px; background: #fffdfbb3; }
+  .soft-live .soft-library-panel,
+  .soft-live .soft-book-create { max-width: none; margin-left: 0; margin-right: 0; }
+}
+
+@media (min-width: 1400px) {
+  .soft-live .live-card-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .live-app .live-library-content > .live-status,
+  .live-app .live-library-content > .live-empty { margin-right: 24px; margin-left: 24px; }
+}
+
+@media (min-width: 1100px) {
+  .soft-live.is-reviewing .soft-live-shell {
+    max-width: 1240px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'header' 'main';
+  }
+  .soft-live.is-reviewing .soft-live-header { max-width: none; margin: 0; }
+  .soft-live .soft-live-review { max-width: none; }
+  .soft-live .soft-live-review .live-review-top { margin: 4px 0 18px; }
+  .soft-live .soft-live-review .pocket-review-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 264px;
+    gap: 40px;
+    align-items: center;
+    padding: 32px 12px 16px;
+  }
+  .soft-live .soft-live-review .pocket-flashcard { min-height: clamp(440px, 62vh, 640px); }
+  .soft-live .soft-live-review .live-flip-face { padding: 36px; }
+  .soft-live .soft-live-review .pocket-flashcard h2 { max-width: 600px; font-size: 40px; }
+  .soft-live .soft-live-review .pocket-review-controls { min-height: 380px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+  .soft-live .soft-live-review .pocket-review-controls > .pocket-primary { margin: 0; width: 100%; }
+  .soft-live .soft-live-review .live-touch-help { display: none; }
+  .soft-live .soft-live-review .live-desktop-help { display: inline; }
+  .soft-live .soft-live-review .live-keyboard-help { order: -1; margin: 0; color: #735970; text-align: center; font-size: 12px; }
+  .soft-live .soft-live-review .live-rating-hint { margin: 0; font-size: 14px; }
+  .soft-live .soft-live-review .pocket-grades { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
+  .soft-live .soft-live-review .pocket-grades button {
+    min-height: 52px;
+    aspect-ratio: auto;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    justify-items: start;
+    gap: 12px;
+    padding: 0 24px;
+    border-radius: 18px;
+  }
+  .soft-live .soft-live-review .pocket-grades button strong { font-size: 14px; }
+}

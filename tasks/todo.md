@@ -241,3 +241,30 @@ served assets match the build through localhost and Tailscale HTTPS. The
 database backup and live file pass integrity checks, preserving five cards,
 six reviews, and one generation run. A real local MCP call lists all 14 tools
 and returns due counts.
+
+## Desktop study workspace · issue #32
+
+- [x] Reproduce the narrow Today column with a failing desktop browser check.
+- [x] Create an isolated worktree; baseline tests and build pass.
+- [x] Adapt the shared navigation and Today layout for desktop.
+- [x] Arrange Cards, Books, Stats, and Review as desktop workspaces.
+- [x] Verify all destinations at phone, tablet, and desktop widths.
+- [x] Run tests and build, open the focused PR, and complete one review pass.
+
+Use the existing ivory, lavender, copper, illustrations, and rounded surfaces.
+At desktop width the same navigation becomes a side rail; Today pairs study
+progress with due courses and reading. Cards puts deck management beside the
+collection, Stats pairs review totals with the forecast, and Review pairs the
+card with its controls. Phone layouts retain their existing structure.
+
+The desktop reproduction failed with a 720px Today column at 1600px. The new
+workspace uses 1192px, with due courses beside the 727px study panel. All five
+destinations pass browser checks at 320, 393, 700, 1024, 1100, 1280, 1600, and
+1920px: no horizontal overflow or runtime errors, unchanged card bounds on
+reveal, and all five grades in view. Phone Cards, Stats, and both review faces
+match the previous native screenshots exactly. The 45 server tests, 11 UI
+tests, and production build pass.
+
+PR #33 has one review pass with no actionable findings. Browser interaction
+checks at 393, 1100, and 1600px also pass for creating/editing cards, choosing
+and adding books, keyboard reveal and rating, Undo, and empty collections.

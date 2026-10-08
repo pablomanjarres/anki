@@ -15,6 +15,7 @@ import './SoftReview.css';
 import './LiveBooksSoft.css';
 import './LiveLibrarySoft.css';
 import './SoftLive.mobile.css';
+import './SoftLive.desktop.css';
 
 export type Section = 'today' | 'review' | 'cards' | 'books' | 'stats';
 const tabs = [
@@ -49,8 +50,8 @@ export function LiveApp() {
         <button className="soft-live-brand" type="button" onClick={() => go('today')} aria-label="Anki home">
           <AnkiBrand />
         </button>
-        {section === 'review' ? <button className="soft-live-header-action soft-live-close" type="button" onClick={() => go('today')} aria-label="Finish review"><X size={20} /></button>
-          : <button className="soft-live-header-action" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={22} /></button>}
+        {section === 'review' ? <button className="soft-live-header-action soft-live-close" type="button" onClick={() => go('today')} aria-label="Finish review"><X size={20} /><span className="soft-live-action-label">Finish review</span></button>
+          : <button className="soft-live-header-action" type="button" onClick={() => go('cards')} aria-label="Create a card"><Plus size={22} /><span className="soft-live-action-label">New card</span></button>}
       </header>
       <main className="soft-live-main" key={section === 'today' ? refresh : section}>
         {section === 'today' && <LiveToday go={go} />}

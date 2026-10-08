@@ -231,7 +231,7 @@ export function LiveReview() {
           <div className="live-flip-face live-flip-front" aria-hidden={revealed && !turning} inert={revealed && !turning}>
             <div className="live-card-scroll" ref={frontScrollRegion}><Source card={card} />
               <h2>{card.type === 'cloze' && card.clozeText ? clozeDisplay(card.clozeText, false) : card.question}</h2>
-              <p className="live-reveal-prompt"><span aria-hidden="true">↑</span> Swipe up to flip</p>
+              <p className="live-reveal-prompt"><span className="live-touch-help"><span aria-hidden="true">↑</span> Swipe up to flip</span><span className="live-desktop-help">Press Enter or click to flip</span></p>
             </div>
           </div>
           <div className="live-flip-face live-flip-back" aria-hidden={!revealed || turning} inert={!revealed || turning}>
@@ -246,8 +246,8 @@ export function LiveReview() {
         </div>
         {revealed && activeGrade && <div className="live-swipe-choice" aria-hidden="true"><span>{activeGrade.direction}</span> {activeGrade.label}</div>}
       </section><div className={`pocket-review-controls ${turning ? 'is-turning' : ''}`}>{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
-        : <><p className="live-rating-hint" aria-hidden={turning}>{aimRating ? `Release for ${grades.find(item => item.id === aimRating)?.label}` : 'Swipe a direction or tap Mid'}</p><div className="pocket-grades" aria-label="Rate this card" aria-hidden={turning} inert={turning}>{grades.map(item => <button key={item.id} className={aimRating === item.id ? 'is-aimed' : ''} type="button" disabled={busy || turning} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
-      </div></div>
+        : <><p className="live-rating-hint" aria-hidden={turning}>{aimRating ? `Release for ${grades.find(item => item.id === aimRating)?.label}` : <><span className="live-touch-help">Swipe a direction or tap Mid</span><span className="live-desktop-help">How well did you remember?</span></>}</p><div className="pocket-grades" aria-label="Rate this card" aria-hidden={turning} inert={turning}>{grades.map(item => <button key={item.id} className={aimRating === item.id ? 'is-aimed' : ''} type="button" disabled={busy || turning} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
+      <p className="live-desktop-help live-keyboard-help">Enter to reveal · 1–5 to rate</p></div></div>
         : <div className="live-empty live-done"><h2>{queue.reviewedToday >= queue.dailyLimit ? 'Daily limit reached' : 'You’re caught up'}</h2><p>{queue.reviewedToday >= queue.dailyLimit ? 'You reviewed 30 distinct cards today. Due cards remain in the backlog for tomorrow.' : 'No cards are ready right now.'}</p>{queue.backlogCount > 0 && <p>{queue.backlogCount} overdue cards remain in your backlog.</p>}</div>}
     </>}
   </div>;
