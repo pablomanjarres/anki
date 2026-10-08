@@ -87,6 +87,7 @@ export function LiveCards() {
       <select aria-label="Filter by deck" value={deckFilter} onChange={event => setDeckFilter(event.target.value)}><option value="">All decks</option>{decks.map(deck => <option key={deck.id} value={deck.id}>{deck.name}</option>)}</select>
       <button type="button" className="live-action" onClick={startCreate}><Plus size={18} /> New card</button></div>
     {error && <div className="live-inline-error" role="alert">{error}</div>}
+    <div className="live-library-workspace"><div className="live-library-content">
     {draft && <form className="live-editor" onSubmit={event => void save(event)}><div className="pocket-section-head"><h2>{editingId ? 'Edit card' : 'New card'}</h2><button type="button" onClick={() => setDraft(null)}>Close</button></div>
       <div className="live-form-row"><label>Deck<select required value={draft.deckId} onChange={event => change('deckId', event.target.value)}><option value="">Select a deck</option>{decks.map(deck => <option key={deck.id} value={deck.id}>{deck.name}</option>)}</select></label>
         <label>Type<select value={draft.type} onChange={event => change('type', event.target.value as CardType)}><option value="basic">Basic</option><option value="cloze">Cloze</option></select></label></div>
@@ -99,7 +100,9 @@ export function LiveCards() {
       <div className="live-card-list">{cards.map(card => <article className="live-card-row" key={card.id}><div className="live-card-row-top"><Source card={card} /><span className="live-card-kind">{card.type === 'cloze' ? 'Cloze' : 'Basic'}</span></div><h2>{card.question}</h2><span className="live-answer-label">Answer</span><p>{card.answer}</p><div className="live-row-actions"><button type="button" onClick={() => startEdit(card)}><Pencil size={16} /> Edit</button><button type="button" disabled={busy} onClick={() => void removeCard(card)}><Trash2 size={16} /> Delete</button></div></article>)}</div>
       {!loading && !error && !cards.length && <div className="live-empty">No cards found. Create one, or change your search.</div>}
     </>}
+    </div>
     <section className="live-decks"><div className="pocket-section-head"><h2>Decks</h2><span>{decks.length}</span></div><form onSubmit={event => void addDeck(event)}><input aria-label="New deck name" placeholder="New deck name" value={newDeck} onChange={event => setNewDeck(event.target.value)} /><button type="submit" disabled={busy}>Add deck</button></form>
       {decks.map(deck => <div className="live-deck-row" key={deck.id}><span><strong>{deck.name}</strong><small>{deck.cardCount} cards · {deck.dueCount} due</small></span><button type="button" onClick={() => void renameDeck(deck)} aria-label={`Rename ${deck.name}`}><Pencil size={17} /></button><button type="button" onClick={() => void removeDeck(deck)} aria-label={`Delete ${deck.name}`}><Trash2 size={17} /></button></div>)}</section>
+    </div>
   </div>;
 }
