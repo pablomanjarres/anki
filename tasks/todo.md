@@ -241,3 +241,18 @@ served assets match the build through localhost and Tailscale HTTPS. The
 database backup and live file pass integrity checks, preserving five cards,
 six reviews, and one generation run. A real local MCP call lists all 14 tools
 and returns due counts.
+
+## Desktop study workspace · issue #32
+
+- [x] Reproduce the narrow Today column with a failing desktop browser check.
+- [x] Create an isolated worktree; baseline tests and build pass.
+- [ ] Adapt the shared navigation and Today layout for desktop.
+- [ ] Arrange Cards, Books, Stats, and Review as desktop workspaces.
+- [ ] Verify all destinations at phone, tablet, and desktop widths.
+- [ ] Run tests and build, open the focused PR, and complete one review pass.
+
+Use the existing ivory, lavender, copper, illustrations, and rounded surfaces.
+At desktop width the same navigation becomes a side rail; Today pairs study
+progress with due courses and reading. Cards puts deck management beside the
+collection, Stats pairs review totals with the forecast, and Review pairs the
+card with its controls. Phone layouts retain their existing structure.
