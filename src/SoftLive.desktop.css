@@ -1,4 +1,5 @@
 .soft-live-action-label { display: none; }
+.live-desktop-help { display: none; }
 
 @media (min-width: 1100px) {
   .soft-live .soft-live-shell {
@@ -160,4 +161,43 @@
 @media (max-width: 700px) {
   .live-app .live-library-content > .live-status,
   .live-app .live-library-content > .live-empty { margin-right: 24px; margin-left: 24px; }
+}
+
+@media (min-width: 1100px) {
+  .soft-live.is-reviewing .soft-live-shell {
+    max-width: 1240px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'header' 'main';
+  }
+  .soft-live.is-reviewing .soft-live-header { max-width: none; margin: 0; }
+  .soft-live .soft-live-review { max-width: none; }
+  .soft-live .soft-live-review .live-review-top { margin: 4px 0 18px; }
+  .soft-live .soft-live-review .pocket-review-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 264px;
+    gap: 40px;
+    align-items: center;
+    padding: 32px 12px 16px;
+  }
+  .soft-live .soft-live-review .pocket-flashcard { min-height: clamp(440px, 62vh, 640px); }
+  .soft-live .soft-live-review .live-flip-face { padding: 36px; }
+  .soft-live .soft-live-review .pocket-flashcard h2 { max-width: 600px; font-size: 40px; }
+  .soft-live .soft-live-review .pocket-review-controls { min-height: 380px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+  .soft-live .soft-live-review .pocket-review-controls > .pocket-primary { margin: 0; width: 100%; }
+  .soft-live .soft-live-review .live-touch-help { display: none; }
+  .soft-live .soft-live-review .live-desktop-help { display: inline; }
+  .soft-live .soft-live-review .live-keyboard-help { margin: 0; color: #735970; text-align: center; font-size: 12px; }
+  .soft-live .soft-live-review .live-rating-hint { margin: 0; font-size: 14px; }
+  .soft-live .soft-live-review .pocket-grades { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
+  .soft-live .soft-live-review .pocket-grades button {
+    min-height: 52px;
+    aspect-ratio: auto;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    justify-items: start;
+    gap: 12px;
+    padding: 0 24px;
+    border-radius: 18px;
+  }
+  .soft-live .soft-live-review .pocket-grades button strong { font-size: 14px; }
 }
