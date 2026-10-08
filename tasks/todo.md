@@ -249,7 +249,7 @@ and returns due counts.
 - [x] Adapt the shared navigation and Today layout for desktop.
 - [x] Arrange Cards, Books, Stats, and Review as desktop workspaces.
 - [x] Verify all destinations at phone, tablet, and desktop widths.
-- [ ] Run tests and build, open the focused PR, and complete one review pass.
+- [x] Run tests and build, open the focused PR, and complete one review pass.
 
 Use the existing ivory, lavender, copper, illustrations, and rounded surfaces.
 At desktop width the same navigation becomes a side rail; Today pairs study
@@ -264,3 +264,7 @@ destinations pass browser checks at 320, 393, 700, 1024, 1100, 1280, 1600, and
 reveal, and all five grades in view. Phone Cards, Stats, and both review faces
 match the previous native screenshots exactly. The 45 server tests, 11 UI
 tests, and production build pass.
+
+PR #33 has one review pass with no actionable findings. Browser interaction
+checks at 393, 1100, and 1600px also pass for creating/editing cards, choosing
+and adding books, keyboard reveal and rating, Undo, and empty collections.
