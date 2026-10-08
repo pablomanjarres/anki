@@ -1,5 +1,11 @@
 .soft-live-action-label { display: none; }
 .live-desktop-help { display: none; }
+.soft-live-review .live-reveal-prompt > span { margin-right: 0; font-size: inherit; line-height: inherit; }
+.soft-live-review .live-reveal-prompt > .live-desktop-help { display: none; }
+
+@media (min-width: 701px) and (max-width: 1099px) {
+  .soft-live.is-reviewing .soft-live-shell { grid-template-areas: 'header' 'main'; align-content: start; }
+}
 
 @media (min-width: 1100px) {
   .soft-live .soft-live-shell {
@@ -129,8 +135,9 @@
   .soft-live .live-deck-row span { flex-basis: 100%; }
   .soft-live .live-deck-row button { width: 34px; min-width: 34px; height: 34px; min-height: 34px; }
   .soft-live .live-stats { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px 30px; align-items: start; }
-  .soft-live .live-stats-scene { grid-column: 1 / -1; }
-  .soft-live .live-stats-sun { right: 25%; }
+  .soft-live .live-stats-scene { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) 130px auto; align-items: center; gap: 24px; }
+  .soft-live .live-stats-sun { position: static; width: 130px; }
+  .soft-live .live-stats-today { margin: 0; }
   .soft-live .live-stat-grid { flex-direction: column; width: 100%; max-width: none; margin: 0; gap: 12px; }
   .soft-live .live-stat-grid > div {
     padding: 22px;
@@ -139,6 +146,7 @@
     background: #fffdfbb3;
   }
   .soft-live .live-stat-grid strong { font-size: 46px; }
+  .soft-live .live-stat-grid > div:first-child { padding-left: 22px; border-left: 1px solid var(--line); }
   .soft-live .live-forecast { width: 100%; max-width: none; margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: 26px; background: #fffdfbb3; }
   .soft-live .live-bars { height: 310px; gap: 16px; }
   .soft-live .soft-live-books { max-width: none; }
