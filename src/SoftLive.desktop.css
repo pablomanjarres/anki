@@ -194,7 +194,7 @@
   .soft-live .soft-live-review .pocket-review-controls > .pocket-primary { margin: 0; width: 100%; }
   .soft-live .soft-live-review .live-touch-help { display: none; }
   .soft-live .soft-live-review .live-desktop-help { display: inline; }
-  .soft-live .soft-live-review .live-keyboard-help { margin: 0; color: #735970; text-align: center; font-size: 12px; }
+  .soft-live .soft-live-review .live-keyboard-help { order: -1; margin: 0; color: #735970; text-align: center; font-size: 12px; }
   .soft-live .soft-live-review .live-rating-hint { margin: 0; font-size: 14px; }
   .soft-live .soft-live-review .pocket-grades { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 0; }
   .soft-live .soft-live-review .pocket-grades button {

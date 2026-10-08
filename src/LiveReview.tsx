@@ -245,9 +245,9 @@ export function LiveReview() {
           </div>
         </div>
         {revealed && activeGrade && <div className="live-swipe-choice" aria-hidden="true"><span>{activeGrade.direction}</span> {activeGrade.label}</div>}
-      </section><div className={`pocket-review-controls ${turning ? 'is-turning' : ''}`}><p className="live-desktop-help live-keyboard-help">Enter to reveal · 1–5 to rate</p>{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
+      </section><div className={`pocket-review-controls ${turning ? 'is-turning' : ''}`}>{!revealed ? <button className="pocket-primary" type="button" onClick={reveal}>Show answer</button>
         : <><p className="live-rating-hint" aria-hidden={turning}>{aimRating ? `Release for ${grades.find(item => item.id === aimRating)?.label}` : <><span className="live-touch-help">Swipe a direction or tap Mid</span><span className="live-desktop-help">How well did you remember?</span></>}</p><div className="pocket-grades" aria-label="Rate this card" aria-hidden={turning} inert={turning}>{grades.map(item => <button key={item.id} className={aimRating === item.id ? 'is-aimed' : ''} type="button" disabled={busy || turning} onClick={() => void grade(card, item.id)} aria-label={`Rate ${item.label}`}><span aria-hidden="true">{item.direction}</span><strong>{item.label}</strong></button>)}</div></>}
-      </div></div>
+      <p className="live-desktop-help live-keyboard-help">Enter to reveal · 1–5 to rate</p></div></div>
         : <div className="live-empty live-done"><h2>{queue.reviewedToday >= queue.dailyLimit ? 'Daily limit reached' : 'You’re caught up'}</h2><p>{queue.reviewedToday >= queue.dailyLimit ? 'You reviewed 30 distinct cards today. Due cards remain in the backlog for tomorrow.' : 'No cards are ready right now.'}</p>{queue.backlogCount > 0 && <p>{queue.backlogCount} overdue cards remain in your backlog.</p>}</div>}
     </>}
   </div>;
